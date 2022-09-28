@@ -272,7 +272,7 @@ namespace BTLAppManagerStore {
 			this->btnNavHome->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavHome->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavHome->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavHome->Font = (gcnew System::Drawing::Font(L"Times New Roman", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavHome->ForeColor = System::Drawing::Color::White;
 			this->btnNavHome->Location = System::Drawing::Point(0, 0);
@@ -309,7 +309,7 @@ namespace BTLAppManagerStore {
 			this->btnNavCategoryProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavCategoryProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavCategoryProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavCategoryProds->Font = (gcnew System::Drawing::Font(L"Times New Roman", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavCategoryProds->ForeColor = System::Drawing::Color::White;
 			this->btnNavCategoryProds->ImageKey = L"right-arrow-icon.png";
@@ -333,7 +333,7 @@ namespace BTLAppManagerStore {
 			this->btnNavListProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavListProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavListProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavListProds->Font = (gcnew System::Drawing::Font(L"Times New Roman", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavListProds->ForeColor = System::Drawing::Color::White;
 			this->btnNavListProds->ImageKey = L"right-arrow-icon.png";
@@ -369,7 +369,7 @@ namespace BTLAppManagerStore {
 			this->btnNavProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavProds->Font = (gcnew System::Drawing::Font(L"Times New Roman", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavProds->ForeColor = System::Drawing::Color::White;
 			this->btnNavProds->ImageKey = L"arrow-down.png";
@@ -407,7 +407,7 @@ namespace BTLAppManagerStore {
 			this->btnNavCustomers->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavCustomers->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavCustomers->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavCustomers->Font = (gcnew System::Drawing::Font(L"Times New Roman", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavCustomers->ForeColor = System::Drawing::Color::White;
 			this->btnNavCustomers->ImageKey = L"right-arrow-icon.png";
@@ -431,7 +431,7 @@ namespace BTLAppManagerStore {
 			this->btnNavEmployees->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavEmployees->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavEmployees->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavEmployees->Font = (gcnew System::Drawing::Font(L"Times New Roman", 13, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavEmployees->ForeColor = System::Drawing::Color::White;
 			this->btnNavEmployees->ImageKey = L"right-arrow-icon.png";
@@ -466,7 +466,7 @@ namespace BTLAppManagerStore {
 			this->btnNavPerson->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavPerson->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavPerson->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavPerson->Font = (gcnew System::Drawing::Font(L"Times New Roman", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavPerson->ForeColor = System::Drawing::Color::White;
 			this->btnNavPerson->ImageKey = L"arrow-down.png";
@@ -511,7 +511,7 @@ namespace BTLAppManagerStore {
 			this->btnNavBills->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavBills->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavBills->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavBills->Font = (gcnew System::Drawing::Font(L"Times New Roman", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavBills->ForeColor = System::Drawing::Color::White;
 			this->btnNavBills->Location = System::Drawing::Point(0, 0);
@@ -554,7 +554,7 @@ namespace BTLAppManagerStore {
 			this->btnNavLogout->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnNavLogout->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnNavLogout->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->btnNavLogout->Font = (gcnew System::Drawing::Font(L"Times New Roman", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnNavLogout->ForeColor = System::Drawing::Color::White;
 			this->btnNavLogout->Location = System::Drawing::Point(0, 0);
