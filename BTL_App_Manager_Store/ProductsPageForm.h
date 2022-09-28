@@ -1,3 +1,6 @@
+#include "AddOrEditProductForm.h"
+#include "TrashProductsForm.h"
+#include "ImportProductsForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -165,6 +168,7 @@ namespace BTLAppManagerStore {
             this->btnTrashProds->Size = System::Drawing::Size(134, 70);
             this->btnTrashProds->TabIndex = 5;
             this->btnTrashProds->UseVisualStyleBackColor = false;
+            this->btnTrashProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnTrashProds_Click);
             // 
             // btnDeleteProds
             // 
@@ -188,6 +192,7 @@ namespace BTLAppManagerStore {
             this->btnDeleteProds->Size = System::Drawing::Size(134, 68);
             this->btnDeleteProds->TabIndex = 2;
             this->btnDeleteProds->UseVisualStyleBackColor = false;
+            this->btnDeleteProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnDeleteProds_Click);
             // 
             // btnEditProds
             // 
@@ -211,6 +216,7 @@ namespace BTLAppManagerStore {
             this->btnEditProds->Size = System::Drawing::Size(134, 68);
             this->btnEditProds->TabIndex = 1;
             this->btnEditProds->UseVisualStyleBackColor = false;
+            this->btnEditProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnEditProds_Click);
             // 
             // btnAddProds
             // 
@@ -236,6 +242,7 @@ namespace BTLAppManagerStore {
             this->btnAddProds->Size = System::Drawing::Size(134, 68);
             this->btnAddProds->TabIndex = 0;
             this->btnAddProds->UseVisualStyleBackColor = false;
+            this->btnAddProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnAddProds_Click);
             // 
             // btnImportProds
             // 
@@ -259,6 +266,7 @@ namespace BTLAppManagerStore {
             this->btnImportProds->Size = System::Drawing::Size(134, 68);
             this->btnImportProds->TabIndex = 4;
             this->btnImportProds->UseVisualStyleBackColor = false;
+            this->btnImportProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnImportProds_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -474,5 +482,33 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+
+
+    private: System::Void btnAddProds_Click(System::Object^ sender, System::EventArgs^ e) {
+        Form^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
+        AddProductForm->ShowDialog();
+        delete AddProductForm;
+    }
+    private: System::Void btnEditProds_Click(System::Object^ sender, System::EventArgs^ e) {
+        Form^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
+        EditProductForm->ShowDialog();
+        delete EditProductForm;
+    }
+    private: System::Void btnDeleteProds_Click(System::Object^ sender, System::EventArgs^ e) {
+        System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+        if (result == System::Windows::Forms::DialogResult::Yes) {
+            // xu ly xoa Product
+        }
+    }
+    private: System::Void btnTrashProds_Click(System::Object^ sender, System::EventArgs^ e) {
+        Form^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm();
+        TrashProductsForm->ShowDialog();
+        delete TrashProductsForm;
+    }
+    private: System::Void btnImportProds_Click(System::Object^ sender, System::EventArgs^ e) {
+        Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
+        ImportProductsForm->ShowDialog();
+        delete ImportProductsForm;
+    }
 	};
 }
