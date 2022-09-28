@@ -23,6 +23,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
+        AddOrEditCustomerForm(bool isEditMode)
+        {
+            this->isEditMode = isEditMode;
+            InitializeComponent();
+        }
 
 	protected:
 		/// <summary>
@@ -496,7 +501,9 @@ namespace BTLAppManagerStore {
             this->MinimumSize = System::Drawing::Size(900, 550);
             this->Name = L"AddOrEditCustomerForm";
             this->ShowInTaskbar = false;
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
             this->Text = L"AddOrEditCustomerForm";
+            this->Load += gcnew System::EventHandler(this, &AddOrEditCustomerForm::AddOrEditCustomerForm_Load);
             this->tableLayoutPanel1->ResumeLayout(false);
             this->tableLayoutPanel1->PerformLayout();
             this->tableLayoutPanel5->ResumeLayout(false);

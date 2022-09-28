@@ -407,25 +407,25 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Khi nút thêm Category click thì Show lên Form thêm Category
+	// Khi nút thêm Employee click thì Show lên Form thêm Employee
 	private: System::Void btnAddCategory_Click(System::Object^ sender, System::EventArgs^ e) {
 		Form^ AddEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm();
 		AddEmployeeForm->ShowDialog();
 		delete AddEmployeeForm;
 	}
-	// Khi nút sửa Category click thì Show lên Form sửa Category
+	// Khi nút sửa Employee click thì Show lên Form sửa Employee
 	private: System::Void btnEditCategory_Click(System::Object^ sender, System::EventArgs^ e) {
 		Form^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true);
 		EditEmployeeForm->ShowDialog();
 		delete EditEmployeeForm;
 	}
-	// Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
+	// Khi nút xem thùng rác (các Employee đã xóa) click thì show Form danh sách Employee đã xóa
 	private: System::Void btnTrashCategory_Click(System::Object^ sender, System::EventArgs^ e) {
 		Form^ TrashEmployeeForm = gcnew BTLAppManagerStore::TrashEmployeeForm();
 		TrashEmployeeForm->ShowDialog();
 		delete TrashEmployeeForm;
 	}
-	// Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+	// Khi nút xóa Employee click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
 	private: System::Void btnDeleteCategory_Click(System::Object^ sender, System::EventArgs^ e) {
 		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Employee", "Delete Employee", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
 		if (result == System::Windows::Forms::DialogResult::Yes) {

@@ -1,3 +1,5 @@
+﻿#include "AddOrEditCustomerForm.h"
+#include "TrashCustomerForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -35,7 +37,6 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-	protected:
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
 	private: System::Windows::Forms::Button^ btnTrashCategory;
 	private: System::Windows::Forms::Button^ btnAddCategory;
@@ -54,8 +55,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ customerAddress;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ customerSex;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ customerPoint;
-
-	protected:
 
 	private:
 		/// <summary>
@@ -163,6 +162,7 @@ namespace BTLAppManagerStore {
 			this->btnTrashCategory->Size = System::Drawing::Size(134, 75);
 			this->btnTrashCategory->TabIndex = 3;
 			this->btnTrashCategory->UseVisualStyleBackColor = true;
+			this->btnTrashCategory->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnTrashCategory_Click);
 			// 
 			// btnAddCategory
 			// 
@@ -185,6 +185,7 @@ namespace BTLAppManagerStore {
 			this->btnAddCategory->Size = System::Drawing::Size(134, 72);
 			this->btnAddCategory->TabIndex = 0;
 			this->btnAddCategory->UseVisualStyleBackColor = true;
+			this->btnAddCategory->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnAddCategory_Click);
 			// 
 			// btnEditCategory
 			// 
@@ -207,6 +208,7 @@ namespace BTLAppManagerStore {
 			this->btnEditCategory->Size = System::Drawing::Size(134, 72);
 			this->btnEditCategory->TabIndex = 1;
 			this->btnEditCategory->UseVisualStyleBackColor = true;
+			this->btnEditCategory->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnEditCategory_Click);
 			// 
 			// btnDeleteCategory
 			// 
@@ -229,6 +231,7 @@ namespace BTLAppManagerStore {
 			this->btnDeleteCategory->Size = System::Drawing::Size(134, 72);
 			this->btnDeleteCategory->TabIndex = 2;
 			this->btnDeleteCategory->UseVisualStyleBackColor = true;
+			this->btnDeleteCategory->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnDeleteCategory_Click);
 			// 
 			// tableLayoutPanel2
 			// 
@@ -404,5 +407,31 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Khi nút thêm Customer click thì Show lên Form thêm Customer
+	private: System::Void btnAddCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ AddCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm();
+		AddCustomerForm->ShowDialog();
+		delete AddCustomerForm;
+	}
+	// Khi nút sửa Customer click thì Show lên Form sửa Customer
+	private: System::Void btnEditCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ EditCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(true);
+		EditCustomerForm->ShowDialog();
+		delete EditCustomerForm;
+	}
+	// Khi nút xóa Customer click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+	private: System::Void btnDeleteCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Customer", "Delete Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+		if (result == System::Windows::Forms::DialogResult::Yes) {
+			// xử lý xóa Customer
+		}
+	}
+	// Khi nút xem thùng rác (các Customer đã xóa) click thì show Form danh sách Customer đã xóa
+	private: System::Void btnTrashCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm();
+		TrashCustomerForm->ShowDialog();
+		delete TrashCustomerForm;
+	}
 	};
 }
