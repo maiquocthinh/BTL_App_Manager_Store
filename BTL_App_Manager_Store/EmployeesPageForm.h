@@ -1,3 +1,5 @@
+﻿#include "AddOrEditEmployeeForm.h"
+#include "TrashEmployeeForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -35,7 +37,6 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-	protected:
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
 	private: System::Windows::Forms::Button^ btnTrashCategory;
 	private: System::Windows::Forms::Button^ btnAddCategory;
@@ -54,9 +55,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeeSex;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeePhone;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeePosition;
-
-	protected:
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -163,6 +161,7 @@ namespace BTLAppManagerStore {
 			this->btnTrashCategory->Size = System::Drawing::Size(134, 79);
 			this->btnTrashCategory->TabIndex = 3;
 			this->btnTrashCategory->UseVisualStyleBackColor = true;
+			this->btnTrashCategory->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnTrashCategory_Click);
 			// 
 			// btnAddCategory
 			// 
@@ -185,6 +184,7 @@ namespace BTLAppManagerStore {
 			this->btnAddCategory->Size = System::Drawing::Size(134, 78);
 			this->btnAddCategory->TabIndex = 0;
 			this->btnAddCategory->UseVisualStyleBackColor = true;
+			this->btnAddCategory->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnAddCategory_Click);
 			// 
 			// btnEditCategory
 			// 
@@ -207,6 +207,7 @@ namespace BTLAppManagerStore {
 			this->btnEditCategory->Size = System::Drawing::Size(134, 78);
 			this->btnEditCategory->TabIndex = 1;
 			this->btnEditCategory->UseVisualStyleBackColor = true;
+			this->btnEditCategory->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnEditCategory_Click);
 			// 
 			// btnDeleteCategory
 			// 
@@ -229,6 +230,7 @@ namespace BTLAppManagerStore {
 			this->btnDeleteCategory->Size = System::Drawing::Size(134, 78);
 			this->btnDeleteCategory->TabIndex = 2;
 			this->btnDeleteCategory->UseVisualStyleBackColor = true;
+			this->btnDeleteCategory->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnDeleteCategory_Click);
 			// 
 			// tableLayoutPanel2
 			// 
@@ -404,5 +406,31 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Khi nút thêm Category click thì Show lên Form thêm Category
+	private: System::Void btnAddCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ AddEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm();
+		AddEmployeeForm->ShowDialog();
+		delete AddEmployeeForm;
+	}
+	// Khi nút sửa Category click thì Show lên Form sửa Category
+	private: System::Void btnEditCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true);
+		EditEmployeeForm->ShowDialog();
+		delete EditEmployeeForm;
+	}
+	// Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
+	private: System::Void btnTrashCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ TrashEmployeeForm = gcnew BTLAppManagerStore::TrashEmployeeForm();
+		TrashEmployeeForm->ShowDialog();
+		delete TrashEmployeeForm;
+	}
+	// Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+	private: System::Void btnDeleteCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Employee", "Delete Employee", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+		if (result == System::Windows::Forms::DialogResult::Yes) {
+			// xử lý xóa Employee
+		}
+	}
 	};
 }

@@ -504,6 +504,7 @@ namespace BTLAppManagerStore {
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
             this->imageEmployee->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+            this->imageEmployee->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageEmployee.Image")));
             this->imageEmployee->Location = System::Drawing::Point(718, 73);
             this->imageEmployee->Margin = System::Windows::Forms::Padding(179, 3, 179, 3);
             this->imageEmployee->Name = L"imageEmployee";
