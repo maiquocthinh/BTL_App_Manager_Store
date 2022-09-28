@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\ChildrenForms">
+      <UniqueIdentifier>{b7521e5f-bb88-4c9e-9278-3a77e6ffb82c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="BillsPageForm.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddOrEditCategoryForm.h">
+      <Filter>Header Files\ChildrenForms</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashCategoriesForm.h">
+      <Filter>Header Files\ChildrenForms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

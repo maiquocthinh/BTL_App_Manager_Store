@@ -127,6 +127,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddOrEditCategoryForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="BillsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -151,8 +154,14 @@
     <ClInclude Include="ProductsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="TrashCategoriesForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddOrEditCategoryForm.resx">
+      <DependentUpon>AddOrEditCategoryForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BillsPageForm.resx">
       <DependentUpon>BillsPageForm.h</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProductsPageForm.resx">
       <DependentUpon>ProductsPageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrashCategoriesForm.resx">
+      <DependentUpon>TrashCategoriesForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
