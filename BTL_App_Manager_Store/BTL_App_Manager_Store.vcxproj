@@ -124,20 +124,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BillsPageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="CategoriesPageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="CustomersPageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="EmployeesPageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="HomePageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="LoginForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MainWindows.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ProductsPageForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BillsPageForm.resx">
+      <DependentUpon>BillsPageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CategoriesPageForm.resx">
+      <DependentUpon>CategoriesPageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomersPageForm.resx">
+      <DependentUpon>CustomersPageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmployeesPageForm.resx">
+      <DependentUpon>EmployeesPageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HomePageForm.resx">
+      <DependentUpon>HomePageForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindows.resx">
       <DependentUpon>MainWindows.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductsPageForm.resx">
+      <DependentUpon>ProductsPageForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
