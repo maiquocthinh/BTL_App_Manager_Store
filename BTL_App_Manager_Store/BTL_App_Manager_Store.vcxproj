@@ -130,6 +130,9 @@
     <ClInclude Include="AddOrEditCategoryForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="AddOrEditProductForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="BillsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -157,10 +160,16 @@
     <ClInclude Include="TrashCategoriesForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="TrashProductsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddOrEditCategoryForm.resx">
       <DependentUpon>AddOrEditCategoryForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddOrEditProductForm.resx">
+      <DependentUpon>AddOrEditProductForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BillsPageForm.resx">
       <DependentUpon>BillsPageForm.h</DependentUpon>
@@ -185,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrashCategoriesForm.resx">
       <DependentUpon>TrashCategoriesForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrashProductsForm.resx">
+      <DependentUpon>TrashProductsForm.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
