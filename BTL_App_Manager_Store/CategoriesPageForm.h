@@ -1,3 +1,5 @@
+﻿#include "AddOrEditCategoryForm.h"
+#include "TrashCategoriesForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -35,7 +37,6 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
-	protected:
 	private: System::Windows::Forms::DataGridView^ dataGridView1;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ titleCategory;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ quantityProduct;
@@ -301,6 +302,7 @@ namespace BTLAppManagerStore {
 			this->btnTrashCategory->Size = System::Drawing::Size(128, 65);
 			this->btnTrashCategory->TabIndex = 3;
 			this->btnTrashCategory->UseVisualStyleBackColor = true;
+			this->btnTrashCategory->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnTrashCategory_Click);
 			// 
 			// btnAddCategory
 			// 
@@ -323,6 +325,7 @@ namespace BTLAppManagerStore {
 			this->btnAddCategory->Size = System::Drawing::Size(128, 62);
 			this->btnAddCategory->TabIndex = 0;
 			this->btnAddCategory->UseVisualStyleBackColor = true;
+			this->btnAddCategory->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnAddCategory_Click);
 			// 
 			// btnEditCategory
 			// 
@@ -345,6 +348,7 @@ namespace BTLAppManagerStore {
 			this->btnEditCategory->Size = System::Drawing::Size(128, 62);
 			this->btnEditCategory->TabIndex = 1;
 			this->btnEditCategory->UseVisualStyleBackColor = true;
+			this->btnEditCategory->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnEditCategory_Click);
 			// 
 			// btnDeleteCategory
 			// 
@@ -367,6 +371,7 @@ namespace BTLAppManagerStore {
 			this->btnDeleteCategory->Size = System::Drawing::Size(128, 62);
 			this->btnDeleteCategory->TabIndex = 2;
 			this->btnDeleteCategory->UseVisualStyleBackColor = true;
+			this->btnDeleteCategory->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnDeleteCategory_Click);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -406,5 +411,31 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Khi nút thêm Category click thì Show lên Form thêm Category
+	private: Void btnAddCategory_Click(Object^ sender, EventArgs^ e) {
+		Form^ AddOrEditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm();
+		AddOrEditCategoryForm->ShowDialog();
+		delete AddOrEditCategoryForm;
+	}
+	// Khi nút sửa Category click thì Show lên Form sửa Category
+	private: Void btnEditCategory_Click(Object^ sender, EventArgs^ e) {
+		Form^ AddOrEditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(true);
+		AddOrEditCategoryForm->ShowDialog();
+		delete AddOrEditCategoryForm;
+	}
+	// Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+	private: System::Void btnDeleteCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+		if (result == System::Windows::Forms::DialogResult::Yes) {
+			// xử lý xóa Category
+		}
+	}
+	// Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
+	private: System::Void btnTrashCategory_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ TrashCategoriesForm = gcnew BTLAppManagerStore::TrashCategoriesForm();
+		TrashCategoriesForm->ShowDialog();
+		delete TrashCategoriesForm;
+	}
 	};
 }
