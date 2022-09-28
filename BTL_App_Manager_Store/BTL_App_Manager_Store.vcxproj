@@ -130,6 +130,9 @@
     <ClInclude Include="AddOrEditCategoryForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="AddOrEditCustomerForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="AddOrEditEmployeeForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -169,6 +172,9 @@
     <ClInclude Include="TrashCategoriesForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="TrashCustomerForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="TrashEmployeeForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -179,6 +185,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AddOrEditCategoryForm.resx">
       <DependentUpon>AddOrEditCategoryForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddOrEditCustomerForm.resx">
+      <DependentUpon>AddOrEditCustomerForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddOrEditEmployeeForm.resx">
       <DependentUpon>AddOrEditEmployeeForm.h</DependentUpon>
@@ -215,6 +224,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TrashCategoriesForm.resx">
       <DependentUpon>TrashCategoriesForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrashCustomerForm.resx">
+      <DependentUpon>TrashCustomerForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrashEmployeeForm.resx">
       <DependentUpon>TrashEmployeeForm.h</DependentUpon>
