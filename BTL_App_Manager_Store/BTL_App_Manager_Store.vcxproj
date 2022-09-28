@@ -148,6 +148,12 @@
     <ClInclude Include="HomePageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ImportNewProductsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ImportProductsForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="LoginForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -185,6 +191,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HomePageForm.resx">
       <DependentUpon>HomePageForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportNewProductsForm.resx">
+      <DependentUpon>ImportNewProductsForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportProductsForm.resx">
+      <DependentUpon>ImportProductsForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindows.resx">
       <DependentUpon>MainWindows.h</DependentUpon>

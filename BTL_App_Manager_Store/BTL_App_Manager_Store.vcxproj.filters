@@ -59,5 +59,11 @@
     <ClInclude Include="TrashProductsForm.h">
       <Filter>Header Files\ChildrenForms</Filter>
     </ClInclude>
+    <ClInclude Include="ImportProductsForm.h">
+      <Filter>Header Files\ChildrenForms</Filter>
+    </ClInclude>
+    <ClInclude Include="ImportNewProductsForm.h">
+      <Filter>Header Files\ChildrenForms</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
