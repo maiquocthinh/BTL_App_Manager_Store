@@ -1,3 +1,5 @@
+﻿#include "NewBillForm.h"
+#include "BillDetailForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -194,6 +196,7 @@ namespace BTLAppManagerStore {
 			this->btnNewBill->TabIndex = 5;
 			this->btnNewBill->Text = L"New Bill";
 			this->btnNewBill->UseVisualStyleBackColor = true;
+			this->btnNewBill->Click += gcnew System::EventHandler(this, &BillsPageForm::btnNewBill_Click);
 			// 
 			// btnSearch
 			// 
@@ -274,5 +277,12 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
-	};
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Khi nút New Bill click thì Show lên Form NewBill
+	private: System::Void btnNewBill_Click(System::Object^ sender, System::EventArgs^ e) {
+		Form^ NewBillForm = gcnew BTLAppManagerStore::NewBillForm();
+		NewBillForm->ShowDialog();
+		delete NewBillForm;
+	}
+};
 }
