@@ -139,6 +139,9 @@
     <ClInclude Include="AddOrEditProductForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="BillDetailForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="BillsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -164,6 +167,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MainWindows.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="NewBillForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="ProductsPageForm.h">
@@ -195,6 +201,9 @@
     <EmbeddedResource Include="AddOrEditProductForm.resx">
       <DependentUpon>AddOrEditProductForm.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BillDetailForm.resx">
+      <DependentUpon>BillDetailForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BillsPageForm.resx">
       <DependentUpon>BillsPageForm.h</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindows.resx">
       <DependentUpon>MainWindows.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewBillForm.resx">
+      <DependentUpon>NewBillForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProductsPageForm.resx">
       <DependentUpon>ProductsPageForm.h</DependentUpon>
