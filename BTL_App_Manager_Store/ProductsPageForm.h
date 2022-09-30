@@ -1,4 +1,4 @@
-#include "AddOrEditProductForm.h"
+﻿#include "AddOrEditProductForm.h"
 #include "TrashProductsForm.h"
 #include "ImportProductsForm.h"
 #pragma once
@@ -39,13 +39,19 @@ namespace BTLAppManagerStore {
 		}
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
-    private: System::Windows::Forms::Button^ btnTrashProds;
-    private: System::Windows::Forms::Button^ btnDeleteProds;
-    private: System::Windows::Forms::Button^ btnEditProds;
-    private: System::Windows::Forms::Button^ btnAddProds;
-    private: System::Windows::Forms::Button^ btnImportProds;
+    private: System::Windows::Forms::Button^ btnTrash;
+
+    private: System::Windows::Forms::Button^ btnDelete;
+
+    private: System::Windows::Forms::Button^ btnEdit;
+
+    private: System::Windows::Forms::Button^ btnAdd;
+    private: System::Windows::Forms::Button^ btnImport;
+
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
-    private: System::Windows::Forms::DataGridView^ dgvProducts;
+    private: System::Windows::Forms::DataGridView^ dataTable;
+
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ idProduct;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ nameProduct;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ categoryProduct;
@@ -59,7 +65,8 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::Button^ btnSearch;
     private: System::Windows::Forms::TextBox^ tbxSearch;
     private: System::Windows::Forms::GroupBox^ groupBox1;
-    private: System::Windows::Forms::ComboBox^ comboBox1;
+    private: System::Windows::Forms::ComboBox^ cbSearch;
+
 
 	private:
 		/// <summary>
@@ -77,13 +84,13 @@ namespace BTLAppManagerStore {
             System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ProductsPageForm::typeid));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->btnTrashProds = (gcnew System::Windows::Forms::Button());
-            this->btnDeleteProds = (gcnew System::Windows::Forms::Button());
-            this->btnEditProds = (gcnew System::Windows::Forms::Button());
-            this->btnAddProds = (gcnew System::Windows::Forms::Button());
-            this->btnImportProds = (gcnew System::Windows::Forms::Button());
+            this->btnTrash = (gcnew System::Windows::Forms::Button());
+            this->btnDelete = (gcnew System::Windows::Forms::Button());
+            this->btnEdit = (gcnew System::Windows::Forms::Button());
+            this->btnAdd = (gcnew System::Windows::Forms::Button());
+            this->btnImport = (gcnew System::Windows::Forms::Button());
             this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->dgvProducts = (gcnew System::Windows::Forms::DataGridView());
+            this->dataTable = (gcnew System::Windows::Forms::DataGridView());
             this->idProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->nameProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->categoryProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -97,11 +104,11 @@ namespace BTLAppManagerStore {
             this->btnSearch = (gcnew System::Windows::Forms::Button());
             this->tbxSearch = (gcnew System::Windows::Forms::TextBox());
             this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-            this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+            this->cbSearch = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel2->SuspendLayout();
             this->tableLayoutPanel3->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProducts))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
             this->tableLayoutPanel4->SuspendLayout();
             this->groupBox1->SuspendLayout();
             this->SuspendLayout();
@@ -129,11 +136,11 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel2->ColumnCount = 1;
             this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
-            this->tableLayoutPanel2->Controls->Add(this->btnTrashProds, 0, 4);
-            this->tableLayoutPanel2->Controls->Add(this->btnDeleteProds, 0, 2);
-            this->tableLayoutPanel2->Controls->Add(this->btnEditProds, 0, 1);
-            this->tableLayoutPanel2->Controls->Add(this->btnAddProds, 0, 0);
-            this->tableLayoutPanel2->Controls->Add(this->btnImportProds, 0, 3);
+            this->tableLayoutPanel2->Controls->Add(this->btnTrash, 0, 4);
+            this->tableLayoutPanel2->Controls->Add(this->btnDelete, 0, 2);
+            this->tableLayoutPanel2->Controls->Add(this->btnEdit, 0, 1);
+            this->tableLayoutPanel2->Controls->Add(this->btnAdd, 0, 0);
+            this->tableLayoutPanel2->Controls->Add(this->btnImport, 0, 3);
             this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel2->Location = System::Drawing::Point(982, 3);
             this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
@@ -146,134 +153,134 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel2->Size = System::Drawing::Size(194, 642);
             this->tableLayoutPanel2->TabIndex = 3;
             // 
-            // btnTrashProds
+            // btnTrash
             // 
-            this->btnTrashProds->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnTrash->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->btnTrashProds->BackColor = System::Drawing::Color::Transparent;
-            this->btnTrashProds->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnTrashProds.BackgroundImage")));
-            this->btnTrashProds->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-            this->btnTrashProds->FlatAppearance->BorderSize = 0;
-            this->btnTrashProds->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnTrash->BackColor = System::Drawing::Color::Transparent;
+            this->btnTrash->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnTrash.BackgroundImage")));
+            this->btnTrash->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+            this->btnTrash->FlatAppearance->BorderSize = 0;
+            this->btnTrash->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnTrashProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnTrash->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnTrashProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnTrashProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->btnTrash->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnTrash->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->btnTrashProds->Location = System::Drawing::Point(30, 542);
-            this->btnTrashProds->Margin = System::Windows::Forms::Padding(30);
-            this->btnTrashProds->Name = L"btnTrashProds";
-            this->btnTrashProds->Size = System::Drawing::Size(134, 70);
-            this->btnTrashProds->TabIndex = 5;
-            this->btnTrashProds->UseVisualStyleBackColor = false;
-            this->btnTrashProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnTrashProds_Click);
+            this->btnTrash->Location = System::Drawing::Point(30, 542);
+            this->btnTrash->Margin = System::Windows::Forms::Padding(30);
+            this->btnTrash->Name = L"btnTrash";
+            this->btnTrash->Size = System::Drawing::Size(134, 70);
+            this->btnTrash->TabIndex = 5;
+            this->btnTrash->UseVisualStyleBackColor = false;
+            this->btnTrash->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnTrash_Click);
             // 
-            // btnDeleteProds
+            // btnDelete
             // 
-            this->btnDeleteProds->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnDelete->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->btnDeleteProds->BackColor = System::Drawing::Color::Transparent;
-            this->btnDeleteProds->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnDeleteProds.BackgroundImage")));
-            this->btnDeleteProds->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-            this->btnDeleteProds->FlatAppearance->BorderSize = 0;
-            this->btnDeleteProds->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnDelete->BackColor = System::Drawing::Color::Transparent;
+            this->btnDelete->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnDelete.BackgroundImage")));
+            this->btnDelete->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+            this->btnDelete->FlatAppearance->BorderSize = 0;
+            this->btnDelete->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnDeleteProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnDelete->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnDeleteProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnDeleteProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->btnDelete->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnDelete->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->btnDeleteProds->Location = System::Drawing::Point(30, 286);
-            this->btnDeleteProds->Margin = System::Windows::Forms::Padding(30);
-            this->btnDeleteProds->Name = L"btnDeleteProds";
-            this->btnDeleteProds->Size = System::Drawing::Size(134, 68);
-            this->btnDeleteProds->TabIndex = 2;
-            this->btnDeleteProds->UseVisualStyleBackColor = false;
-            this->btnDeleteProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnDeleteProds_Click);
+            this->btnDelete->Location = System::Drawing::Point(30, 286);
+            this->btnDelete->Margin = System::Windows::Forms::Padding(30);
+            this->btnDelete->Name = L"btnDelete";
+            this->btnDelete->Size = System::Drawing::Size(134, 68);
+            this->btnDelete->TabIndex = 2;
+            this->btnDelete->UseVisualStyleBackColor = false;
+            this->btnDelete->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnDelete_Click);
             // 
-            // btnEditProds
+            // btnEdit
             // 
-            this->btnEditProds->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnEdit->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->btnEditProds->BackColor = System::Drawing::Color::Transparent;
-            this->btnEditProds->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnEditProds.BackgroundImage")));
-            this->btnEditProds->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-            this->btnEditProds->FlatAppearance->BorderSize = 0;
-            this->btnEditProds->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnEdit->BackColor = System::Drawing::Color::Transparent;
+            this->btnEdit->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnEdit.BackgroundImage")));
+            this->btnEdit->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+            this->btnEdit->FlatAppearance->BorderSize = 0;
+            this->btnEdit->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnEditProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnEdit->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnEditProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnEditProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->btnEdit->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnEdit->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->btnEditProds->Location = System::Drawing::Point(30, 158);
-            this->btnEditProds->Margin = System::Windows::Forms::Padding(30);
-            this->btnEditProds->Name = L"btnEditProds";
-            this->btnEditProds->Size = System::Drawing::Size(134, 68);
-            this->btnEditProds->TabIndex = 1;
-            this->btnEditProds->UseVisualStyleBackColor = false;
-            this->btnEditProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnEditProds_Click);
+            this->btnEdit->Location = System::Drawing::Point(30, 158);
+            this->btnEdit->Margin = System::Windows::Forms::Padding(30);
+            this->btnEdit->Name = L"btnEdit";
+            this->btnEdit->Size = System::Drawing::Size(134, 68);
+            this->btnEdit->TabIndex = 1;
+            this->btnEdit->UseVisualStyleBackColor = false;
+            this->btnEdit->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnEdit_Click);
             // 
-            // btnAddProds
+            // btnAdd
             // 
-            this->btnAddProds->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnAdd->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->btnAddProds->BackColor = System::Drawing::Color::Transparent;
-            this->btnAddProds->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnAddProds.BackgroundImage")));
-            this->btnAddProds->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-            this->btnAddProds->CausesValidation = false;
-            this->btnAddProds->FlatAppearance->BorderSize = 0;
-            this->btnAddProds->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnAdd->BackColor = System::Drawing::Color::Transparent;
+            this->btnAdd->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnAdd.BackgroundImage")));
+            this->btnAdd->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+            this->btnAdd->CausesValidation = false;
+            this->btnAdd->FlatAppearance->BorderSize = 0;
+            this->btnAdd->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnAddProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnAdd->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnAddProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnAddProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->btnAdd->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnAdd->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->btnAddProds->ImageKey = L"add_icon.png";
-            this->btnAddProds->Location = System::Drawing::Point(30, 30);
-            this->btnAddProds->Margin = System::Windows::Forms::Padding(30);
-            this->btnAddProds->Name = L"btnAddProds";
-            this->btnAddProds->Size = System::Drawing::Size(134, 68);
-            this->btnAddProds->TabIndex = 0;
-            this->btnAddProds->UseVisualStyleBackColor = false;
-            this->btnAddProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnAddProds_Click);
+            this->btnAdd->ImageKey = L"add_icon.png";
+            this->btnAdd->Location = System::Drawing::Point(30, 30);
+            this->btnAdd->Margin = System::Windows::Forms::Padding(30);
+            this->btnAdd->Name = L"btnAdd";
+            this->btnAdd->Size = System::Drawing::Size(134, 68);
+            this->btnAdd->TabIndex = 0;
+            this->btnAdd->UseVisualStyleBackColor = false;
+            this->btnAdd->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnAdd_Click);
             // 
-            // btnImportProds
+            // btnImport
             // 
-            this->btnImportProds->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnImport->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->btnImportProds->BackColor = System::Drawing::Color::Transparent;
-            this->btnImportProds->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnImportProds.BackgroundImage")));
-            this->btnImportProds->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-            this->btnImportProds->FlatAppearance->BorderSize = 0;
-            this->btnImportProds->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnImport->BackColor = System::Drawing::Color::Transparent;
+            this->btnImport->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"btnImport.BackgroundImage")));
+            this->btnImport->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+            this->btnImport->FlatAppearance->BorderSize = 0;
+            this->btnImport->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnImportProds->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+            this->btnImport->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
                 static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnImportProds->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnImportProds->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->btnImport->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnImport->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->btnImportProds->Location = System::Drawing::Point(30, 414);
-            this->btnImportProds->Margin = System::Windows::Forms::Padding(30);
-            this->btnImportProds->Name = L"btnImportProds";
-            this->btnImportProds->Size = System::Drawing::Size(134, 68);
-            this->btnImportProds->TabIndex = 4;
-            this->btnImportProds->UseVisualStyleBackColor = false;
-            this->btnImportProds->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnImportProds_Click);
+            this->btnImport->Location = System::Drawing::Point(30, 414);
+            this->btnImport->Margin = System::Windows::Forms::Padding(30);
+            this->btnImport->Name = L"btnImport";
+            this->btnImport->Size = System::Drawing::Size(134, 68);
+            this->btnImport->TabIndex = 4;
+            this->btnImport->UseVisualStyleBackColor = false;
+            this->btnImport->Click += gcnew System::EventHandler(this, &ProductsPageForm::btnImport_Click);
             // 
             // tableLayoutPanel3
             // 
             this->tableLayoutPanel3->ColumnCount = 1;
             this->tableLayoutPanel3->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
-            this->tableLayoutPanel3->Controls->Add(this->dgvProducts, 0, 1);
+            this->tableLayoutPanel3->Controls->Add(this->dataTable, 0, 1);
             this->tableLayoutPanel3->Controls->Add(this->tableLayoutPanel4, 0, 0);
             this->tableLayoutPanel3->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel3->Location = System::Drawing::Point(3, 3);
@@ -285,26 +292,26 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel3->Size = System::Drawing::Size(973, 642);
             this->tableLayoutPanel3->TabIndex = 1;
             // 
-            // dgvProducts
+            // dataTable
             // 
-            this->dgvProducts->AllowUserToAddRows = false;
-            this->dgvProducts->AllowUserToDeleteRows = false;
-            this->dgvProducts->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->dataTable->AllowUserToAddRows = false;
+            this->dataTable->AllowUserToDeleteRows = false;
+            this->dataTable->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->dgvProducts->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-            this->dgvProducts->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(8) {
+            this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+            this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(8) {
                 this->idProduct,
                     this->nameProduct, this->categoryProduct, this->quantity, this->unit, this->position, this->importPrice, this->sellPrice
             });
-            this->dgvProducts->Location = System::Drawing::Point(3, 83);
-            this->dgvProducts->Name = L"dgvProducts";
-            this->dgvProducts->ReadOnly = true;
-            this->dgvProducts->RowHeadersWidth = 62;
-            this->dgvProducts->RowTemplate->Height = 28;
-            this->dgvProducts->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
-            this->dgvProducts->Size = System::Drawing::Size(967, 556);
-            this->dgvProducts->TabIndex = 4;
+            this->dataTable->Location = System::Drawing::Point(3, 83);
+            this->dataTable->Name = L"dataTable";
+            this->dataTable->ReadOnly = true;
+            this->dataTable->RowHeadersWidth = 62;
+            this->dataTable->RowTemplate->Height = 28;
+            this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
+            this->dataTable->Size = System::Drawing::Size(967, 556);
+            this->dataTable->TabIndex = 4;
             // 
             // idProduct
             // 
@@ -443,7 +450,7 @@ namespace BTLAppManagerStore {
             this->groupBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->groupBox1->Controls->Add(this->comboBox1);
+            this->groupBox1->Controls->Add(this->cbSearch);
             this->groupBox1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
             this->groupBox1->Location = System::Drawing::Point(3, 3);
@@ -453,15 +460,15 @@ namespace BTLAppManagerStore {
             this->groupBox1->TabStop = false;
             this->groupBox1->Text = L"Search";
             // 
-            // comboBox1
+            // cbSearch
             // 
-            this->comboBox1->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboBox1->FormattingEnabled = true;
-            this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"ID", L"Name", L"Quantity", L"Position" });
-            this->comboBox1->Location = System::Drawing::Point(6, 21);
-            this->comboBox1->Name = L"comboBox1";
-            this->comboBox1->Size = System::Drawing::Size(132, 26);
-            this->comboBox1->TabIndex = 0;
+            this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbSearch->FormattingEnabled = true;
+            this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"ID", L"Name", L"Quantity", L"Position" });
+            this->cbSearch->Location = System::Drawing::Point(6, 21);
+            this->cbSearch->Name = L"cbSearch";
+            this->cbSearch->Size = System::Drawing::Size(132, 26);
+            this->cbSearch->TabIndex = 0;
             // 
             // ProductsPageForm
             // 
@@ -474,7 +481,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1->ResumeLayout(false);
             this->tableLayoutPanel2->ResumeLayout(false);
             this->tableLayoutPanel3->ResumeLayout(false);
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProducts))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
             this->tableLayoutPanel4->ResumeLayout(false);
             this->tableLayoutPanel4->PerformLayout();
             this->groupBox1->ResumeLayout(false);
@@ -483,29 +490,34 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-
-    private: System::Void btnAddProds_Click(System::Object^ sender, System::EventArgs^ e) {
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+    // Khi nút thêm Product click thì Show lên Form thêm Product
+    private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
         Form^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
         AddProductForm->ShowDialog();
         delete AddProductForm;
     }
-    private: System::Void btnEditProds_Click(System::Object^ sender, System::EventArgs^ e) {
+    // Khi nút sửa Product click thì Show lên Form sửa Product
+    private: System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
         Form^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
         EditProductForm->ShowDialog();
         delete EditProductForm;
     }
-    private: System::Void btnDeleteProds_Click(System::Object^ sender, System::EventArgs^ e) {
+    // Khi nút xóa Product click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+    private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
         System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
         if (result == System::Windows::Forms::DialogResult::Yes) {
-            // xu ly xoa Product
+            // xử lý xóa Product
         }
     }
-    private: System::Void btnTrashProds_Click(System::Object^ sender, System::EventArgs^ e) {
+    // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
+    private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
         Form^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm();
         TrashProductsForm->ShowDialog();
         delete TrashProductsForm;
     }
-    private: System::Void btnImportProds_Click(System::Object^ sender, System::EventArgs^ e) {
+    // Khi nút Import click Show lên Form Import Product
+    private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
         Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
         ImportProductsForm->ShowDialog();
         delete ImportProductsForm;

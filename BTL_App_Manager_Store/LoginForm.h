@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -75,11 +75,11 @@ namespace BTLAppManagerStore {
 			// usernameLable
 			// 
 			this->usernameLable->AutoSize = true;
-			this->usernameLable->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->usernameLable->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->usernameLable->Location = System::Drawing::Point(225, 242);
 			this->usernameLable->Name = L"usernameLable";
-			this->usernameLable->Size = System::Drawing::Size(135, 29);
+			this->usernameLable->Size = System::Drawing::Size(124, 26);
 			this->usernameLable->TabIndex = 1;
 			this->usernameLable->Text = L"User Name";
 			this->usernameLable->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -95,7 +95,6 @@ namespace BTLAppManagerStore {
 			this->usernameInput->TabIndex = 2;
 			this->usernameInput->Tag = L"";
 			this->usernameInput->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->usernameInput->TextChanged += gcnew System::EventHandler(this, &LoginForm::usernameInput_TextChanged);
 			// 
 			// passwordInput
 			// 
@@ -111,11 +110,11 @@ namespace BTLAppManagerStore {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->label1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label1->Location = System::Drawing::Point(225, 346);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(120, 29);
+			this->label1->Size = System::Drawing::Size(107, 26);
 			this->label1->TabIndex = 3;
 			this->label1->Text = L"Password";
 			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -131,7 +130,6 @@ namespace BTLAppManagerStore {
 			this->loginBtn->TabIndex = 5;
 			this->loginBtn->Text = L"Login";
 			this->loginBtn->UseVisualStyleBackColor = true;
-			this->loginBtn->Click += gcnew System::EventHandler(this, &LoginForm::loginBtn_Click);
 			// 
 			// btnShowHide
 			// 
@@ -175,7 +173,6 @@ namespace BTLAppManagerStore {
 			this->Name = L"LoginForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Login";
-			this->Load += gcnew System::EventHandler(this, &LoginForm::LoginForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -183,10 +180,8 @@ namespace BTLAppManagerStore {
 		}
 
 #pragma endregion
-
-	private: System::Void LoginForm_Load(System::Object^ sender, System::EventArgs^ e) {
-
-	}
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Xử lý ẩn hiện password
 	private: System::Void btnShowHide_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (this->passwordInput->UseSystemPasswordChar) {
 			this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
@@ -196,12 +191,6 @@ namespace BTLAppManagerStore {
 			this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
 			this->btnShowHide->Text = "Show";
 		}
-	}
-
-	private: System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-
-	}
-	private: System::Void usernameInput_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 };
 }

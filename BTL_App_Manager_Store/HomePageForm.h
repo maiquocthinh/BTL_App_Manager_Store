@@ -47,20 +47,28 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::Panel^ panel3;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
-    private: System::Windows::Forms::Label^ label5;
+    private: System::Windows::Forms::Label^ titleTurnoverOfDay;
+
     private: System::Windows::Forms::Label^ turnoverOfDay;
     private: System::Windows::Forms::Panel^ panel2;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::Label^ totalCustomers;
-    private: System::Windows::Forms::Label^ label8;
+    private: System::Windows::Forms::Label^ titleTotalCustomers;
+
+
     private: System::Windows::Forms::Panel^ panel1;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
     private: System::Windows::Forms::Label^ totalEmployees;
-    private: System::Windows::Forms::Label^ label3;
+    private: System::Windows::Forms::Label^ titleTotalEmployees;
+
+
     private: System::Windows::Forms::Panel^ panel4;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::Label^ totalProducts;
-    private: System::Windows::Forms::Label^ label1;
+    private: System::Windows::Forms::Label^ titleTotalProducts;
+
+
+
 
     protected:
     private:
@@ -88,20 +96,20 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->panel3 = (gcnew System::Windows::Forms::Panel());
             this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->label5 = (gcnew System::Windows::Forms::Label());
+            this->titleTurnoverOfDay = (gcnew System::Windows::Forms::Label());
             this->turnoverOfDay = (gcnew System::Windows::Forms::Label());
             this->panel2 = (gcnew System::Windows::Forms::Panel());
             this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->totalCustomers = (gcnew System::Windows::Forms::Label());
-            this->label8 = (gcnew System::Windows::Forms::Label());
+            this->titleTotalCustomers = (gcnew System::Windows::Forms::Label());
             this->panel1 = (gcnew System::Windows::Forms::Panel());
             this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->totalEmployees = (gcnew System::Windows::Forms::Label());
-            this->label3 = (gcnew System::Windows::Forms::Label());
+            this->titleTotalEmployees = (gcnew System::Windows::Forms::Label());
             this->panel4 = (gcnew System::Windows::Forms::Panel());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->totalProducts = (gcnew System::Windows::Forms::Label());
-            this->label1 = (gcnew System::Windows::Forms::Label());
+            this->titleTotalProducts = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel6->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->tableTopProducts))->BeginInit();
             this->tableLayoutPanel1->SuspendLayout();
@@ -256,7 +264,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel4->ColumnCount = 1;
             this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
-            this->tableLayoutPanel4->Controls->Add(this->label5, 0, 0);
+            this->tableLayoutPanel4->Controls->Add(this->titleTurnoverOfDay, 0, 0);
             this->tableLayoutPanel4->Controls->Add(this->turnoverOfDay, 0, 1);
             this->tableLayoutPanel4->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel4->Location = System::Drawing::Point(0, 0);
@@ -267,21 +275,21 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel4->Size = System::Drawing::Size(520, 223);
             this->tableLayoutPanel4->TabIndex = 0;
             // 
-            // label5
+            // titleTurnoverOfDay
             // 
-            this->label5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->titleTurnoverOfDay->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label5->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->titleTurnoverOfDay->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label5->ForeColor = System::Drawing::Color::White;
-            this->label5->Location = System::Drawing::Point(3, 0);
-            this->label5->Name = L"label5";
-            this->label5->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
-            this->label5->Size = System::Drawing::Size(514, 100);
-            this->label5->TabIndex = 0;
-            this->label5->Text = L"Turnover of Day";
-            this->label5->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+            this->titleTurnoverOfDay->ForeColor = System::Drawing::Color::White;
+            this->titleTurnoverOfDay->Location = System::Drawing::Point(3, 0);
+            this->titleTurnoverOfDay->Name = L"titleTurnoverOfDay";
+            this->titleTurnoverOfDay->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
+            this->titleTurnoverOfDay->Size = System::Drawing::Size(514, 100);
+            this->titleTurnoverOfDay->TabIndex = 0;
+            this->titleTurnoverOfDay->Text = L"Turnover of Day";
+            this->titleTurnoverOfDay->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
             // 
             // turnoverOfDay
             // 
@@ -320,7 +328,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
             this->tableLayoutPanel5->Controls->Add(this->totalCustomers, 0, 1);
-            this->tableLayoutPanel5->Controls->Add(this->label8, 0, 0);
+            this->tableLayoutPanel5->Controls->Add(this->titleTotalCustomers, 0, 0);
             this->tableLayoutPanel5->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel5->Location = System::Drawing::Point(0, 0);
             this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
@@ -346,21 +354,21 @@ namespace BTLAppManagerStore {
             this->totalCustomers->Text = L"23";
             this->totalCustomers->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
-            // label8
+            // titleTotalCustomers
             // 
-            this->label8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->titleTotalCustomers->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label8->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->titleTotalCustomers->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label8->ForeColor = System::Drawing::Color::White;
-            this->label8->Location = System::Drawing::Point(3, 0);
-            this->label8->Name = L"label8";
-            this->label8->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
-            this->label8->Size = System::Drawing::Size(513, 100);
-            this->label8->TabIndex = 0;
-            this->label8->Text = L"Total Customer";
-            this->label8->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+            this->titleTotalCustomers->ForeColor = System::Drawing::Color::White;
+            this->titleTotalCustomers->Location = System::Drawing::Point(3, 0);
+            this->titleTotalCustomers->Name = L"titleTotalCustomers";
+            this->titleTotalCustomers->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
+            this->titleTotalCustomers->Size = System::Drawing::Size(513, 100);
+            this->titleTotalCustomers->TabIndex = 0;
+            this->titleTotalCustomers->Text = L"Total Customer";
+            this->titleTotalCustomers->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
             // 
             // panel1
             // 
@@ -383,7 +391,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel3->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
             this->tableLayoutPanel3->Controls->Add(this->totalEmployees, 0, 1);
-            this->tableLayoutPanel3->Controls->Add(this->label3, 0, 0);
+            this->tableLayoutPanel3->Controls->Add(this->titleTotalEmployees, 0, 0);
             this->tableLayoutPanel3->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel3->Location = System::Drawing::Point(0, 0);
             this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
@@ -409,21 +417,21 @@ namespace BTLAppManagerStore {
             this->totalEmployees->Text = L"23";
             this->totalEmployees->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
-            // label3
+            // titleTotalEmployees
             // 
-            this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->titleTotalEmployees->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label3->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->titleTotalEmployees->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label3->ForeColor = System::Drawing::Color::White;
-            this->label3->Location = System::Drawing::Point(3, 0);
-            this->label3->Name = L"label3";
-            this->label3->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
-            this->label3->Size = System::Drawing::Size(514, 93);
-            this->label3->TabIndex = 0;
-            this->label3->Text = L"Total Employees";
-            this->label3->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+            this->titleTotalEmployees->ForeColor = System::Drawing::Color::White;
+            this->titleTotalEmployees->Location = System::Drawing::Point(3, 0);
+            this->titleTotalEmployees->Name = L"titleTotalEmployees";
+            this->titleTotalEmployees->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
+            this->titleTotalEmployees->Size = System::Drawing::Size(514, 93);
+            this->titleTotalEmployees->TabIndex = 0;
+            this->titleTotalEmployees->Text = L"Total Employees";
+            this->titleTotalEmployees->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
             // 
             // panel4
             // 
@@ -446,7 +454,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 100)));
             this->tableLayoutPanel2->Controls->Add(this->totalProducts, 0, 1);
-            this->tableLayoutPanel2->Controls->Add(this->label1, 0, 0);
+            this->tableLayoutPanel2->Controls->Add(this->titleTotalProducts, 0, 0);
             this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel2->Location = System::Drawing::Point(0, 0);
             this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
@@ -472,21 +480,21 @@ namespace BTLAppManagerStore {
             this->totalProducts->Text = L"143";
             this->totalProducts->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
-            // label1
+            // titleTotalProducts
             // 
-            this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->titleTotalProducts->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+            this->titleTotalProducts->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label1->ForeColor = System::Drawing::Color::White;
-            this->label1->Location = System::Drawing::Point(3, 0);
-            this->label1->Name = L"label1";
-            this->label1->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
-            this->label1->Size = System::Drawing::Size(513, 93);
-            this->label1->TabIndex = 0;
-            this->label1->Text = L"Total Products";
-            this->label1->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+            this->titleTotalProducts->ForeColor = System::Drawing::Color::White;
+            this->titleTotalProducts->Location = System::Drawing::Point(3, 0);
+            this->titleTotalProducts->Name = L"titleTotalProducts";
+            this->titleTotalProducts->Padding = System::Windows::Forms::Padding(0, 0, 0, 12);
+            this->titleTotalProducts->Size = System::Drawing::Size(513, 93);
+            this->titleTotalProducts->TabIndex = 0;
+            this->titleTotalProducts->Text = L"Total Products";
+            this->titleTotalProducts->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
             // 
             // HomePageForm
             // 

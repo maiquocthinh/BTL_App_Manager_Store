@@ -587,7 +587,6 @@ namespace BTLAppManagerStore {
 			// pnlMain
 			// 
 			this->pnlMain->AutoScroll = true;
-			this->pnlMain->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pnlMain.BackgroundImage")));
 			this->pnlMain->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->pnlMain->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->pnlMain->Location = System::Drawing::Point(350, 0);
@@ -661,7 +660,7 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 	private:
 		Form^ homePageForm = gcnew BTLAppManagerStore::HomePageForm();
 		Form^ productsPageForm = gcnew BTLAppManagerStore::ProductsPageForm();

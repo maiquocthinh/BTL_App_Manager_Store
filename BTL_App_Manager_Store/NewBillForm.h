@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -35,42 +35,66 @@ namespace BTLAppManagerStore {
             }
         }
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-    private: System::Windows::Forms::Label^ label1;
+    private: System::Windows::Forms::Label^ titleForm;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel8;
-    private: System::Windows::Forms::TextBox^ textBox2;
-    private: System::Windows::Forms::Label^ label5;
+    private: System::Windows::Forms::TextBox^ tbxPrice;
+
+    private: System::Windows::Forms::Label^ lbPrice;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
-    private: System::Windows::Forms::Label^ label4;
-    private: System::Windows::Forms::ComboBox^ comboBox2;
+    private: System::Windows::Forms::Label^ lbProduct;
+
+    private: System::Windows::Forms::ComboBox^ cbProduct;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel9;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel12;
-    private: System::Windows::Forms::Button^ button2;
-    private: System::Windows::Forms::Button^ button1;
+    private: System::Windows::Forms::Button^ btnRemove;
+
+    private: System::Windows::Forms::Button^ btnAdd;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
-    private: System::Windows::Forms::TextBox^ textBox1;
-    private: System::Windows::Forms::Label^ label3;
+    private: System::Windows::Forms::TextBox^ tbxDate;
+
+    private: System::Windows::Forms::Label^ lbDate;
+
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
-    private: System::Windows::Forms::Label^ label2;
-    private: System::Windows::Forms::ComboBox^ comboBox1;
+    private: System::Windows::Forms::Label^ lbCustomerName;
+    private: System::Windows::Forms::ComboBox^ cbCustomerName;
+
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
-    private: System::Windows::Forms::TextBox^ inputName;
-    private: System::Windows::Forms::Label^ lable1;
+    private: System::Windows::Forms::TextBox^ tbxEmployeeName;
+
+    private: System::Windows::Forms::Label^ lbEmployeeName;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel11;
-    private: System::Windows::Forms::Label^ label7;
+    private: System::Windows::Forms::Label^ lbDiscount;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel10;
-    private: System::Windows::Forms::Label^ label6;
-    private: System::Windows::Forms::TextBox^ textBox3;
-    private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+    private: System::Windows::Forms::Label^ lbQuantity;
+    private: System::Windows::Forms::NumericUpDown^ numQuantity;
+
+
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel13;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel15;
-    private: System::Windows::Forms::TextBox^ textBox4;
-    private: System::Windows::Forms::Label^ label9;
+    private: System::Windows::Forms::TextBox^ tbxTotalBill;
+
+    private: System::Windows::Forms::Label^ lbTotalBill;
+
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel14;
-    private: System::Windows::Forms::Label^ label8;
-    private: System::Windows::Forms::ComboBox^ comboBox3;
-    private: System::Windows::Forms::DataGridView^ dataGridView1;
+    private: System::Windows::Forms::Label^ lbDiscountByPoint;
+    private: System::Windows::Forms::ComboBox^ cbDiscountByPoint;
+
+
+
+    private: System::Windows::Forms::DataGridView^ dataTable;
+
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productID;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productName;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productPrice;
@@ -78,12 +102,19 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ totalMoney;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel18;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel19;
-    private: System::Windows::Forms::TextBox^ textBox7;
-    private: System::Windows::Forms::Label^ label12;
+    private: System::Windows::Forms::TextBox^ tbxChange;
+
+    private: System::Windows::Forms::Label^ lbChange;
+
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel22;
-    private: System::Windows::Forms::TextBox^ textBox9;
-    private: System::Windows::Forms::Label^ label15;
-    private: System::Windows::Forms::Button^ button3;
+    private: System::Windows::Forms::TextBox^ tbxCash;
+
+    private: System::Windows::Forms::Label^ lbCash;
+    private: System::Windows::Forms::Button^ btnPay;
+
+
+    private: System::Windows::Forms::NumericUpDown^ numDiscount;
+
     private:
         /// <summary>
         /// Required designer variable.
@@ -100,12 +131,12 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel18 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel19 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox7 = (gcnew System::Windows::Forms::TextBox());
-            this->label12 = (gcnew System::Windows::Forms::Label());
+            this->tbxChange = (gcnew System::Windows::Forms::TextBox());
+            this->lbChange = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel22 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox9 = (gcnew System::Windows::Forms::TextBox());
-            this->label15 = (gcnew System::Windows::Forms::Label());
-            this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+            this->tbxCash = (gcnew System::Windows::Forms::TextBox());
+            this->lbCash = (gcnew System::Windows::Forms::Label());
+            this->dataTable = (gcnew System::Windows::Forms::DataGridView());
             this->productID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->productName = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->productPrice = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -113,52 +144,52 @@ namespace BTLAppManagerStore {
             this->totalMoney = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel8 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-            this->label5 = (gcnew System::Windows::Forms::Label());
+            this->tbxPrice = (gcnew System::Windows::Forms::TextBox());
+            this->lbPrice = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->label4 = (gcnew System::Windows::Forms::Label());
-            this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
+            this->lbProduct = (gcnew System::Windows::Forms::Label());
+            this->cbProduct = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel12 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->button2 = (gcnew System::Windows::Forms::Button());
-            this->button1 = (gcnew System::Windows::Forms::Button());
+            this->btnRemove = (gcnew System::Windows::Forms::Button());
+            this->btnAdd = (gcnew System::Windows::Forms::Button());
             this->tableLayoutPanel9 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel10 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->label6 = (gcnew System::Windows::Forms::Label());
-            this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+            this->lbQuantity = (gcnew System::Windows::Forms::Label());
+            this->numQuantity = (gcnew System::Windows::Forms::NumericUpDown());
             this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-            this->label7 = (gcnew System::Windows::Forms::Label());
-            this->label1 = (gcnew System::Windows::Forms::Label());
+            this->lbDiscount = (gcnew System::Windows::Forms::Label());
+            this->titleForm = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-            this->label3 = (gcnew System::Windows::Forms::Label());
+            this->tbxDate = (gcnew System::Windows::Forms::TextBox());
+            this->lbDate = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->label2 = (gcnew System::Windows::Forms::Label());
-            this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+            this->lbCustomerName = (gcnew System::Windows::Forms::Label());
+            this->cbCustomerName = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->inputName = (gcnew System::Windows::Forms::TextBox());
-            this->lable1 = (gcnew System::Windows::Forms::Label());
+            this->tbxEmployeeName = (gcnew System::Windows::Forms::TextBox());
+            this->lbEmployeeName = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel13 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel15 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-            this->label9 = (gcnew System::Windows::Forms::Label());
+            this->tbxTotalBill = (gcnew System::Windows::Forms::TextBox());
+            this->lbTotalBill = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel14 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->label8 = (gcnew System::Windows::Forms::Label());
-            this->comboBox3 = (gcnew System::Windows::Forms::ComboBox());
-            this->button3 = (gcnew System::Windows::Forms::Button());
+            this->lbDiscountByPoint = (gcnew System::Windows::Forms::Label());
+            this->cbDiscountByPoint = (gcnew System::Windows::Forms::ComboBox());
+            this->btnPay = (gcnew System::Windows::Forms::Button());
+            this->numDiscount = (gcnew System::Windows::Forms::NumericUpDown());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel18->SuspendLayout();
             this->tableLayoutPanel19->SuspendLayout();
             this->tableLayoutPanel22->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
             this->tableLayoutPanel3->SuspendLayout();
             this->tableLayoutPanel8->SuspendLayout();
             this->tableLayoutPanel7->SuspendLayout();
             this->tableLayoutPanel12->SuspendLayout();
             this->tableLayoutPanel9->SuspendLayout();
             this->tableLayoutPanel10->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->BeginInit();
             this->tableLayoutPanel11->SuspendLayout();
             this->tableLayoutPanel2->SuspendLayout();
             this->tableLayoutPanel6->SuspendLayout();
@@ -167,6 +198,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel13->SuspendLayout();
             this->tableLayoutPanel15->SuspendLayout();
             this->tableLayoutPanel14->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->BeginInit();
             this->SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -177,12 +209,12 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 50)));
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel18, 1, 3);
-            this->tableLayoutPanel1->Controls->Add(this->dataGridView1, 0, 2);
+            this->tableLayoutPanel1->Controls->Add(this->dataTable, 0, 2);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel3, 1, 1);
-            this->tableLayoutPanel1->Controls->Add(this->label1, 0, 0);
+            this->tableLayoutPanel1->Controls->Add(this->titleForm, 0, 0);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel2, 0, 1);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel13, 0, 3);
-            this->tableLayoutPanel1->Controls->Add(this->button3, 0, 4);
+            this->tableLayoutPanel1->Controls->Add(this->btnPay, 0, 4);
             this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
             this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
@@ -228,8 +260,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel19->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel19->Controls->Add(this->textBox7, 1, 0);
-            this->tableLayoutPanel19->Controls->Add(this->label12, 0, 0);
+            this->tableLayoutPanel19->Controls->Add(this->tbxChange, 1, 0);
+            this->tableLayoutPanel19->Controls->Add(this->lbChange, 0, 0);
             this->tableLayoutPanel19->Location = System::Drawing::Point(3, 60);
             this->tableLayoutPanel19->Name = L"tableLayoutPanel19";
             this->tableLayoutPanel19->RowCount = 1;
@@ -237,33 +269,33 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel19->Size = System::Drawing::Size(538, 51);
             this->tableLayoutPanel19->TabIndex = 10;
             // 
-            // textBox7
+            // tbxChange
             // 
-            this->textBox7->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxChange->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox7->Location = System::Drawing::Point(164, 12);
-            this->textBox7->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->textBox7->Name = L"textBox7";
-            this->textBox7->Size = System::Drawing::Size(344, 26);
-            this->textBox7->TabIndex = 1;
-            this->textBox7->TabStop = false;
+            this->tbxChange->Location = System::Drawing::Point(164, 12);
+            this->tbxChange->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxChange->Name = L"tbxChange";
+            this->tbxChange->Size = System::Drawing::Size(344, 26);
+            this->tbxChange->TabIndex = 1;
+            this->tbxChange->TabStop = false;
             // 
-            // label12
+            // lbChange
             // 
-            this->label12->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbChange->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label12->AutoSize = true;
-            this->label12->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbChange->AutoSize = true;
+            this->lbChange->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label12->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label12->Location = System::Drawing::Point(3, 0);
-            this->label12->Name = L"label12";
-            this->label12->Size = System::Drawing::Size(155, 51);
-            this->label12->TabIndex = 0;
-            this->label12->Text = L"Change:";
-            this->label12->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbChange->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbChange->Location = System::Drawing::Point(3, 0);
+            this->lbChange->Name = L"lbChange";
+            this->lbChange->Size = System::Drawing::Size(155, 51);
+            this->lbChange->TabIndex = 0;
+            this->lbChange->Text = L"Change:";
+            this->lbChange->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel22
             // 
@@ -275,8 +307,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel22->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel22->Controls->Add(this->textBox9, 1, 0);
-            this->tableLayoutPanel22->Controls->Add(this->label15, 0, 0);
+            this->tableLayoutPanel22->Controls->Add(this->tbxCash, 1, 0);
+            this->tableLayoutPanel22->Controls->Add(this->lbCash, 0, 0);
             this->tableLayoutPanel22->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel22->Name = L"tableLayoutPanel22";
             this->tableLayoutPanel22->RowCount = 1;
@@ -286,55 +318,55 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel22->Size = System::Drawing::Size(538, 51);
             this->tableLayoutPanel22->TabIndex = 9;
             // 
-            // textBox9
+            // tbxCash
             // 
-            this->textBox9->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxCash->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox9->Location = System::Drawing::Point(164, 12);
-            this->textBox9->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->textBox9->Name = L"textBox9";
-            this->textBox9->Size = System::Drawing::Size(344, 26);
-            this->textBox9->TabIndex = 1;
-            this->textBox9->TabStop = false;
+            this->tbxCash->Location = System::Drawing::Point(164, 12);
+            this->tbxCash->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxCash->Name = L"tbxCash";
+            this->tbxCash->Size = System::Drawing::Size(344, 26);
+            this->tbxCash->TabIndex = 1;
+            this->tbxCash->TabStop = false;
             // 
-            // label15
+            // lbCash
             // 
-            this->label15->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbCash->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label15->AutoSize = true;
-            this->label15->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbCash->AutoSize = true;
+            this->lbCash->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label15->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label15->Location = System::Drawing::Point(3, 0);
-            this->label15->Name = L"label15";
-            this->label15->Size = System::Drawing::Size(155, 51);
-            this->label15->TabIndex = 0;
-            this->label15->Text = L"Cash Tendered:";
-            this->label15->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbCash->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbCash->Location = System::Drawing::Point(3, 0);
+            this->lbCash->Name = L"lbCash";
+            this->lbCash->Size = System::Drawing::Size(155, 51);
+            this->lbCash->TabIndex = 0;
+            this->lbCash->Text = L"Cash Tendered:";
+            this->lbCash->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // dataGridView1
+            // dataTable
             // 
-            this->dataGridView1->AllowUserToAddRows = false;
-            this->dataGridView1->AllowUserToDeleteRows = false;
-            this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->dataTable->AllowUserToAddRows = false;
+            this->dataTable->AllowUserToDeleteRows = false;
+            this->dataTable->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
-            this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-            this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(5) {
+            this->dataTable->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
+            this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+            this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(5) {
                 this->productID,
                     this->productName, this->productPrice, this->productQuantity, this->totalMoney
             });
-            this->tableLayoutPanel1->SetColumnSpan(this->dataGridView1, 2);
-            this->dataGridView1->Location = System::Drawing::Point(3, 313);
-            this->dataGridView1->Name = L"dataGridView1";
-            this->dataGridView1->ReadOnly = true;
-            this->dataGridView1->RowHeadersWidth = 62;
-            this->dataGridView1->RowTemplate->Height = 28;
-            this->dataGridView1->Size = System::Drawing::Size(1094, 197);
-            this->dataGridView1->TabIndex = 6;
+            this->tableLayoutPanel1->SetColumnSpan(this->dataTable, 2);
+            this->dataTable->Location = System::Drawing::Point(3, 313);
+            this->dataTable->Name = L"dataTable";
+            this->dataTable->ReadOnly = true;
+            this->dataTable->RowHeadersWidth = 62;
+            this->dataTable->RowTemplate->Height = 28;
+            this->dataTable->Size = System::Drawing::Size(1094, 197);
+            this->dataTable->TabIndex = 6;
             // 
             // productID
             // 
@@ -402,8 +434,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel8->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel8->Controls->Add(this->textBox2, 1, 0);
-            this->tableLayoutPanel8->Controls->Add(this->label5, 0, 0);
+            this->tableLayoutPanel8->Controls->Add(this->tbxPrice, 1, 0);
+            this->tableLayoutPanel8->Controls->Add(this->lbPrice, 0, 0);
             this->tableLayoutPanel8->Location = System::Drawing::Point(3, 61);
             this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
             this->tableLayoutPanel8->RowCount = 1;
@@ -411,34 +443,35 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel8->Size = System::Drawing::Size(538, 52);
             this->tableLayoutPanel8->TabIndex = 8;
             // 
-            // textBox2
+            // tbxPrice
             // 
-            this->textBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxPrice->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox2->Enabled = false;
-            this->textBox2->Location = System::Drawing::Point(164, 12);
-            this->textBox2->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->textBox2->Name = L"textBox2";
-            this->textBox2->Size = System::Drawing::Size(344, 26);
-            this->textBox2->TabIndex = 1;
-            this->textBox2->TabStop = false;
+            this->tbxPrice->Enabled = false;
+            this->tbxPrice->Location = System::Drawing::Point(164, 12);
+            this->tbxPrice->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxPrice->Name = L"tbxPrice";
+            this->tbxPrice->ReadOnly = true;
+            this->tbxPrice->Size = System::Drawing::Size(344, 26);
+            this->tbxPrice->TabIndex = 1;
+            this->tbxPrice->TabStop = false;
             // 
-            // label5
+            // lbPrice
             // 
-            this->label5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbPrice->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label5->AutoSize = true;
-            this->label5->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbPrice->AutoSize = true;
+            this->lbPrice->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label5->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label5->Location = System::Drawing::Point(3, 0);
-            this->label5->Name = L"label5";
-            this->label5->Size = System::Drawing::Size(155, 52);
-            this->label5->TabIndex = 0;
-            this->label5->Text = L"Price";
-            this->label5->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbPrice->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbPrice->Location = System::Drawing::Point(3, 0);
+            this->lbPrice->Name = L"lbPrice";
+            this->lbPrice->Size = System::Drawing::Size(155, 52);
+            this->lbPrice->TabIndex = 0;
+            this->lbPrice->Text = L"Price";
+            this->lbPrice->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel7
             // 
@@ -450,8 +483,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel7->Controls->Add(this->label4, 0, 0);
-            this->tableLayoutPanel7->Controls->Add(this->comboBox2, 1, 0);
+            this->tableLayoutPanel7->Controls->Add(this->lbProduct, 0, 0);
+            this->tableLayoutPanel7->Controls->Add(this->cbProduct, 1, 0);
             this->tableLayoutPanel7->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
             this->tableLayoutPanel7->RowCount = 1;
@@ -459,34 +492,34 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel7->Size = System::Drawing::Size(538, 52);
             this->tableLayoutPanel7->TabIndex = 7;
             // 
-            // label4
+            // lbProduct
             // 
-            this->label4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbProduct->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label4->AutoSize = true;
-            this->label4->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbProduct->AutoSize = true;
+            this->lbProduct->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label4->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label4->Location = System::Drawing::Point(3, 0);
-            this->label4->Name = L"label4";
-            this->label4->Size = System::Drawing::Size(155, 52);
-            this->label4->TabIndex = 0;
-            this->label4->Text = L"Product";
-            this->label4->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbProduct->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbProduct->Location = System::Drawing::Point(3, 0);
+            this->lbProduct->Name = L"lbProduct";
+            this->lbProduct->Size = System::Drawing::Size(155, 52);
+            this->lbProduct->TabIndex = 0;
+            this->lbProduct->Text = L"Product";
+            this->lbProduct->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // comboBox2
+            // cbProduct
             // 
-            this->comboBox2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->cbProduct->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->comboBox2->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboBox2->FormattingEnabled = true;
-            this->comboBox2->Location = System::Drawing::Point(164, 12);
-            this->comboBox2->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->comboBox2->Name = L"comboBox2";
-            this->comboBox2->Size = System::Drawing::Size(344, 28);
-            this->comboBox2->TabIndex = 1;
+            this->cbProduct->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbProduct->FormattingEnabled = true;
+            this->cbProduct->Location = System::Drawing::Point(164, 12);
+            this->cbProduct->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbProduct->Name = L"cbProduct";
+            this->cbProduct->Size = System::Drawing::Size(344, 28);
+            this->cbProduct->TabIndex = 1;
             // 
             // tableLayoutPanel12
             // 
@@ -498,8 +531,8 @@ namespace BTLAppManagerStore {
                 50)));
             this->tableLayoutPanel12->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 50)));
-            this->tableLayoutPanel12->Controls->Add(this->button2, 1, 0);
-            this->tableLayoutPanel12->Controls->Add(this->button1, 0, 0);
+            this->tableLayoutPanel12->Controls->Add(this->btnRemove, 1, 0);
+            this->tableLayoutPanel12->Controls->Add(this->btnAdd, 0, 0);
             this->tableLayoutPanel12->Location = System::Drawing::Point(3, 177);
             this->tableLayoutPanel12->Name = L"tableLayoutPanel12";
             this->tableLayoutPanel12->RowCount = 1;
@@ -507,33 +540,33 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel12->Size = System::Drawing::Size(538, 54);
             this->tableLayoutPanel12->TabIndex = 10;
             // 
-            // button2
+            // btnRemove
             // 
-            this->button2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnRemove->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left));
-            this->button2->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->btnRemove->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->button2->Location = System::Drawing::Point(294, 6);
-            this->button2->Margin = System::Windows::Forms::Padding(25, 6, 3, 9);
-            this->button2->Name = L"button2";
-            this->button2->Size = System::Drawing::Size(100, 39);
-            this->button2->TabIndex = 1;
-            this->button2->Text = L"Remove";
-            this->button2->UseVisualStyleBackColor = true;
+            this->btnRemove->Location = System::Drawing::Point(294, 6);
+            this->btnRemove->Margin = System::Windows::Forms::Padding(25, 6, 3, 9);
+            this->btnRemove->Name = L"btnRemove";
+            this->btnRemove->Size = System::Drawing::Size(100, 39);
+            this->btnRemove->TabIndex = 1;
+            this->btnRemove->Text = L"Remove";
+            this->btnRemove->UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnAdd
             // 
-            this->button1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnAdd->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->button1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->btnAdd->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->button1->Location = System::Drawing::Point(156, 6);
-            this->button1->Margin = System::Windows::Forms::Padding(3, 6, 25, 6);
-            this->button1->Name = L"button1";
-            this->button1->Size = System::Drawing::Size(88, 42);
-            this->button1->TabIndex = 0;
-            this->button1->Text = L"Add";
-            this->button1->UseVisualStyleBackColor = true;
+            this->btnAdd->Location = System::Drawing::Point(156, 6);
+            this->btnAdd->Margin = System::Windows::Forms::Padding(3, 6, 25, 6);
+            this->btnAdd->Name = L"btnAdd";
+            this->btnAdd->Size = System::Drawing::Size(88, 42);
+            this->btnAdd->TabIndex = 0;
+            this->btnAdd->Text = L"Add";
+            this->btnAdd->UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel9
             // 
@@ -564,8 +597,8 @@ namespace BTLAppManagerStore {
                 36.36364F)));
             this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 63.63636F)));
-            this->tableLayoutPanel10->Controls->Add(this->label6, 0, 0);
-            this->tableLayoutPanel10->Controls->Add(this->numericUpDown1, 1, 0);
+            this->tableLayoutPanel10->Controls->Add(this->lbQuantity, 0, 0);
+            this->tableLayoutPanel10->Controls->Add(this->numQuantity, 1, 0);
             this->tableLayoutPanel10->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel10->Name = L"tableLayoutPanel10";
             this->tableLayoutPanel10->RowCount = 1;
@@ -573,32 +606,32 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel10->Size = System::Drawing::Size(263, 46);
             this->tableLayoutPanel10->TabIndex = 12;
             // 
-            // label6
+            // lbQuantity
             // 
-            this->label6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbQuantity->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label6->AutoSize = true;
-            this->label6->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbQuantity->AutoSize = true;
+            this->lbQuantity->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label6->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label6->Location = System::Drawing::Point(3, 0);
-            this->label6->Name = L"label6";
-            this->label6->Size = System::Drawing::Size(89, 46);
-            this->label6->TabIndex = 0;
-            this->label6->Text = L"Quantity";
-            this->label6->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbQuantity->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbQuantity->Location = System::Drawing::Point(3, 0);
+            this->lbQuantity->Name = L"lbQuantity";
+            this->lbQuantity->Size = System::Drawing::Size(89, 46);
+            this->lbQuantity->TabIndex = 0;
+            this->lbQuantity->Text = L"Quantity";
+            this->lbQuantity->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // numericUpDown1
+            // numQuantity
             // 
-            this->numericUpDown1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->numQuantity->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->numericUpDown1->Location = System::Drawing::Point(110, 15);
-            this->numericUpDown1->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
-            this->numericUpDown1->Name = L"numericUpDown1";
-            this->numericUpDown1->Size = System::Drawing::Size(138, 26);
-            this->numericUpDown1->TabIndex = 1;
+            this->numQuantity->Location = System::Drawing::Point(110, 15);
+            this->numQuantity->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
+            this->numQuantity->Name = L"numQuantity";
+            this->numQuantity->Size = System::Drawing::Size(138, 26);
+            this->numQuantity->TabIndex = 1;
             // 
             // tableLayoutPanel11
             // 
@@ -610,8 +643,8 @@ namespace BTLAppManagerStore {
                 36.36364F)));
             this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 63.63636F)));
-            this->tableLayoutPanel11->Controls->Add(this->textBox3, 0, 0);
-            this->tableLayoutPanel11->Controls->Add(this->label7, 0, 0);
+            this->tableLayoutPanel11->Controls->Add(this->numDiscount, 0, 0);
+            this->tableLayoutPanel11->Controls->Add(this->lbDiscount, 0, 0);
             this->tableLayoutPanel11->Location = System::Drawing::Point(272, 3);
             this->tableLayoutPanel11->Name = L"tableLayoutPanel11";
             this->tableLayoutPanel11->RowCount = 1;
@@ -619,50 +652,39 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel11->Size = System::Drawing::Size(263, 46);
             this->tableLayoutPanel11->TabIndex = 11;
             // 
-            // textBox3
+            // lbDiscount
             // 
-            this->textBox3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox3->Location = System::Drawing::Point(110, 10);
-            this->textBox3->Margin = System::Windows::Forms::Padding(15, 10, 15, 3);
-            this->textBox3->Name = L"textBox3";
-            this->textBox3->Size = System::Drawing::Size(138, 26);
-            this->textBox3->TabIndex = 2;
-            // 
-            // label7
-            // 
-            this->label7->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->label7->AutoSize = true;
-            this->label7->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbDiscount->AutoSize = true;
+            this->lbDiscount->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label7->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label7->Location = System::Drawing::Point(3, 0);
-            this->label7->Name = L"label7";
-            this->label7->Size = System::Drawing::Size(89, 46);
-            this->label7->TabIndex = 0;
-            this->label7->Text = L"Discount";
-            this->label7->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbDiscount->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbDiscount->Location = System::Drawing::Point(3, 0);
+            this->lbDiscount->Name = L"lbDiscount";
+            this->lbDiscount->Size = System::Drawing::Size(89, 46);
+            this->lbDiscount->TabIndex = 0;
+            this->lbDiscount->Text = L"Discount (%)";
+            this->lbDiscount->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // label1
+            // titleForm
             // 
-            this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->titleForm->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label1->AutoSize = true;
-            this->tableLayoutPanel1->SetColumnSpan(this->label1, 2);
-            this->label1->Font = (gcnew System::Drawing::Font(L"Cooper Black", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->titleForm->AutoSize = true;
+            this->tableLayoutPanel1->SetColumnSpan(this->titleForm, 2);
+            this->titleForm->Font = (gcnew System::Drawing::Font(L"Cooper Black", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+            this->titleForm->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
                 static_cast<System::Int32>(static_cast<System::Byte>(192)));
-            this->label1->Location = System::Drawing::Point(3, 0);
-            this->label1->Name = L"label1";
-            this->label1->Size = System::Drawing::Size(1094, 70);
-            this->label1->TabIndex = 0;
-            this->label1->Text = L"New Bill";
-            this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->titleForm->Location = System::Drawing::Point(3, 0);
+            this->titleForm->Name = L"titleForm";
+            this->titleForm->Size = System::Drawing::Size(1094, 70);
+            this->titleForm->TabIndex = 0;
+            this->titleForm->Text = L"New Bill";
+            this->titleForm->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel2
             // 
@@ -694,8 +716,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel6->Controls->Add(this->textBox1, 1, 0);
-            this->tableLayoutPanel6->Controls->Add(this->label3, 0, 0);
+            this->tableLayoutPanel6->Controls->Add(this->tbxDate, 1, 0);
+            this->tableLayoutPanel6->Controls->Add(this->lbDate, 0, 0);
             this->tableLayoutPanel6->Location = System::Drawing::Point(3, 119);
             this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
             this->tableLayoutPanel6->RowCount = 1;
@@ -703,33 +725,33 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel6->Size = System::Drawing::Size(538, 52);
             this->tableLayoutPanel6->TabIndex = 7;
             // 
-            // textBox1
+            // tbxDate
             // 
-            this->textBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox1->Location = System::Drawing::Point(164, 12);
-            this->textBox1->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->textBox1->Name = L"textBox1";
-            this->textBox1->Size = System::Drawing::Size(344, 26);
-            this->textBox1->TabIndex = 1;
-            this->textBox1->TabStop = false;
+            this->tbxDate->Location = System::Drawing::Point(164, 12);
+            this->tbxDate->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxDate->Name = L"tbxDate";
+            this->tbxDate->Size = System::Drawing::Size(344, 26);
+            this->tbxDate->TabIndex = 1;
+            this->tbxDate->TabStop = false;
             // 
-            // label3
+            // lbDate
             // 
-            this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label3->AutoSize = true;
-            this->label3->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbDate->AutoSize = true;
+            this->lbDate->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label3->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label3->Location = System::Drawing::Point(3, 0);
-            this->label3->Name = L"label3";
-            this->label3->Size = System::Drawing::Size(155, 52);
-            this->label3->TabIndex = 0;
-            this->label3->Text = L"Date";
-            this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbDate->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbDate->Location = System::Drawing::Point(3, 0);
+            this->lbDate->Name = L"lbDate";
+            this->lbDate->Size = System::Drawing::Size(155, 52);
+            this->lbDate->TabIndex = 0;
+            this->lbDate->Text = L"Date";
+            this->lbDate->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel5
             // 
@@ -741,8 +763,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel5->Controls->Add(this->label2, 0, 0);
-            this->tableLayoutPanel5->Controls->Add(this->comboBox1, 1, 0);
+            this->tableLayoutPanel5->Controls->Add(this->lbCustomerName, 0, 0);
+            this->tableLayoutPanel5->Controls->Add(this->cbCustomerName, 1, 0);
             this->tableLayoutPanel5->Location = System::Drawing::Point(3, 61);
             this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
             this->tableLayoutPanel5->RowCount = 1;
@@ -750,34 +772,34 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel5->Size = System::Drawing::Size(538, 52);
             this->tableLayoutPanel5->TabIndex = 6;
             // 
-            // label2
+            // lbCustomerName
             // 
-            this->label2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbCustomerName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label2->AutoSize = true;
-            this->label2->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbCustomerName->AutoSize = true;
+            this->lbCustomerName->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label2->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label2->Location = System::Drawing::Point(3, 0);
-            this->label2->Name = L"label2";
-            this->label2->Size = System::Drawing::Size(155, 52);
-            this->label2->TabIndex = 0;
-            this->label2->Text = L"Customer Name";
-            this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbCustomerName->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbCustomerName->Location = System::Drawing::Point(3, 0);
+            this->lbCustomerName->Name = L"lbCustomerName";
+            this->lbCustomerName->Size = System::Drawing::Size(155, 52);
+            this->lbCustomerName->TabIndex = 0;
+            this->lbCustomerName->Text = L"Customer Name";
+            this->lbCustomerName->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // comboBox1
+            // cbCustomerName
             // 
-            this->comboBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->cbCustomerName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->comboBox1->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboBox1->FormattingEnabled = true;
-            this->comboBox1->Location = System::Drawing::Point(164, 12);
-            this->comboBox1->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->comboBox1->Name = L"comboBox1";
-            this->comboBox1->Size = System::Drawing::Size(344, 28);
-            this->comboBox1->TabIndex = 1;
+            this->cbCustomerName->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbCustomerName->FormattingEnabled = true;
+            this->cbCustomerName->Location = System::Drawing::Point(164, 12);
+            this->cbCustomerName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbCustomerName->Name = L"cbCustomerName";
+            this->cbCustomerName->Size = System::Drawing::Size(344, 28);
+            this->cbCustomerName->TabIndex = 1;
             // 
             // tableLayoutPanel4
             // 
@@ -789,8 +811,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel4->Controls->Add(this->inputName, 1, 0);
-            this->tableLayoutPanel4->Controls->Add(this->lable1, 0, 0);
+            this->tableLayoutPanel4->Controls->Add(this->tbxEmployeeName, 1, 0);
+            this->tableLayoutPanel4->Controls->Add(this->lbEmployeeName, 0, 0);
             this->tableLayoutPanel4->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
             this->tableLayoutPanel4->RowCount = 1;
@@ -798,34 +820,35 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel4->Size = System::Drawing::Size(538, 52);
             this->tableLayoutPanel4->TabIndex = 5;
             // 
-            // inputName
+            // tbxEmployeeName
             // 
-            this->inputName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxEmployeeName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->inputName->Enabled = false;
-            this->inputName->Location = System::Drawing::Point(164, 12);
-            this->inputName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->inputName->Name = L"inputName";
-            this->inputName->Size = System::Drawing::Size(344, 26);
-            this->inputName->TabIndex = 1;
-            this->inputName->TabStop = false;
+            this->tbxEmployeeName->Enabled = false;
+            this->tbxEmployeeName->Location = System::Drawing::Point(164, 12);
+            this->tbxEmployeeName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxEmployeeName->Name = L"tbxEmployeeName";
+            this->tbxEmployeeName->ReadOnly = true;
+            this->tbxEmployeeName->Size = System::Drawing::Size(344, 26);
+            this->tbxEmployeeName->TabIndex = 1;
+            this->tbxEmployeeName->TabStop = false;
             // 
-            // lable1
+            // lbEmployeeName
             // 
-            this->lable1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbEmployeeName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->lable1->AutoSize = true;
-            this->lable1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbEmployeeName->AutoSize = true;
+            this->lbEmployeeName->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->lable1->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->lable1->Location = System::Drawing::Point(3, 0);
-            this->lable1->Name = L"lable1";
-            this->lable1->Size = System::Drawing::Size(155, 52);
-            this->lable1->TabIndex = 0;
-            this->lable1->Text = L"Employee Name";
-            this->lable1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbEmployeeName->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbEmployeeName->Location = System::Drawing::Point(3, 0);
+            this->lbEmployeeName->Name = L"lbEmployeeName";
+            this->lbEmployeeName->Size = System::Drawing::Size(155, 52);
+            this->lbEmployeeName->TabIndex = 0;
+            this->lbEmployeeName->Text = L"Employee Name";
+            this->lbEmployeeName->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel13
             // 
@@ -860,8 +883,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel15->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel15->Controls->Add(this->textBox4, 1, 0);
-            this->tableLayoutPanel15->Controls->Add(this->label9, 0, 0);
+            this->tableLayoutPanel15->Controls->Add(this->tbxTotalBill, 1, 0);
+            this->tableLayoutPanel15->Controls->Add(this->lbTotalBill, 0, 0);
             this->tableLayoutPanel15->Location = System::Drawing::Point(3, 60);
             this->tableLayoutPanel15->Name = L"tableLayoutPanel15";
             this->tableLayoutPanel15->RowCount = 1;
@@ -869,33 +892,33 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel15->Size = System::Drawing::Size(538, 51);
             this->tableLayoutPanel15->TabIndex = 8;
             // 
-            // textBox4
+            // tbxTotalBill
             // 
-            this->textBox4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->tbxTotalBill->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->textBox4->Location = System::Drawing::Point(164, 12);
-            this->textBox4->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->textBox4->Name = L"textBox4";
-            this->textBox4->Size = System::Drawing::Size(344, 26);
-            this->textBox4->TabIndex = 1;
-            this->textBox4->TabStop = false;
+            this->tbxTotalBill->Location = System::Drawing::Point(164, 12);
+            this->tbxTotalBill->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxTotalBill->Name = L"tbxTotalBill";
+            this->tbxTotalBill->Size = System::Drawing::Size(344, 26);
+            this->tbxTotalBill->TabIndex = 1;
+            this->tbxTotalBill->TabStop = false;
             // 
-            // label9
+            // lbTotalBill
             // 
-            this->label9->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbTotalBill->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label9->AutoSize = true;
-            this->label9->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbTotalBill->AutoSize = true;
+            this->lbTotalBill->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label9->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label9->Location = System::Drawing::Point(3, 0);
-            this->label9->Name = L"label9";
-            this->label9->Size = System::Drawing::Size(155, 51);
-            this->label9->TabIndex = 0;
-            this->label9->Text = L"Total Bill:";
-            this->label9->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbTotalBill->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbTotalBill->Location = System::Drawing::Point(3, 0);
+            this->lbTotalBill->Name = L"lbTotalBill";
+            this->lbTotalBill->Size = System::Drawing::Size(155, 51);
+            this->lbTotalBill->TabIndex = 0;
+            this->lbTotalBill->Text = L"Total Bill:";
+            this->lbTotalBill->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // tableLayoutPanel14
             // 
@@ -907,8 +930,8 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel14->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel14->Controls->Add(this->label8, 0, 0);
-            this->tableLayoutPanel14->Controls->Add(this->comboBox3, 1, 0);
+            this->tableLayoutPanel14->Controls->Add(this->lbDiscountByPoint, 0, 0);
+            this->tableLayoutPanel14->Controls->Add(this->cbDiscountByPoint, 1, 0);
             this->tableLayoutPanel14->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel14->Name = L"tableLayoutPanel14";
             this->tableLayoutPanel14->RowCount = 1;
@@ -916,52 +939,63 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel14->Size = System::Drawing::Size(538, 51);
             this->tableLayoutPanel14->TabIndex = 7;
             // 
-            // label8
+            // lbDiscountByPoint
             // 
-            this->label8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->lbDiscountByPoint->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->label8->AutoSize = true;
-            this->label8->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->lbDiscountByPoint->AutoSize = true;
+            this->lbDiscountByPoint->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label8->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->label8->Location = System::Drawing::Point(3, 0);
-            this->label8->Name = L"label8";
-            this->label8->Size = System::Drawing::Size(155, 51);
-            this->label8->TabIndex = 0;
-            this->label8->Text = L"Discount by Customer Point:";
-            this->label8->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            this->lbDiscountByPoint->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbDiscountByPoint->Location = System::Drawing::Point(3, 0);
+            this->lbDiscountByPoint->Name = L"lbDiscountByPoint";
+            this->lbDiscountByPoint->Size = System::Drawing::Size(155, 51);
+            this->lbDiscountByPoint->TabIndex = 0;
+            this->lbDiscountByPoint->Text = L"Discount by Customer Point:";
+            this->lbDiscountByPoint->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // comboBox3
+            // cbDiscountByPoint
             // 
-            this->comboBox3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->cbDiscountByPoint->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->comboBox3->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboBox3->FormattingEnabled = true;
-            this->comboBox3->Location = System::Drawing::Point(164, 12);
-            this->comboBox3->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->comboBox3->Name = L"comboBox3";
-            this->comboBox3->Size = System::Drawing::Size(344, 28);
-            this->comboBox3->TabIndex = 1;
+            this->cbDiscountByPoint->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbDiscountByPoint->FormattingEnabled = true;
+            this->cbDiscountByPoint->Location = System::Drawing::Point(164, 12);
+            this->cbDiscountByPoint->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbDiscountByPoint->Name = L"cbDiscountByPoint";
+            this->cbDiscountByPoint->Size = System::Drawing::Size(344, 28);
+            this->cbDiscountByPoint->TabIndex = 1;
             // 
-            // button3
+            // btnPay
             // 
-            this->button3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->btnPay->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tableLayoutPanel1->SetColumnSpan(this->button3, 2);
-            this->button3->Font = (gcnew System::Drawing::Font(L"Cooper Black", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+            this->tableLayoutPanel1->SetColumnSpan(this->btnPay, 2);
+            this->btnPay->Font = (gcnew System::Drawing::Font(L"Cooper Black", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->button3->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+            this->btnPay->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
                 static_cast<System::Int32>(static_cast<System::Byte>(192)));
-            this->button3->Location = System::Drawing::Point(450, 645);
-            this->button3->Margin = System::Windows::Forms::Padding(450, 12, 450, 12);
-            this->button3->Name = L"button3";
-            this->button3->Size = System::Drawing::Size(200, 76);
-            this->button3->TabIndex = 8;
-            this->button3->Text = L"PAY";
-            this->button3->UseVisualStyleBackColor = true;
+            this->btnPay->Location = System::Drawing::Point(450, 645);
+            this->btnPay->Margin = System::Windows::Forms::Padding(450, 12, 450, 12);
+            this->btnPay->Name = L"btnPay";
+            this->btnPay->Size = System::Drawing::Size(200, 76);
+            this->btnPay->TabIndex = 8;
+            this->btnPay->Text = L"PAY";
+            this->btnPay->UseVisualStyleBackColor = true;
+            // 
+            // numDiscount
+            // 
+            this->numDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->numDiscount->Location = System::Drawing::Point(110, 15);
+            this->numDiscount->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
+            this->numDiscount->Name = L"numDiscount";
+            this->numDiscount->Size = System::Drawing::Size(138, 26);
+            this->numDiscount->TabIndex = 2;
             // 
             // NewBillForm
             // 
@@ -983,7 +1017,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel19->PerformLayout();
             this->tableLayoutPanel22->ResumeLayout(false);
             this->tableLayoutPanel22->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
             this->tableLayoutPanel3->ResumeLayout(false);
             this->tableLayoutPanel8->ResumeLayout(false);
             this->tableLayoutPanel8->PerformLayout();
@@ -993,7 +1027,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel9->ResumeLayout(false);
             this->tableLayoutPanel10->ResumeLayout(false);
             this->tableLayoutPanel10->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->EndInit();
             this->tableLayoutPanel11->ResumeLayout(false);
             this->tableLayoutPanel11->PerformLayout();
             this->tableLayoutPanel2->ResumeLayout(false);
@@ -1008,9 +1042,11 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel15->PerformLayout();
             this->tableLayoutPanel14->ResumeLayout(false);
             this->tableLayoutPanel14->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->EndInit();
             this->ResumeLayout(false);
 
         }
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
     };
 }

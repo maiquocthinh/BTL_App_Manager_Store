@@ -225,6 +225,9 @@
     <EmbeddedResource Include="ImportProductsForm.resx">
       <DependentUpon>ImportProductsForm.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindows.resx">
       <DependentUpon>MainWindows.h</DependentUpon>
     </EmbeddedResource>

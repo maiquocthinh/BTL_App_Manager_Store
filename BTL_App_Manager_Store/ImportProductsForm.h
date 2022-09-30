@@ -1,4 +1,4 @@
-#include "ImportNewProductsForm.h"
+﻿#include "ImportNewProductsForm.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -41,7 +41,8 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::Button^ btnRefresh;
 	private: System::Windows::Forms::TextBox^ tbxSearch;
 	private: System::Windows::Forms::Button^ btnSearch;
-	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::Windows::Forms::DataGridView^ dataTable;
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importID;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importEmployee;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importDate;
@@ -66,13 +67,13 @@ namespace BTLAppManagerStore {
 			this->btnRefresh = (gcnew System::Windows::Forms::Button());
 			this->tbxSearch = (gcnew System::Windows::Forms::TextBox());
 			this->btnSearch = (gcnew System::Windows::Forms::Button());
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->dataTable = (gcnew System::Windows::Forms::DataGridView());
 			this->importID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->importEmployee = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->importDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel4->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -84,7 +85,7 @@ namespace BTLAppManagerStore {
 				20)));
 			this->tableLayoutPanel1->Controls->Add(this->btnImport, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel4, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->dataGridView1, 0, 1);
+			this->tableLayoutPanel1->Controls->Add(this->dataTable, 0, 1);
 			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
@@ -175,27 +176,27 @@ namespace BTLAppManagerStore {
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
 			// 
-			// dataGridView1
+			// dataTable
 			// 
-			this->dataGridView1->AllowUserToAddRows = false;
-			this->dataGridView1->AllowUserToDeleteRows = false;
-			this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			this->dataTable->AllowUserToAddRows = false;
+			this->dataTable->AllowUserToDeleteRows = false;
+			this->dataTable->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
-				this->importID,
-					this->importEmployee, this->importDate
+			this->dataTable->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
+			this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
+				this->importID, this->importEmployee,
+					this->importDate
 			});
-			this->tableLayoutPanel1->SetColumnSpan(this->dataGridView1, 2);
-			this->dataGridView1->Location = System::Drawing::Point(3, 83);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->ReadOnly = true;
-			this->dataGridView1->RowHeadersWidth = 62;
-			this->dataGridView1->RowTemplate->Height = 28;
-			this->dataGridView1->Size = System::Drawing::Size(1162, 558);
-			this->dataGridView1->TabIndex = 4;
+			this->tableLayoutPanel1->SetColumnSpan(this->dataTable, 2);
+			this->dataTable->Location = System::Drawing::Point(3, 83);
+			this->dataTable->Name = L"dataTable";
+			this->dataTable->ReadOnly = true;
+			this->dataTable->RowHeadersWidth = 62;
+			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->Size = System::Drawing::Size(1162, 558);
+			this->dataTable->TabIndex = 4;
 			// 
 			// importID
 			// 
@@ -233,11 +234,13 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->tableLayoutPanel4->ResumeLayout(false);
 			this->tableLayoutPanel4->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	// Khi nút Import click thì Show lên Form ImportNewProducts
 	private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
 		Form^ ImportNewProductsForm = gcnew BTLAppManagerStore::ImportNewProductsForm();
 		ImportNewProductsForm->ShowDialog();

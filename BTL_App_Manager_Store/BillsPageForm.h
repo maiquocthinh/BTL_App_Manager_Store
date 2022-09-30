@@ -41,11 +41,13 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::TextBox^ tbxSearch;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
-	private: System::Windows::Forms::ComboBox^ comboBox1;
+	private: System::Windows::Forms::ComboBox^ cbSearch;
+
 	private: System::Windows::Forms::Button^ btnRefresh;
 	private: System::Windows::Forms::Button^ btnNewBill;
 	private: System::Windows::Forms::Button^ btnSearch;
-	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::Windows::Forms::DataGridView^ dataTable;
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billID;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billNameCustomer;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billDate;
@@ -70,11 +72,11 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tbxSearch = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->cbSearch = (gcnew System::Windows::Forms::ComboBox());
 			this->btnRefresh = (gcnew System::Windows::Forms::Button());
 			this->btnNewBill = (gcnew System::Windows::Forms::Button());
 			this->btnSearch = (gcnew System::Windows::Forms::Button());
-			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+			this->dataTable = (gcnew System::Windows::Forms::DataGridView());
 			this->billID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->billNameCustomer = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->billDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -82,7 +84,7 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->groupBox1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -91,7 +93,7 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel2, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->dataGridView1, 0, 1);
+			this->tableLayoutPanel1->Controls->Add(this->dataTable, 0, 1);
 			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
@@ -147,7 +149,7 @@ namespace BTLAppManagerStore {
 			this->groupBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->groupBox1->Controls->Add(this->comboBox1);
+			this->groupBox1->Controls->Add(this->cbSearch);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->groupBox1->Location = System::Drawing::Point(3, 3);
@@ -157,15 +159,15 @@ namespace BTLAppManagerStore {
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Search";
 			// 
-			// comboBox1
+			// cbSearch
 			// 
-			this->comboBox1->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"ID", L"Name Customer" });
-			this->comboBox1->Location = System::Drawing::Point(6, 21);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(132, 26);
-			this->comboBox1->TabIndex = 0;
+			this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+			this->cbSearch->FormattingEnabled = true;
+			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"ID", L"Name Customer" });
+			this->cbSearch->Location = System::Drawing::Point(6, 21);
+			this->cbSearch->Name = L"cbSearch";
+			this->cbSearch->Size = System::Drawing::Size(132, 26);
+			this->cbSearch->TabIndex = 0;
 			// 
 			// btnRefresh
 			// 
@@ -213,24 +215,24 @@ namespace BTLAppManagerStore {
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
 			// 
-			// dataGridView1
+			// dataTable
 			// 
-			this->dataGridView1->AllowUserToAddRows = false;
-			this->dataGridView1->AllowUserToDeleteRows = false;
-			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
-			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {
-				this->billID,
-					this->billNameCustomer, this->billDate, this->billTotalMoney
+			this->dataTable->AllowUserToAddRows = false;
+			this->dataTable->AllowUserToDeleteRows = false;
+			this->dataTable->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
+			this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {
+				this->billID, this->billNameCustomer,
+					this->billDate, this->billTotalMoney
 			});
-			this->dataGridView1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->dataGridView1->Location = System::Drawing::Point(3, 83);
-			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->ReadOnly = true;
-			this->dataGridView1->RowHeadersWidth = 62;
-			this->dataGridView1->RowTemplate->Height = 28;
-			this->dataGridView1->Size = System::Drawing::Size(1201, 565);
-			this->dataGridView1->TabIndex = 1;
+			this->dataTable->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->dataTable->Location = System::Drawing::Point(3, 83);
+			this->dataTable->Name = L"dataTable";
+			this->dataTable->ReadOnly = true;
+			this->dataTable->RowHeadersWidth = 62;
+			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->Size = System::Drawing::Size(1201, 565);
+			this->dataTable->TabIndex = 1;
 			// 
 			// billID
 			// 
@@ -272,7 +274,7 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel2->ResumeLayout(false);
 			this->tableLayoutPanel2->PerformLayout();
 			this->groupBox1->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
 			this->ResumeLayout(false);
 
 		}

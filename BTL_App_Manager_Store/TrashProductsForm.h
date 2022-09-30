@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -36,10 +36,13 @@ namespace BTLAppManagerStore {
 		}
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Panel^ panel1;
-	private: System::Windows::Forms::Button^ button2;
-	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ btnPermanentlyDelete;
+
+	private: System::Windows::Forms::Button^ btnRestore;
+
 	private: System::Windows::Forms::ImageList^ ListIcon;
-	private: System::Windows::Forms::DataGridView^ dgvProducts;
+	private: System::Windows::Forms::DataGridView^ dataTable;
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ idProduct;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ nameProduct;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ categoryProduct;
@@ -67,10 +70,10 @@ namespace BTLAppManagerStore {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(TrashProductsForm::typeid));
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->btnPermanentlyDelete = (gcnew System::Windows::Forms::Button());
 			this->ListIcon = (gcnew System::Windows::Forms::ImageList(this->components));
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->dgvProducts = (gcnew System::Windows::Forms::DataGridView());
+			this->btnRestore = (gcnew System::Windows::Forms::Button());
+			this->dataTable = (gcnew System::Windows::Forms::DataGridView());
 			this->idProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->nameProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->categoryProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -81,7 +84,7 @@ namespace BTLAppManagerStore {
 			this->sellPrice = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->panel1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProducts))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -90,7 +93,7 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel1->Controls->Add(this->panel1, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->dgvProducts, 0, 1);
+			this->tableLayoutPanel1->Controls->Add(this->dataTable, 0, 1);
 			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
@@ -105,29 +108,29 @@ namespace BTLAppManagerStore {
 			this->panel1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->panel1->Controls->Add(this->button2);
-			this->panel1->Controls->Add(this->button1);
+			this->panel1->Controls->Add(this->btnPermanentlyDelete);
+			this->panel1->Controls->Add(this->btnRestore);
 			this->panel1->Location = System::Drawing::Point(3, 3);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(1094, 94);
 			this->panel1->TabIndex = 0;
 			// 
-			// button2
+			// btnPermanentlyDelete
 			// 
-			this->button2->BackColor = System::Drawing::Color::Transparent;
-			this->button2->FlatAppearance->BorderSize = 0;
-			this->button2->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
+			this->btnPermanentlyDelete->BackColor = System::Drawing::Color::Transparent;
+			this->btnPermanentlyDelete->FlatAppearance->BorderSize = 0;
+			this->btnPermanentlyDelete->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->button2->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
+			this->btnPermanentlyDelete->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button2->ImageKey = L"delete-icon.png";
-			this->button2->ImageList = this->ListIcon;
-			this->button2->Location = System::Drawing::Point(254, 0);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(97, 94);
-			this->button2->TabIndex = 1;
-			this->button2->UseVisualStyleBackColor = false;
+			this->btnPermanentlyDelete->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnPermanentlyDelete->ImageKey = L"delete-icon.png";
+			this->btnPermanentlyDelete->ImageList = this->ListIcon;
+			this->btnPermanentlyDelete->Location = System::Drawing::Point(254, 0);
+			this->btnPermanentlyDelete->Name = L"btnPermanentlyDelete";
+			this->btnPermanentlyDelete->Size = System::Drawing::Size(97, 94);
+			this->btnPermanentlyDelete->TabIndex = 1;
+			this->btnPermanentlyDelete->UseVisualStyleBackColor = false;
 			// 
 			// ListIcon
 			// 
@@ -136,43 +139,43 @@ namespace BTLAppManagerStore {
 			this->ListIcon->Images->SetKeyName(0, L"delete-icon.png");
 			this->ListIcon->Images->SetKeyName(1, L"restore-icon.png");
 			// 
-			// button1
+			// btnRestore
 			// 
-			this->button1->BackColor = System::Drawing::Color::Transparent;
-			this->button1->FlatAppearance->BorderSize = 0;
-			this->button1->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
+			this->btnRestore->BackColor = System::Drawing::Color::Transparent;
+			this->btnRestore->FlatAppearance->BorderSize = 0;
+			this->btnRestore->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->button1->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
+			this->btnRestore->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(40)),
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button1->ImageKey = L"restore-icon.png";
-			this->button1->ImageList = this->ListIcon;
-			this->button1->Location = System::Drawing::Point(76, 0);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(97, 94);
-			this->button1->TabIndex = 0;
-			this->button1->UseVisualStyleBackColor = false;
+			this->btnRestore->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnRestore->ImageKey = L"restore-icon.png";
+			this->btnRestore->ImageList = this->ListIcon;
+			this->btnRestore->Location = System::Drawing::Point(76, 0);
+			this->btnRestore->Name = L"btnRestore";
+			this->btnRestore->Size = System::Drawing::Size(97, 94);
+			this->btnRestore->TabIndex = 0;
+			this->btnRestore->UseVisualStyleBackColor = false;
 			// 
-			// dgvProducts
+			// dataTable
 			// 
-			this->dgvProducts->AllowUserToAddRows = false;
-			this->dgvProducts->AllowUserToDeleteRows = false;
-			this->dgvProducts->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			this->dataTable->AllowUserToAddRows = false;
+			this->dataTable->AllowUserToDeleteRows = false;
+			this->dataTable->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->dgvProducts->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dgvProducts->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(8) {
+			this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(8) {
 				this->idProduct,
 					this->nameProduct, this->categoryProduct, this->quantity, this->unit, this->position, this->importPrice, this->sellPrice
 			});
-			this->dgvProducts->Location = System::Drawing::Point(3, 103);
-			this->dgvProducts->Name = L"dgvProducts";
-			this->dgvProducts->ReadOnly = true;
-			this->dgvProducts->RowHeadersWidth = 62;
-			this->dgvProducts->RowTemplate->Height = 28;
-			this->dgvProducts->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
-			this->dgvProducts->Size = System::Drawing::Size(1094, 516);
-			this->dgvProducts->TabIndex = 3;
+			this->dataTable->Location = System::Drawing::Point(3, 103);
+			this->dataTable->Name = L"dataTable";
+			this->dataTable->ReadOnly = true;
+			this->dataTable->RowHeadersWidth = 62;
+			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
+			this->dataTable->Size = System::Drawing::Size(1094, 516);
+			this->dataTable->TabIndex = 3;
 			// 
 			// idProduct
 			// 
@@ -253,10 +256,11 @@ namespace BTLAppManagerStore {
 			this->Text = L"Trash Products";
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->panel1->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvProducts))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 	};
 }

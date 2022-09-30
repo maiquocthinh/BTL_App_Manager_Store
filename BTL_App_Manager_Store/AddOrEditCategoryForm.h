@@ -42,11 +42,9 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::TextBox^ inputTitle;
-	private: System::Windows::Forms::Button^ btnAddorSave;
+	private: System::Windows::Forms::TextBox^ tbxTitle;
+	private: System::Windows::Forms::Button^ btnSave;
 	private: System::Windows::Forms::Button^ btnCancel;
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -61,8 +59,8 @@ namespace BTLAppManagerStore {
 		void InitializeComponent(void)
 		{
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->inputTitle = (gcnew System::Windows::Forms::TextBox());
-			this->btnAddorSave = (gcnew System::Windows::Forms::Button());
+			this->tbxTitle = (gcnew System::Windows::Forms::TextBox());
+			this->btnSave = (gcnew System::Windows::Forms::Button());
 			this->btnCancel = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
@@ -77,21 +75,21 @@ namespace BTLAppManagerStore {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"Title";
 			// 
-			// inputTitle
+			// tbxTitle
 			// 
-			this->inputTitle->Location = System::Drawing::Point(140, 76);
-			this->inputTitle->Name = L"inputTitle";
-			this->inputTitle->Size = System::Drawing::Size(299, 26);
-			this->inputTitle->TabIndex = 1;
+			this->tbxTitle->Location = System::Drawing::Point(140, 76);
+			this->tbxTitle->Name = L"tbxTitle";
+			this->tbxTitle->Size = System::Drawing::Size(299, 26);
+			this->tbxTitle->TabIndex = 1;
 			// 
-			// btnAddorSave
+			// btnSave
 			// 
-			this->btnAddorSave->Location = System::Drawing::Point(270, 160);
-			this->btnAddorSave->Name = L"btnAddorSave";
-			this->btnAddorSave->Size = System::Drawing::Size(90, 42);
-			this->btnAddorSave->TabIndex = 2;
-			this->btnAddorSave->Text = L"Add";
-			this->btnAddorSave->UseVisualStyleBackColor = true;
+			this->btnSave->Location = System::Drawing::Point(270, 160);
+			this->btnSave->Name = L"btnSave";
+			this->btnSave->Size = System::Drawing::Size(90, 42);
+			this->btnSave->TabIndex = 2;
+			this->btnSave->Text = L"Add";
+			this->btnSave->UseVisualStyleBackColor = true;
 			// 
 			// btnCancel
 			// 
@@ -110,8 +108,8 @@ namespace BTLAppManagerStore {
 			this->CancelButton = this->btnCancel;
 			this->ClientSize = System::Drawing::Size(518, 234);
 			this->Controls->Add(this->btnCancel);
-			this->Controls->Add(this->btnAddorSave);
-			this->Controls->Add(this->inputTitle);
+			this->Controls->Add(this->btnSave);
+			this->Controls->Add(this->tbxTitle);
 			this->Controls->Add(this->label1);
 			this->MaximizeBox = false;
 			this->MaximumSize = System::Drawing::Size(540, 290);
@@ -131,7 +129,7 @@ namespace BTLAppManagerStore {
 		// Chuyển giữa Form tạo mới và Form chỉnh sửa
 		if (this->isEditMode) {
 			this->Text = L"Edit Category";
-			this->btnAddorSave->Text = "Save";
+			this->btnSave->Text = "Save";
 		}
 	}
 	};
