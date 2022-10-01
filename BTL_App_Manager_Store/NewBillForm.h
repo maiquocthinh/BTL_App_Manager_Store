@@ -157,6 +157,7 @@ namespace BTLAppManagerStore {
             this->lbQuantity = (gcnew System::Windows::Forms::Label());
             this->numQuantity = (gcnew System::Windows::Forms::NumericUpDown());
             this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
+            this->numDiscount = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbDiscount = (gcnew System::Windows::Forms::Label());
             this->titleForm = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -177,7 +178,6 @@ namespace BTLAppManagerStore {
             this->lbDiscountByPoint = (gcnew System::Windows::Forms::Label());
             this->cbDiscountByPoint = (gcnew System::Windows::Forms::ComboBox());
             this->btnPay = (gcnew System::Windows::Forms::Button());
-            this->numDiscount = (gcnew System::Windows::Forms::NumericUpDown());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel18->SuspendLayout();
             this->tableLayoutPanel19->SuspendLayout();
@@ -191,6 +191,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel10->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->BeginInit();
             this->tableLayoutPanel11->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->BeginInit();
             this->tableLayoutPanel2->SuspendLayout();
             this->tableLayoutPanel6->SuspendLayout();
             this->tableLayoutPanel5->SuspendLayout();
@@ -198,7 +199,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel13->SuspendLayout();
             this->tableLayoutPanel15->SuspendLayout();
             this->tableLayoutPanel14->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->BeginInit();
             this->SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -640,9 +640,9 @@ namespace BTLAppManagerStore {
                 | System::Windows::Forms::AnchorStyles::Right));
             this->tableLayoutPanel11->ColumnCount = 2;
             this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                36.36364F)));
+                50)));
             this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                63.63636F)));
+                50)));
             this->tableLayoutPanel11->Controls->Add(this->numDiscount, 0, 0);
             this->tableLayoutPanel11->Controls->Add(this->lbDiscount, 0, 0);
             this->tableLayoutPanel11->Location = System::Drawing::Point(272, 3);
@@ -651,6 +651,17 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel11->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
             this->tableLayoutPanel11->Size = System::Drawing::Size(263, 46);
             this->tableLayoutPanel11->TabIndex = 11;
+            // 
+            // numDiscount
+            // 
+            this->numDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->numDiscount->Location = System::Drawing::Point(146, 15);
+            this->numDiscount->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
+            this->numDiscount->Name = L"numDiscount";
+            this->numDiscount->Size = System::Drawing::Size(102, 26);
+            this->numDiscount->TabIndex = 2;
             // 
             // lbDiscount
             // 
@@ -663,7 +674,7 @@ namespace BTLAppManagerStore {
             this->lbDiscount->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbDiscount->Location = System::Drawing::Point(3, 0);
             this->lbDiscount->Name = L"lbDiscount";
-            this->lbDiscount->Size = System::Drawing::Size(89, 46);
+            this->lbDiscount->Size = System::Drawing::Size(125, 46);
             this->lbDiscount->TabIndex = 0;
             this->lbDiscount->Text = L"Discount (%)";
             this->lbDiscount->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -733,6 +744,7 @@ namespace BTLAppManagerStore {
             this->tbxDate->Location = System::Drawing::Point(164, 12);
             this->tbxDate->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxDate->Name = L"tbxDate";
+            this->tbxDate->ReadOnly = true;
             this->tbxDate->Size = System::Drawing::Size(344, 26);
             this->tbxDate->TabIndex = 1;
             this->tbxDate->TabStop = false;
@@ -900,6 +912,7 @@ namespace BTLAppManagerStore {
             this->tbxTotalBill->Location = System::Drawing::Point(164, 12);
             this->tbxTotalBill->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxTotalBill->Name = L"tbxTotalBill";
+            this->tbxTotalBill->ReadOnly = true;
             this->tbxTotalBill->Size = System::Drawing::Size(344, 26);
             this->tbxTotalBill->TabIndex = 1;
             this->tbxTotalBill->TabStop = false;
@@ -986,17 +999,6 @@ namespace BTLAppManagerStore {
             this->btnPay->Text = L"PAY";
             this->btnPay->UseVisualStyleBackColor = true;
             // 
-            // numDiscount
-            // 
-            this->numDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->numDiscount->Location = System::Drawing::Point(110, 15);
-            this->numDiscount->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
-            this->numDiscount->Name = L"numDiscount";
-            this->numDiscount->Size = System::Drawing::Size(138, 26);
-            this->numDiscount->TabIndex = 2;
-            // 
             // NewBillForm
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -1030,6 +1032,7 @@ namespace BTLAppManagerStore {
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->EndInit();
             this->tableLayoutPanel11->ResumeLayout(false);
             this->tableLayoutPanel11->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->EndInit();
             this->tableLayoutPanel2->ResumeLayout(false);
             this->tableLayoutPanel6->ResumeLayout(false);
             this->tableLayoutPanel6->PerformLayout();
@@ -1042,7 +1045,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel15->PerformLayout();
             this->tableLayoutPanel14->ResumeLayout(false);
             this->tableLayoutPanel14->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->EndInit();
             this->ResumeLayout(false);
 
         }
