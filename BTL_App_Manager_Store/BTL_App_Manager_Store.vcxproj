@@ -176,6 +176,7 @@
     <ClInclude Include="NewBillForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="ProductsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
