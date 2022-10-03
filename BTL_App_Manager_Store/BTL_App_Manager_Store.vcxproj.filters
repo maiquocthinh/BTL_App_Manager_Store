@@ -83,5 +83,8 @@
     <ClInclude Include="BillDetailForm.h">
       <Filter>Header Files\ChildrenForms</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -187,6 +187,7 @@
     <ClInclude Include="TrashProductsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddOrEditCategoryForm.resx">
