@@ -1,4 +1,7 @@
 #include <string> 
+#include "Database.h"
+#include "Utils.h"
+#include <cppconn/resultset.h>
 #pragma once
 namespace MyObjects {
 	using namespace std;
@@ -6,17 +9,20 @@ namespace MyObjects {
 	class Product {
 		// Properties
 	private:
+		MyDatabase* MyDB = new MyDatabase();
 		unsigned int id, quantity, categoryID, importPrice, sellPrice;
 		string name, image, description, position, unit;
 		// Constructor and Destructor
 	public:
-		Product()
+		Product(MyDatabase* const MyDB)
 		{
+			this->MyDB = MyDB;
 			this->name = this->image = this->description = this->position = this->unit = "";
 			this->id = this->categoryID = this->quantity = this->importPrice = this->sellPrice = 0;
 		}
 		~Product()
 		{
+			delete this->MyDB;
 			this->name = this->image = this->description = this->position = this->unit = "";
 			this->id = this->categoryID = this->quantity = this->importPrice = this->sellPrice = 0;
 		}
@@ -82,6 +88,38 @@ namespace MyObjects {
 		void setsellPrice(long int sellPrice) {
 			this->sellPrice = sellPrice;
 		}
+		// Functions interactive with Database
+	public:
+		void Read(unsigned int id) {
+			this->id = id;
+			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT * FROM `tb_products` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ") LIMIT 1");
+			if (res->next()) {
+				this->name = res->getString("name");
+				this->image = res->getString("image");
+				this->description = res->getString("description");
+				this->position = res->getString("position");
+				this->unit = res->getString("unit");
+				this->quantity = res->getInt("quantity");
+				this->categoryID = res->getInt("category_id");
+				this->importPrice = res->getInt("import_price");
+				this->sellPrice = res->getInt("sell_price");
+			}
+		}
+		void Create() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_products` (`name`, `description`, `image`, `quantity`, `import_price`, `sell_price`, `unit`, `category_id`, `position`) VALUES ('" + this->name + "','" + this->description + "','" + this->image + "','0','" + MyUtils::intToStdString(this->importPrice) + "','" + MyUtils::intToStdString(this->sellPrice) + "','" + this->unit + "','" + MyUtils::intToStdString(this->categoryID) + "','" + this->position + "');");
+		}
+		void Update() {
+			this->MyDB->CUDQuery("UPDATE `tb_products` SET `name`='" + this->name + "', `description`='" + this->description + "', `image`='" + this->image + "', `quantity`='" + MyUtils::intToStdString(this->quantity) + "', `import_price`='" + MyUtils::intToStdString(this->importPrice) + "', `sell_price`='" + MyUtils::intToStdString(this->sellPrice) + "', `category_id`='" + MyUtils::intToStdString(this->categoryID) + "', `unit`='" + this->unit + "', `position`='" + this->position + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void MoveToTrash() {
+			this->MyDB->CUDQuery("UPDATE `tb_products` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Restore() {
+			this->MyDB->CUDQuery("UPDATE `tb_products` SET `isDelete`=false WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Delete() {
+			this->MyDB->CUDQuery("DELETE FROM `tb_products` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
 	};
 
 	class Person {
@@ -130,44 +168,121 @@ namespace MyObjects {
 	class Employee : public Person {
 		// Properties
 	private:
+		MyDatabase* MyDB = new MyDatabase();
+		unsigned int id;
 		unsigned short int position; // 0 is manager, 1 is employee
 	// Constructor and Destructor
 	public:
-		Employee() {
+		Employee(MyDatabase* const MyDB) {
+			this->MyDB = MyDB;
 			this->position = 0;
 		}
 		~Employee() {
+			delete this->MyDB;
 			this->position = 0;
 		}
 		// Setter and Getter of properties
 	public:
+		unsigned int getId() {
+			return this->id;
+		}
+		void setId(unsigned int id) {
+			this->id = id;
+		}
 		unsigned short int getPosition() {
 			return this->position;
 		}
 		void setPosition(unsigned short int position) {
 			this->position = position;
 		}
+		// Functions interactive with Database
+	public:
+		void Read(unsigned int id) {
+			this->id = id;
+			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT * FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ") LIMIT 1");
+			if (res->next()) {
+				this->fullName = res->getString("fullname");
+				this->sex = res->getBoolean("sex");
+				this->address = res->getString("address");
+				this->phone = res->getString("phone");
+				this->position = res->getInt("position");
+			}
+		}
+		void Create() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_employees` (`fullname`, `position`, `sex`, `address`, `phone`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->position) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "')");
+		}
+		void Update() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void MoveToTrash() {
+			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+
+		}
+		void Restore() {
+			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `isDelete`=false WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Delete() {
+			this->MyDB->CUDQuery("DELETE FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
 	};
 
 	class Customer : public Person {
 		// Properties
 	private:
-		unsigned int points;
+		MyDatabase* MyDB = new MyDatabase();
+		unsigned int id, points;
 		// Constructor and Destructor
 	public:
-		Customer() {
+		Customer(MyDatabase* const MyDB) {
+			this->MyDB = MyDB;
 			this->points = 0;
 		}
 		~Customer() {
+			delete this->MyDB;
 			this->points = 0;
 		}
 		// Setter and Getter of properties
 	public:
+		unsigned int getId() {
+			return this->id;
+		}
+		void setId(unsigned int id) {
+			this->id = id;
+		}
 		unsigned int getPoints() {
 			return this->points;
 		}
 		void setPoints(unsigned int points) {
 			this->points = points;
+		}
+		// Functions interactive with Database
+	public:
+		void Read(unsigned int id) {
+			this->id = id;
+			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT * FROM `tb_customers` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ") LIMIT 1");
+			if (res->next()) {
+				this->fullName = res->getString("fullname");
+				this->sex = res->getBoolean("sex");
+				this->address = res->getString("address");
+				this->phone = res->getString("phone");
+				this->points = res->getInt("points");
+			}
+		}
+		void Create() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_customers` (`fullname`, `points`, `sex`, `address`, `phone`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->points) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "')");
+		}
+		void Update() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_customers` SET `fullname`='" + this->fullName + "', `points`='" + MyUtils::intToStdString(this->points) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void MoveToTrash() {
+			this->MyDB->CUDQuery("UPDATE `tb_customers` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+
+		}
+		void Restore() {
+			this->MyDB->CUDQuery("UPDATE `tb_customers` SET `isDelete`=false WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Delete() {
+			this->MyDB->CUDQuery("DELETE FROM `tb_customers` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
 		}
 	};
 
@@ -222,13 +337,16 @@ namespace MyObjects {
 	class BillCustomer : public Bill {
 		// Properties
 	private:
+		MyDatabase* MyDB = new MyDatabase();
 		unsigned int customerID, discountByPoints, discountEachProducts;
 		// Constructor and Destructor
 	public:
-		BillCustomer() {
+		BillCustomer(MyDatabase* const MyDB) {
+			this->MyDB = MyDB;
 			this->customerID = this->discountByPoints = this->customerID = 0;
 		}
 		~BillCustomer() {
+			delete this->MyDB;
 			this->customerID = this->discountByPoints = this->customerID = 0;
 		}
 		// Setter and Getter of properties
@@ -251,23 +369,89 @@ namespace MyObjects {
 		void setDiscountEachProducts(unsigned int discountEachProducts) {
 			this->discountEachProducts = discountEachProducts;
 		}
+		// Functions interactive with Database
+	public:
+		void Create() {}
+		void Update() {}
+		void MoveToTrash() {}
+		void Delete() {}
 	};
 
 	class BillImport : public Bill {
+		// Properties
+	private:
+		MyDatabase* MyDB = new MyDatabase();
 		// Constructor and Destructor
 	public:
-		BillImport() {}
-		~BillImport() {}
+		BillImport(MyDatabase* const MyDB) {
+			this->MyDB = MyDB;
+		}
+		~BillImport() {
+			delete this->MyDB;
+		}
+		// Functions interactive with Database
+	public:
+		void Create() {}
+		void Update() {}
+		void MoveToTrash() {}
+		void Delete() {}
 	};
 
 	class Category {
 		// Properties
 	private:
+		MyDatabase* MyDB = new MyDatabase();
 		unsigned int id;
 		string title;
 		// Constructor and Destructor
 	public:
-		Category() {}
-		~Category() {}
+		Category(MyDatabase* const MyDB) {
+			this->MyDB = MyDB;
+			this->id = 0;
+			this->title = "";
+		}
+		~Category() {
+			delete this->MyDB;
+			this->id = 0;
+			this->title = "";
+		}
+		// Setter and Getter of properties
+	public:
+		void setId(unsigned int id) {
+			this->id = id;
+		}
+		unsigned int getId() {
+			return this->id;
+		}
+		void setTitle(string title) {
+			this->title = title;
+		}
+		string getTitle() {
+			return this->title;
+		}
+		// Functions interactive with Database
+	public:
+		void Read(unsigned int id) {
+			this->id = id;
+			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT * FROM `tb_prods_categories` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ") LIMIT 1");
+			if (res->next())
+				this->title = res->getString("title");
+
+		}
+		void Create() {
+			this->MyDB->CUDQuery("INSERT INTO `tb_prods_categories` (`title`) VALUES ('" + this->title + "')");
+		}
+		void Update() {
+			this->MyDB->CUDQuery("UPDATE `tb_prods_categories` SET `title`='" + this->title + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void MoveToTrash() {
+			this->MyDB->CUDQuery("UPDATE `tb_prods_categories` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Restore() {
+			this->MyDB->CUDQuery("UPDATE `tb_prods_categories` SET `isDelete`=false WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
+		void Delete() {
+			this->MyDB->CUDQuery("DELETE FROM `tb_prods_categories` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+		}
 	};
 }
