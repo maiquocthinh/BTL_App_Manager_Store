@@ -9,11 +9,11 @@
 #include <cppconn/resultset.h>
 #pragma once
 
-#define HOST "sql8.freesqldatabase.com"
+#define HOST "bbp6aj2bdpgikqd1hqud-mysql.services.clever-cloud.com"
 #define PORT 3306
-#define USER "sql8522767"
-#define DBNAME "sql8522767"
-#define PASS "DTJFCFAR1n"
+#define USER "uivtcj38gqmfdd9l"
+#define DBNAME "bbp6aj2bdpgikqd1hqud"
+#define PASS "OWBkLF0oMAzTw6sBqNBE"
 
 class MyDatabase {
 private:
