@@ -1,5 +1,8 @@
 ﻿#include "AddOrEditCategoryForm.h"
 #include "TrashCategoriesForm.h"
+#include "Database.h"
+#include "Utils.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -24,6 +27,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
+		CategoriesPageForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
+		}
 
 	protected:
 		/// <summary>
@@ -39,8 +47,7 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::DataGridView^ dataTable;
 
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ titleCategory;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^ quantityProduct;
+
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
 	private: System::Windows::Forms::Button^ btnRefresh;
 	private: System::Windows::Forms::Button^ btnSearch;
@@ -59,6 +66,9 @@ namespace BTLAppManagerStore {
 
 
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ idCategory;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ titleCategory;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ quantityProduct;
 	private: System::ComponentModel::IContainer^ components;
 
 
@@ -79,6 +89,7 @@ namespace BTLAppManagerStore {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(CategoriesPageForm::typeid));
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->dataTable = (gcnew System::Windows::Forms::DataGridView());
+			this->idCategory = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->titleCategory = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->quantityProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -129,18 +140,29 @@ namespace BTLAppManagerStore {
 			this->dataTable->AllowUserToDeleteRows = false;
 			this->dataTable->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->dataTable->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(2) {
-				this->titleCategory,
-					this->quantityProduct
+			this->dataTable->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
+				this->idCategory,
+					this->titleCategory, this->quantityProduct
 			});
 			this->dataTable->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->dataTable->Location = System::Drawing::Point(3, 83);
+			this->dataTable->MultiSelect = false;
 			this->dataTable->Name = L"dataTable";
 			this->dataTable->ReadOnly = true;
 			this->dataTable->RowHeadersWidth = 62;
 			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dataTable->Size = System::Drawing::Size(1009, 565);
 			this->dataTable->TabIndex = 5;
+			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &CategoriesPageForm::dataTable_CellClick);
+			this->dataTable->Sorted += gcnew System::EventHandler(this, &CategoriesPageForm::dataTable_Sorted);
+			// 
+			// idCategory
+			// 
+			this->idCategory->HeaderText = L"ID";
+			this->idCategory->MinimumWidth = 8;
+			this->idCategory->Name = L"idCategory";
+			this->idCategory->ReadOnly = true;
 			// 
 			// titleCategory
 			// 
@@ -195,6 +217,7 @@ namespace BTLAppManagerStore {
 			this->btnRefresh->TabIndex = 3;
 			this->btnRefresh->Text = L"Refresh";
 			this->btnRefresh->UseVisualStyleBackColor = true;
+			this->btnRefresh->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnRefresh_Click);
 			// 
 			// btnSearch
 			// 
@@ -210,6 +233,7 @@ namespace BTLAppManagerStore {
 			this->btnSearch->TabIndex = 2;
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
+			this->btnSearch->Click += gcnew System::EventHandler(this, &CategoriesPageForm::btnSearch_Click);
 			// 
 			// tbxSearch
 			// 
@@ -243,11 +267,12 @@ namespace BTLAppManagerStore {
 			// 
 			this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbSearch->FormattingEnabled = true;
-			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(1) { L"Title" });
+			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"ID", L"Title" });
 			this->cbSearch->Location = System::Drawing::Point(6, 21);
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 0;
+			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &CategoriesPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// tableLayoutPanel3
 			// 
@@ -405,6 +430,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Name = L"CategoriesPageForm";
 			this->Text = L"CategoriesPageForm";
+			this->Load += gcnew System::EventHandler(this, &CategoriesPageForm::CategoriesPageForm_Load);
 			this->tableLayoutPanel2->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
 			this->tableLayoutPanel4->ResumeLayout(false);
@@ -417,31 +443,131 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Khi nút thêm Category click thì Show lên Form thêm Category
-	private: Void btnAdd_Click(Object^ sender, EventArgs^ e) {
-		Form^ AddOrEditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm();
-		AddOrEditCategoryForm->ShowDialog();
-		delete AddOrEditCategoryForm;
+
+		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+
+			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+		// Biến này lưu row index hiện select hiện tại của `dataTable`
+		int currentIndexRowSelect;
+		// Biến object của Category
+		MyObjects::Category* categoryObject;
+		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
+		System::String^ searchColumnName;
+
+		// ****** Các hàm ta tự định nghĩa ******
+	private:
+		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
+		int getCurrentIndexRowSelect() {
+			if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
+			else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
+			return this->currentIndexRowSelect;
+		}
+		// Hàm này lấy id của hàng thông qua rowIndex
+		int getIdByRowIndex(int rowIndex) {
+			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+		}
+		// Load tất cả data trong Database ra Table
+		void loadAllDataToTable() {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = 0)";
+			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::stdStringToSystemString(res->getString("title"))
+				);
+		}
+		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
+		void loadSearchDataToTable(std::string searchKey) {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = 0) AND (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
+			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::stdStringToSystemString(res->getString("title"))
+				);
+		}
+
+		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+
+		// Khi Form tải
+	private: System::Void CategoriesPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		loadAllDataToTable(); // Load tất cả data trong DB ra table
+		this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
+		this->categoryObject = new MyObjects::Category(this->MyDB); // Khởi tạo giá trị cho biến object của Category
+		this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
 	}
-	// Khi nút sửa Category click thì Show lên Form sửa Category
-	private: Void btnEdit_Click(Object^ sender, EventArgs^ e) {
-		Form^ AddOrEditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(true);
-		AddOrEditCategoryForm->ShowDialog();
-		delete AddOrEditCategoryForm;
-	}
-	// Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-	private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-		if (result == System::Windows::Forms::DialogResult::Yes) {
-			// xử lý xóa Category
+		   // Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
+	private: System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
+			loadAllDataToTable(); // load tất cả data trong DB ra Table 
+		else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
+			std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+			loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
 		}
 	}
-	// Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
+		   // Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
+	private: System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->tbxSearch->Text = ""; // clear thanh tìm kiêm
+		loadAllDataToTable(); // load tất cả data trong DB ra Table 
+	}
+		   // Khi nút thêm Category click thì Show lên Form thêm Category
+	private: Void btnAdd_Click(Object^ sender, EventArgs^ e) {
+		BTLAppManagerStore::AddOrEditCategoryForm^ AddCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(); // khởi tạo biến form (form thêm category)
+		AddCategoryForm->categoryObject = this->categoryObject; // gán biến categoryObject cho biến (thuộc tính) của form AddCategoryForm
+		AddCategoryForm->ShowDialog(); // Show from AddCategoryForm lên
+		delete AddCategoryForm; // xóa AddCategoryForm sau khi kết thúc thao tác trên AddCategoryForm
+	}
+		   // Khi nút sửa Category click thì Show lên Form sửa Category
+	private: Void btnEdit_Click(Object^ sender, EventArgs^ e) {
+		if (this->dataTable->Rows->Count != 0) { // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Edit
+			unsigned int id = getIdByRowIndex(this->currentIndexRowSelect); // Lấy id của Category hiện tại đang được selected
+			this->categoryObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Category
+			BTLAppManagerStore::AddOrEditCategoryForm^ EditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(true); // tạo form EditCategoryForm
+			EditCategoryForm->categoryObject = this->categoryObject; // truyền(gán) categoryObject vào thuộc tính categoryObject trong form EditCategoryForm
+			EditCategoryForm->ShowDialog(); // Show form EditCategoryForm lên
+			delete EditCategoryForm; // xóa EditCategoryForm sau khi kết thúc thao tác trên EditCategoryForm
+		}
+		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
+	}
+		   // Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+	private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (this->dataTable->Rows->Count != 0) {  // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Delete
+			// Show dialog hỏi có delete hay ko
+			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+			// Nếu có thực hiện delete
+			if (result == System::Windows::Forms::DialogResult::Yes) {
+				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
+				this->categoryObject->setId(id); // set id vừa lấy được vào thuộc tính id của categoryObject
+				this->categoryObject->MoveToTrash(); // thực hiện xóa category
+				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect()); // xóa hàng bị xóa (ở ngoài giao diện)
+			}
+		}
+		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
+	}
+		   // Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
 	private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ TrashCategoriesForm = gcnew BTLAppManagerStore::TrashCategoriesForm();
-		TrashCategoriesForm->ShowDialog();
-		delete TrashCategoriesForm;
+		BTLAppManagerStore::TrashCategoriesForm^ TrashCategoriesForm = gcnew BTLAppManagerStore::TrashCategoriesForm(this->MyDB); // tạo form TrashCategoriesForm
+		TrashCategoriesForm->ShowDialog(); // Show form TrashCategoriesForm lên
+		delete TrashCategoriesForm; // xóa TrashCategoriesForm sau khi kết thúc thao tác trên TrashCategoriesForm
+	}
+		   // Hàm này chạy khi 1 cell nào đó trong dataTable được select
+	private: System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
+		this->currentIndexRowSelect = e->RowIndex;
+	}
+		   // Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
+	private: System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+		this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
+	}
+		   // Hàm này sẽ chạy khi cbSearch thay đổi giá trị
+	private: System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
+		else if (this->cbSearch->SelectedItem->ToString() == "Title") this->searchColumnName = "title"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
 	}
 	};
 }

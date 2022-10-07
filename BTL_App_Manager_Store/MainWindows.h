@@ -4,7 +4,7 @@
 #include "EmployeesPageForm.h"
 #include "CustomersPageForm.h"
 #include "BillsPageForm.h"
-
+#include "Database.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -21,12 +21,8 @@ namespace BTLAppManagerStore {
 	/// </summary>
 	public ref class MainWindows : public System::Windows::Forms::Form
 	{
-
-
 	private: System::Windows::Forms::ImageList^ ListIconSidebar;
-
 	private: System::Windows::Forms::ImageList^ ListIconArrow;
-
 	private: System::Windows::Forms::ImageList^ ListIcon24x24;
 	private: System::Windows::Forms::Panel^ pnlSidebarHead;
 	private: System::Windows::Forms::Label^ positionUser;
@@ -55,28 +51,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::Panel^ pnlMain;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	private: System::ComponentModel::IContainer^ components;
 
 
@@ -116,9 +90,11 @@ namespace BTLAppManagerStore {
 			this->ListIconArrow = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->ListIconSidebar = (gcnew System::Windows::Forms::ImageList(this->components));
 			this->pnlSidebarHead = (gcnew System::Windows::Forms::Panel());
+			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->avatarUser = (gcnew System::Windows::Forms::PictureBox());
+			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->positionUser = (gcnew System::Windows::Forms::Label());
 			this->nameUser = (gcnew System::Windows::Forms::Label());
-			this->avatarUser = (gcnew System::Windows::Forms::PictureBox());
 			this->pnlNavHome = (gcnew System::Windows::Forms::Panel());
 			this->iconNavHome = (gcnew System::Windows::Forms::PictureBox());
 			this->btnNavHome = (gcnew System::Windows::Forms::Button());
@@ -140,10 +116,10 @@ namespace BTLAppManagerStore {
 			this->btnNavLogout = (gcnew System::Windows::Forms::Button());
 			this->pnlSiderbarNav = (gcnew System::Windows::Forms::Panel());
 			this->pnlMain = (gcnew System::Windows::Forms::Panel());
-			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->pnlSidebarHead->SuspendLayout();
+			this->tableLayoutPanel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->avatarUser))->BeginInit();
+			this->tableLayoutPanel2->SuspendLayout();
 			this->pnlNavHome->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->iconNavHome))->BeginInit();
 			this->pnlNavDropdownProds->SuspendLayout();
@@ -155,8 +131,6 @@ namespace BTLAppManagerStore {
 			this->pnlNavLogout->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->iconNavLogout))->BeginInit();
 			this->pnlSiderbarNav->SuspendLayout();
-			this->tableLayoutPanel1->SuspendLayout();
-			this->tableLayoutPanel2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// ListIcon24x24
@@ -194,6 +168,54 @@ namespace BTLAppManagerStore {
 			this->pnlSidebarHead->Size = System::Drawing::Size(348, 122);
 			this->pnlSidebarHead->TabIndex = 1;
 			// 
+			// tableLayoutPanel1
+			// 
+			this->tableLayoutPanel1->ColumnCount = 2;
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				30)));
+			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				70)));
+			this->tableLayoutPanel1->Controls->Add(this->avatarUser, 0, 0);
+			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel2, 1, 0);
+			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
+			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
+			this->tableLayoutPanel1->RowCount = 1;
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
+			this->tableLayoutPanel1->Size = System::Drawing::Size(348, 122);
+			this->tableLayoutPanel1->TabIndex = 0;
+			// 
+			// avatarUser
+			// 
+			this->avatarUser->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->avatarUser->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
+			this->avatarUser->ImageLocation = L"https://cdn-icons-png.flaticon.com/512/5249/5249351.png";
+			this->avatarUser->Location = System::Drawing::Point(12, 20);
+			this->avatarUser->Margin = System::Windows::Forms::Padding(12, 20, 12, 20);
+			this->avatarUser->Name = L"avatarUser";
+			this->avatarUser->Size = System::Drawing::Size(80, 82);
+			this->avatarUser->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->avatarUser->TabIndex = 0;
+			this->avatarUser->TabStop = false;
+			// 
+			// tableLayoutPanel2
+			// 
+			this->tableLayoutPanel2->ColumnCount = 1;
+			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel2->Controls->Add(this->positionUser, 0, 1);
+			this->tableLayoutPanel2->Controls->Add(this->nameUser, 0, 0);
+			this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel2->Location = System::Drawing::Point(107, 3);
+			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
+			this->tableLayoutPanel2->RowCount = 2;
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel2->Size = System::Drawing::Size(238, 116);
+			this->tableLayoutPanel2->TabIndex = 1;
+			// 
 			// positionUser
 			// 
 			this->positionUser->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
@@ -225,21 +247,6 @@ namespace BTLAppManagerStore {
 			this->nameUser->TabIndex = 1;
 			this->nameUser->Text = L"admin";
 			this->nameUser->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			// 
-			// avatarUser
-			// 
-			this->avatarUser->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->avatarUser->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->avatarUser->ImageLocation = L"https://cdn-icons-png.flaticon.com/512/5249/5249351.png";
-			this->avatarUser->Location = System::Drawing::Point(12, 20);
-			this->avatarUser->Margin = System::Windows::Forms::Padding(12, 20, 12, 20);
-			this->avatarUser->Name = L"avatarUser";
-			this->avatarUser->Size = System::Drawing::Size(80, 82);
-			this->avatarUser->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-			this->avatarUser->TabIndex = 0;
-			this->avatarUser->TabStop = false;
 			// 
 			// pnlNavHome
 			// 
@@ -594,39 +601,6 @@ namespace BTLAppManagerStore {
 			this->pnlMain->Size = System::Drawing::Size(877, 721);
 			this->pnlMain->TabIndex = 4;
 			// 
-			// tableLayoutPanel1
-			// 
-			this->tableLayoutPanel1->ColumnCount = 2;
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				30)));
-			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				70)));
-			this->tableLayoutPanel1->Controls->Add(this->avatarUser, 0, 0);
-			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel2, 1, 0);
-			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
-			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
-			this->tableLayoutPanel1->RowCount = 1;
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(348, 122);
-			this->tableLayoutPanel1->TabIndex = 0;
-			// 
-			// tableLayoutPanel2
-			// 
-			this->tableLayoutPanel2->ColumnCount = 1;
-			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				50)));
-			this->tableLayoutPanel2->Controls->Add(this->positionUser, 0, 1);
-			this->tableLayoutPanel2->Controls->Add(this->nameUser, 0, 0);
-			this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->tableLayoutPanel2->Location = System::Drawing::Point(107, 3);
-			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
-			this->tableLayoutPanel2->RowCount = 2;
-			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(238, 116);
-			this->tableLayoutPanel2->TabIndex = 1;
-			// 
 			// MainWindows
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -638,9 +612,13 @@ namespace BTLAppManagerStore {
 			this->Name = L"MainWindows";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"MainWindows";
+			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainWindows::MainWindows_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainWindows::MainWindows_Load);
 			this->pnlSidebarHead->ResumeLayout(false);
+			this->tableLayoutPanel1->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->avatarUser))->EndInit();
+			this->tableLayoutPanel2->ResumeLayout(false);
+			this->tableLayoutPanel2->PerformLayout();
 			this->pnlNavHome->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->iconNavHome))->EndInit();
 			this->pnlNavDropdownProds->ResumeLayout(false);
@@ -652,26 +630,33 @@ namespace BTLAppManagerStore {
 			this->pnlNavLogout->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->iconNavLogout))->EndInit();
 			this->pnlSiderbarNav->ResumeLayout(false);
-			this->tableLayoutPanel1->ResumeLayout(false);
-			this->tableLayoutPanel2->ResumeLayout(false);
-			this->tableLayoutPanel2->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 	private:
-		Form^ homePageForm = gcnew BTLAppManagerStore::HomePageForm();
-		Form^ productsPageForm = gcnew BTLAppManagerStore::ProductsPageForm();
-		Form^ categoriesPageForm = gcnew BTLAppManagerStore::CategoriesPageForm();
-		Form^ employeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm();
-		Form^ customersPageForm = gcnew BTLAppManagerStore::CustomersPageForm();
-		Form^ billsPageForm = gcnew BTLAppManagerStore::BillsPageForm();
+		BTLAppManagerStore::HomePageForm^ HomePageForm;
+		BTLAppManagerStore::ProductsPageForm^ ProductsPageForm;
+		BTLAppManagerStore::CategoriesPageForm^ CategoriesPageForm;
+		BTLAppManagerStore::EmployeesPageForm^ EmployeesPageForm;
+		BTLAppManagerStore::CustomersPageForm^ CustomersPageForm;
+		BTLAppManagerStore::BillsPageForm^ BillsPageForm;
 		System::Drawing::Color activeColorSidebar = System::Drawing::Color::FromArgb(18, 79, 139);
+		MyDatabase* MyDB = new MyDatabase();
 
 		// Các hàm tự định nghĩa 
 	private:
+		// Hàm khởi tạo giá trị cho các Form
+		void initFormsValue() {
+			this->HomePageForm = gcnew BTLAppManagerStore::HomePageForm();
+			this->ProductsPageForm = gcnew BTLAppManagerStore::ProductsPageForm();
+			this->CategoriesPageForm = gcnew BTLAppManagerStore::CategoriesPageForm((this->MyDB));
+			this->EmployeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm();
+			this->CustomersPageForm = gcnew BTLAppManagerStore::CustomersPageForm();
+			this->BillsPageForm = gcnew BTLAppManagerStore::BillsPageForm();
+		}
 		// Hàm xóa trạng thái active của Menu
 		void clearActiveSidebar() {
 			if (btnNavHome->BackColor == this->activeColorSidebar)
@@ -698,6 +683,7 @@ namespace BTLAppManagerStore {
 			this->pnlMain->Tag = form;
 			form->Show();
 		}
+
 		// Xử lý các trạng thái click của Menu có Menu Con xổ xuống
 	private:
 		bool isCollapseNavProds = true;
@@ -730,59 +716,74 @@ namespace BTLAppManagerStore {
 			}
 			isCollapseNavPerson = !isCollapseNavPerson;
 		}
-		// Xử lý load Form thích hợp vào Form MainWindows khi bấm các nút tương ứng trên Menu
-	private: System::Void btnNavHome_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavHome->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavHome->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(homePageForm);
-		}
-	}
-	private: System::Void btnNavBills_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavBills->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavBills->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(billsPageForm);
-		}
-	}
-	private: System::Void btnNavListProds_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavListProds->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavListProds->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(productsPageForm);
-		}
-	}
-	private: System::Void btnNavCategoryProds_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavCategoryProds->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavCategoryProds->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(categoriesPageForm);
-		}
-	}
-	private: System::Void btnNavEmployees_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavEmployees->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavEmployees->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(employeesPageForm);
-		}
-	}
-	private: System::Void btnNavCustomers_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (btnNavCustomers->BackColor != this->activeColorSidebar) {
-			clearActiveSidebar();
-			btnNavCustomers->BackColor = this->activeColorSidebar;
-			loadFormToPnlmain(customersPageForm);
-		}
-	}
-	private: System::Void btnNavLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-		MessageBox::Show("Are you sure logout!", "Logout", MessageBoxButtons::OKCancel, MessageBoxIcon::Question);
-	}
 
-		   // Xử lý các sự kiện còn lại
-			   // Khi Form MainWindows tải xong
+		// Xử lý load Form thích hợp vào Form MainWindows khi bấm các nút tương ứng trên Menu
+	private:
+		System::Void btnNavHome_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavHome->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavHome->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(HomePageForm);
+			}
+		}
+		System::Void btnNavBills_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavBills->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavBills->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(BillsPageForm);
+			}
+		}
+		System::Void btnNavListProds_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavListProds->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavListProds->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(ProductsPageForm);
+			}
+		}
+		System::Void btnNavCategoryProds_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavCategoryProds->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavCategoryProds->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(CategoriesPageForm);
+			}
+		}
+		System::Void btnNavEmployees_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavEmployees->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavEmployees->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(EmployeesPageForm);
+			}
+		}
+		System::Void btnNavCustomers_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (btnNavCustomers->BackColor != this->activeColorSidebar) {
+				clearActiveSidebar();
+				btnNavCustomers->BackColor = this->activeColorSidebar;
+				loadFormToPnlmain(CustomersPageForm);
+			}
+		}
+		System::Void btnNavLogout_Click(System::Object^ sender, System::EventArgs^ e) {
+			MessageBox::Show("Are you sure logout!", "Logout", MessageBoxButtons::OKCancel, MessageBoxIcon::Question);
+		}
+
+		// Xử lý các sự kiện còn lại
+			// Khi Form MainWindows tải
 	private: System::Void MainWindows_Load(System::Object^ sender, System::EventArgs^ e) {
+		// Kết nối đến cơ sở dữ liệu Mysql
+		MyDB->Connect();
+		// Khởi tạo giá trị của các Form
+		initFormsValue();
 		// Load Form HomePageForm.h và active tương ứng trên Menu
 		btnNavHome->BackColor = this->activeColorSidebar;
-		loadFormToPnlmain(homePageForm);
+		loadFormToPnlmain(HomePageForm);
+	}
+		   // Khi Form MainWindows đóng
+	private: System::Void MainWindows_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
+		// Đóng kết nối cơ sở dữ liệu Mysql 
+		MyDB->Close();
+		// Giải phóng biến MyDB
+		delete MyDB;
+		// Hủy Form MainWindows
+		this->~MainWindows();
 	}
 	};
 
