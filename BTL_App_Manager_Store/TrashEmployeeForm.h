@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿
+#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -121,6 +123,8 @@ namespace BTLAppManagerStore {
 			this->dataTable->RowTemplate->Height = 28;
 			this->dataTable->Size = System::Drawing::Size(1094, 516);
 			this->dataTable->TabIndex = 5;
+			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &TrashEmployeeForm::dataTable_CellClick);
+			this->dataTable->Sorted += gcnew System::EventHandler(this, &TrashEmployeeForm::dataTable_Sorted);
 			// 
 			// employeeID
 			// 
@@ -192,6 +196,7 @@ namespace BTLAppManagerStore {
 			this->btnPermanentlyDelete->Size = System::Drawing::Size(97, 94);
 			this->btnPermanentlyDelete->TabIndex = 1;
 			this->btnPermanentlyDelete->UseVisualStyleBackColor = false;
+			this->btnPermanentlyDelete->Click += gcnew System::EventHandler(this, &TrashEmployeeForm::btnPermanentlyDelete_Click);
 			// 
 			// ListIcon
 			// 
@@ -216,6 +221,7 @@ namespace BTLAppManagerStore {
 			this->btnRestore->Size = System::Drawing::Size(97, 94);
 			this->btnRestore->TabIndex = 0;
 			this->btnRestore->UseVisualStyleBackColor = false;
+			this->btnRestore->Click += gcnew System::EventHandler(this, &TrashEmployeeForm::btnRestore_Click);
 			// 
 			// TrashEmployeeForm
 			// 
@@ -230,6 +236,7 @@ namespace BTLAppManagerStore {
 			this->ShowInTaskbar = false;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
 			this->Text = L"Trash Employees";
+			this->Load += gcnew System::EventHandler(this, &TrashEmployeeForm::TrashEmployeeForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
 			this->panel1->ResumeLayout(false);
@@ -237,6 +244,32 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	};
+
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+		// Biến object của Employee
+		MyObjects::Employee* employeeObject;
+		// Biến này lưu row index hiện select hiện tại của `dataTable`
+		int currentIndexRowSelect;
+
+	// ****** Các hàm ta tự định nghĩa ******
+
+
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
+		System::Void TrashEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		}
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+		}
+};
 }

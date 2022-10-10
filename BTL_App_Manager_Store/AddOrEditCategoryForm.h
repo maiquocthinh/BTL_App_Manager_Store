@@ -1,5 +1,4 @@
-﻿#include "Utils.h"
-#include "Objects.h"
+﻿#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -127,39 +126,40 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	public: 
+		// Biến object của Category
+		MyObjects::Category* categoryObject;
 
-			// Biến object của Category
-	public: MyObjects::Category* categoryObject;
-
-		  // ****** Các hàm xử lý sự kiện (event) trong form này ******
-
-		  // Hàm này chạy khi Form tải
-	private: System::Void AddOrEditCategoryForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		// Check xem from đang ở chế độ edit hay ko, nếu có thì sẽ đổi 1 số thành phần để form này trở thành form edit
-		if (this->isEditMode) {
-			this->Text = L"Edit Category";
-			this->btnSave->Text = "Save";
-			this->tbxTitle->Text = MyUtils::stdStringToSystemString(this->categoryObject->getTitle());
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
+		// Khi Form tải
+		System::Void AddOrEditCategoryForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			// Check xem from đang ở chế độ edit hay ko, nếu có thì sẽ đổi 1 số thành phần để form này trở thành form edit
+			if (this->isEditMode) {
+				this->Text = L"Edit Category";
+				this->btnSave->Text = "Save";
+				this->tbxTitle->Text = MyUtils::stdStringToSystemString(this->categoryObject->getTitle());
+			}
 		}
-	}
-	private: System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
-		std::string query;
-		std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
-		//Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
-		if (this->isEditMode) {
-			this->categoryObject->setTitle(title);
-			this->categoryObject->Update();
-			MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		
+		System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
+			// Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
+			std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+			//Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+			if (this->isEditMode) {
+				this->categoryObject->setTitle(title);
+				this->categoryObject->Update();
+				MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			}
+			else {
+				this->categoryObject->setTitle(title);
+				this->categoryObject->Create();
+				MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			}
+			this->Close(); // đóng form này lại
 		}
-		else {
-			this->categoryObject->setTitle(title);
-			this->categoryObject->Create();
-			MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		}
-		this->Close();
-	}
 	};
 }

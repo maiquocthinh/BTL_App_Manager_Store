@@ -190,6 +190,7 @@ namespace BTLAppManagerStore {
             this->btnSave->TabIndex = 14;
             this->btnSave->TabStop = false;
             this->btnSave->UseVisualStyleBackColor = true;
+            this->btnSave->Click += gcnew System::EventHandler(this, &AddOrEditProductForm::btnSave_Click);
             // 
             // ListIcon
             // 
@@ -722,22 +723,46 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    private: System::Void AddOrEditProductForm_Load(System::Object^ sender, System::EventArgs^ e) {
-        // Chuyển giữa Form tạo mới và Form chỉnh sửa
-        if (this->isEditMode) {
-            this->Text = L"Edit Product";
-            this->btnSave->ImageKey = L"save-icon.png";
-            this->titleForm->Text = "Edit Product";
+
+     // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    public:
+        // Biến object của Product
+        MyObjects::Product* productObject;
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: 
+        // Khi form này tải
+        System::Void AddOrEditProductForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            // Chuyển giữa Form tạo mới và Form chỉnh sửa
+            if (this->isEditMode) {
+                this->Text = L"Edit Product";
+                this->btnSave->ImageKey = L"save-icon.png";
+                this->titleForm->Text = "Edit Product";
+            }
         }
-    }
-     // Tự động load image khi nhập link image vào ô input
-    private: System::Void inputImage_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-        System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditProductForm::typeid));
-        if (this->tbxImage->Text == "")
-            this->imageProduct->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageProduct.Image")));
-        else
-            this->imageProduct->ImageLocation = this->tbxImage->Text;
-    }
-    };
+        // Tự động load image khi nhập link image vào ô input
+        System::Void inputImage_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditProductForm::typeid));
+            if (this->tbxImage->Text == "")
+                this->imageProduct->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageProduct.Image")));
+            else
+                this->imageProduct->ImageLocation = this->tbxImage->Text;
+        }
+    
+        System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
+            // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
+            // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+
+            //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+            if (this->isEditMode) {
+
+            }
+            else {
+
+            }
+            this->Close(); // đóng form này lại
+        }
+};
 }

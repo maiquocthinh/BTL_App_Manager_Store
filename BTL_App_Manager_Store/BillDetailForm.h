@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -21,6 +22,11 @@ namespace BTLAppManagerStore {
             //
             //TODO: Add the constructor code here
             //
+        }
+        BillDetailForm(MyDatabase* const MyDB)
+        {
+            InitializeComponent();
+            this->MyDB = MyDB;
         }
 
     protected:
@@ -616,6 +622,7 @@ namespace BTLAppManagerStore {
             this->btnDelete->TabIndex = 9;
             this->btnDelete->Text = L"Delete Bill";
             this->btnDelete->UseVisualStyleBackColor = true;
+            this->btnDelete->Click += gcnew System::EventHandler(this, &BillDetailForm::btnDelete_Click);
             // 
             // BillDetailForm
             // 
@@ -625,6 +632,7 @@ namespace BTLAppManagerStore {
             this->Controls->Add(this->tableLayoutPanel1);
             this->Name = L"BillDetailForm";
             this->Text = L"BillDetailForm";
+            this->Load += gcnew System::EventHandler(this, &BillDetailForm::BillDetailForm_Load);
             this->tableLayoutPanel1->ResumeLayout(false);
             this->tableLayoutPanel1->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
@@ -647,6 +655,21 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    };
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    private:
+        // Biến MyDB để thực hiện các tương tác đến Database
+        MyDatabase* MyDB = new MyDatabase();
+
+    // ****** Các hàm ta tự định nghĩa ******
+
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: 
+        System::Void BillDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        }
+        System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+        }
+};
 }

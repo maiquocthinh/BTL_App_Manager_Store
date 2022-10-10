@@ -1,5 +1,6 @@
 ﻿#include "NewBillForm.h"
 #include "BillDetailForm.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -23,6 +24,11 @@ namespace BTLAppManagerStore {
 			//
 			//TODO: Add the constructor code here
 			//
+		}
+		BillsPageForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
 		}
 
 	protected:
@@ -59,7 +65,7 @@ namespace BTLAppManagerStore {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -168,6 +174,7 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 0;
+			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &BillsPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// btnRefresh
 			// 
@@ -183,6 +190,7 @@ namespace BTLAppManagerStore {
 			this->btnRefresh->TabIndex = 4;
 			this->btnRefresh->Text = L"Refresh";
 			this->btnRefresh->UseVisualStyleBackColor = true;
+			this->btnRefresh->Click += gcnew System::EventHandler(this, &BillsPageForm::btnRefresh_Click);
 			// 
 			// btnNewBill
 			// 
@@ -214,6 +222,7 @@ namespace BTLAppManagerStore {
 			this->btnSearch->TabIndex = 3;
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
+			this->btnSearch->Click += gcnew System::EventHandler(this, &BillsPageForm::btnSearch_Click);
 			// 
 			// dataTable
 			// 
@@ -233,6 +242,8 @@ namespace BTLAppManagerStore {
 			this->dataTable->RowTemplate->Height = 28;
 			this->dataTable->Size = System::Drawing::Size(1201, 565);
 			this->dataTable->TabIndex = 1;
+			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &BillsPageForm::dataTable_CellClick);
+			this->dataTable->Sorted += gcnew System::EventHandler(this, &BillsPageForm::dataTable_Sorted);
 			// 
 			// billID
 			// 
@@ -270,6 +281,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Name = L"BillsPageForm";
 			this->Text = L"BillsPageForm";
+			this->Load += gcnew System::EventHandler(this, &BillsPageForm::BillsPageForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->tableLayoutPanel2->ResumeLayout(false);
 			this->tableLayoutPanel2->PerformLayout();
@@ -279,12 +291,37 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Khi nút New Bill click thì Show lên Form NewBill
-	private: System::Void btnNewBill_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ NewBillForm = gcnew BTLAppManagerStore::NewBillForm();
-		NewBillForm->ShowDialog();
-		delete NewBillForm;
-	}
+
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+
+	// ****** Các hàm ta tự định nghĩa ******
+
+
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private:
+		// Khi form tải
+		System::Void BillsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
+		}
+		// Khi nút New Bill click thì Show lên Form NewBill
+		System::Void btnNewBill_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ NewBillForm = gcnew BTLAppManagerStore::NewBillForm();
+			NewBillForm->ShowDialog();
+			delete NewBillForm;
+		}
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		}
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		}
 };
 }

@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -81,7 +82,6 @@ namespace BTLAppManagerStore {
             System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditCustomerForm::typeid));
             this->ListIcon = (gcnew System::Windows::Forms::ImageList(this->components));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->btnSave = (gcnew System::Windows::Forms::Button());
             this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->lbSex = (gcnew System::Windows::Forms::Label());
             this->cbSex = (gcnew System::Windows::Forms::ComboBox());
@@ -102,6 +102,7 @@ namespace BTLAppManagerStore {
             this->tbxAddress = (gcnew System::Windows::Forms::TextBox());
             this->lbAddress = (gcnew System::Windows::Forms::Label());
             this->btnCancel = (gcnew System::Windows::Forms::Button());
+            this->btnSave = (gcnew System::Windows::Forms::Button());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel5->SuspendLayout();
             this->tableLayoutPanel2->SuspendLayout();
@@ -146,25 +147,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
             this->tableLayoutPanel1->Size = System::Drawing::Size(878, 494);
             this->tableLayoutPanel1->TabIndex = 0;
-            // 
-            // btnSave
-            // 
-            this->btnSave->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->btnSave->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
-                static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnSave->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(30)),
-                static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
-            this->btnSave->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->btnSave->ImageKey = L"add-icon.png";
-            this->btnSave->ImageList = this->ListIcon;
-            this->btnSave->Location = System::Drawing::Point(275, 374);
-            this->btnSave->Margin = System::Windows::Forms::Padding(3, 24, 24, 24);
-            this->btnSave->Name = L"btnSave";
-            this->btnSave->Size = System::Drawing::Size(140, 96);
-            this->btnSave->TabIndex = 6;
-            this->btnSave->TabStop = false;
-            this->btnSave->UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
             // 
@@ -496,6 +478,26 @@ namespace BTLAppManagerStore {
             this->btnCancel->TabStop = false;
             this->btnCancel->UseVisualStyleBackColor = true;
             // 
+            // btnSave
+            // 
+            this->btnSave->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->btnSave->FlatAppearance->MouseDownBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(80)),
+                static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+            this->btnSave->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(30)),
+                static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
+            this->btnSave->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->btnSave->ImageKey = L"add-icon.png";
+            this->btnSave->ImageList = this->ListIcon;
+            this->btnSave->Location = System::Drawing::Point(275, 374);
+            this->btnSave->Margin = System::Windows::Forms::Padding(3, 24, 24, 24);
+            this->btnSave->Name = L"btnSave";
+            this->btnSave->Size = System::Drawing::Size(140, 96);
+            this->btnSave->TabIndex = 6;
+            this->btnSave->TabStop = false;
+            this->btnSave->UseVisualStyleBackColor = true;
+            this->btnSave->Click += gcnew System::EventHandler(this, &AddOrEditCustomerForm::btnSave_Click);
+            // 
             // AddOrEditCustomerForm
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -528,14 +530,38 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    private: System::Void AddOrEditCustomerForm_Load(System::Object^ sender, System::EventArgs^ e) {
-        // Chuyển giữa Form tạo mới và Form chỉnh sửa
-        if (isEditMode) {
-            this->Text = L"Edit Customer";
-            this->btnSave->ImageKey = L"save-icon.png";
-            this->titleForm->Text = "Edit Customer";
+    
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    public:
+        // Biến object của Customer
+        MyObjects::Customer* customerObject;
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: 
+        // Khi form này tải
+        System::Void AddOrEditCustomerForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            // Chuyển giữa Form tạo mới và Form chỉnh sửa
+            if (isEditMode) {
+                this->Text = L"Edit Customer";
+                this->btnSave->ImageKey = L"save-icon.png";
+                this->titleForm->Text = "Edit Customer";
+            }
         }
-    }
-	};
+	
+        System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
+            // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
+            // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+            
+            //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+            if (this->isEditMode) {
+                
+            }
+            else {
+               
+            }
+            this->Close(); // đóng form này lại
+        }
+};
 }

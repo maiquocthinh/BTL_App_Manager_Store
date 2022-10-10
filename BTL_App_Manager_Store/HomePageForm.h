@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -21,6 +22,11 @@ namespace BTLAppManagerStore {
             //
             //TODO: Add the constructor code here
             //
+        }
+        HomePageForm(MyDatabase* const MyDB)
+        {
+            InitializeComponent();
+            this->MyDB = MyDB;
         }
 
     protected:
@@ -510,6 +516,7 @@ namespace BTLAppManagerStore {
             this->ForeColor = System::Drawing::SystemColors::ControlText;
             this->Name = L"HomePageForm";
             this->Text = L"HomePageForm";
+            this->Load += gcnew System::EventHandler(this, &HomePageForm::HomePageForm_Load);
             this->tableLayoutPanel6->ResumeLayout(false);
             this->tableLayoutPanel6->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->tableTopProducts))->EndInit();
@@ -527,6 +534,20 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-    };
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    private:
+        // Biến MyDB để thực hiện các tương tác đến Database
+        MyDatabase* MyDB = new MyDatabase();
+
+    // ****** Các hàm ta tự định nghĩa ******
+
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        // Khi form tải
+        System::Void HomePageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        }
+};
 }

@@ -204,10 +204,9 @@ namespace BTLAppManagerStore {
 		   }
 #pragma endregion
 
-		   // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			   // ****** Các biến sẽ được khai báo tập trung ở đây ******
-
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
@@ -216,8 +215,7 @@ namespace BTLAppManagerStore {
 		// Biến này lưu row index hiện select hiện tại của `dataTable`
 		int currentIndexRowSelect;
 
-		// ****** Các hàm ta tự định nghĩa ******
-
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
 		int getCurrentIndexRowSelect() {
@@ -241,46 +239,46 @@ namespace BTLAppManagerStore {
 		}
 
 
-		// ****** Các hàm xử lý sự kiện (event) trong form này ******
-
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
 		// Hàm này chạy khi Form tải
-	private: System::Void TrashCategoriesForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		loadDataToDatatable("SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = true)");
-		this->categoryObject = new MyObjects::Category(this->MyDB);
-	}
-		   // Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Category đã bị xóa
-	private: System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (this->dataTable->Rows->Count != 0) {
-			// xử lý khôi phục Category
-			unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
-			this->categoryObject->setId(id);
-			this->categoryObject->Restore();
-			this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+		System::Void TrashCategoriesForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			loadDataToDatatable("SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = true)");
+			this->categoryObject = new MyObjects::Category(this->MyDB);
 		}
-		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
-	}
-		   // Hàm này chạy khi nút Delete click, thực hiện xóa (vĩnh viễn) Category
-	private: System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (this->dataTable->Rows->Count != 0) {
-			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-			if (result == System::Windows::Forms::DialogResult::Yes) {
-				// xử lý xóa (vĩnh viễn) Category
+		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Category đã bị xóa
+		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) {
+				// xử lý khôi phục Category
 				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
 				this->categoryObject->setId(id);
-				this->categoryObject->Delete();
+				this->categoryObject->Restore();
 				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
 			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
-		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
-	}
-		   // Hàm này chạy khi 1 cell nào đó tròn dataTable được select
-	private: System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-		// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-		this->currentIndexRowSelect = e->RowIndex;
-	}
-		   // Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-		   System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-			   this->dataTable->ClearSelection(); // Clear các hàng đang được chọn
-		   }
+		// Hàm này chạy khi nút Delete click, thực hiện xóa (vĩnh viễn) Category
+		System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) {
+				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+				if (result == System::Windows::Forms::DialogResult::Yes) {
+					// xử lý xóa (vĩnh viễn) Category
+					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+					this->categoryObject->setId(id);
+					this->categoryObject->Delete();
+					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+				}
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		}
+		// Hàm này chạy khi 1 cell nào đó tròn dataTable được select
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
+			this->currentIndexRowSelect = e->RowIndex;
+		}
+		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn
+		}
 	};
 }

@@ -1,5 +1,6 @@
 ﻿#include "AddOrEditEmployeeForm.h"
 #include "TrashEmployeeForm.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -23,6 +24,11 @@ namespace BTLAppManagerStore {
 			//
 			//TODO: Add the constructor code here
 			//
+		}
+		EmployeesPageForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
 		}
 
 	protected:
@@ -330,6 +336,7 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 1;
+			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &EmployeesPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// dataTable
 			// 
@@ -351,6 +358,8 @@ namespace BTLAppManagerStore {
 			this->dataTable->RowTemplate->Height = 28;
 			this->dataTable->Size = System::Drawing::Size(1019, 627);
 			this->dataTable->TabIndex = 4;
+			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &EmployeesPageForm::dataTable_CellClick);
+			this->dataTable->Sorted += gcnew System::EventHandler(this, &EmployeesPageForm::dataTable_Sorted);
 			// 
 			// employeeID
 			// 
@@ -402,6 +411,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Name = L"EmployeesPageForm";
 			this->Text = L"EmployeesPageForm";
+			this->Load += gcnew System::EventHandler(this, &EmployeesPageForm::EmployeesPageForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->tableLayoutPanel5->ResumeLayout(false);
 			this->tableLayoutPanel2->ResumeLayout(false);
@@ -413,30 +423,50 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Khi nút thêm Employee click thì Show lên Form thêm Employee
-	private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ AddEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm();
-		AddEmployeeForm->ShowDialog();
-		delete AddEmployeeForm;
-	}
-	// Khi nút sửa Employee click thì Show lên Form sửa Employee
-	private: System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true);
-		EditEmployeeForm->ShowDialog();
-		delete EditEmployeeForm;
-	}
-	// Khi nút xem thùng rác (các Employee đã xóa) click thì show Form danh sách Employee đã xóa
-	private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ TrashEmployeeForm = gcnew BTLAppManagerStore::TrashEmployeeForm();
-		TrashEmployeeForm->ShowDialog();
-		delete TrashEmployeeForm;
-	}
-	// Khi nút xóa Employee click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-	private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Employee", "Delete Employee", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-		if (result == System::Windows::Forms::DialogResult::Yes) {
-			// xử lý xóa Employee
+
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+
+	// ****** Các hàm ta tự định nghĩa ******
+
+
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
+		// Khi form tải
+		System::Void EmployeesPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		}
-	}
-	};
+		// Khi nút thêm Employee click thì Show lên Form thêm Employee
+			System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ AddEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm();
+			AddEmployeeForm->ShowDialog();
+			delete AddEmployeeForm;
+		}
+		// Khi nút sửa Employee click thì Show lên Form sửa Employee
+		System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true);
+			EditEmployeeForm->ShowDialog();
+			delete EditEmployeeForm;
+		}
+		// Khi nút xem thùng rác (các Employee đã xóa) click thì show Form danh sách Employee đã xóa
+		System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ TrashEmployeeForm = gcnew BTLAppManagerStore::TrashEmployeeForm();
+			TrashEmployeeForm->ShowDialog();
+			delete TrashEmployeeForm;
+		}
+		// Khi nút xóa Employee click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+		System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Employee", "Delete Employee", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+			if (result == System::Windows::Forms::DialogResult::Yes) {
+				// xử lý xóa Employee
+			}
+		}
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		}
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		}
+};
 }

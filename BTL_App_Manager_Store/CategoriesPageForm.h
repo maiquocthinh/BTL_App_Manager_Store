@@ -1,7 +1,5 @@
 ﻿#include "AddOrEditCategoryForm.h"
 #include "TrashCategoriesForm.h"
-#include "Database.h"
-#include "Utils.h"
 #include "Objects.h"
 #pragma once
 
@@ -444,9 +442,9 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
@@ -457,7 +455,7 @@ namespace BTLAppManagerStore {
 		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
 		System::String^ searchColumnName;
 
-		// ****** Các hàm ta tự định nghĩa ******
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
 		int getCurrentIndexRowSelect() {
@@ -492,82 +490,82 @@ namespace BTLAppManagerStore {
 				);
 		}
 
-		// ****** Các hàm xử lý sự kiện (event) trong form này ******
-
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
 		// Khi Form tải
-	private: System::Void CategoriesPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		loadAllDataToTable(); // Load tất cả data trong DB ra table
-		this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
-		this->categoryObject = new MyObjects::Category(this->MyDB); // Khởi tạo giá trị cho biến object của Category
-		this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
-	}
-		   // Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
-	private: System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
-			loadAllDataToTable(); // load tất cả data trong DB ra Table 
-		else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
-			std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
-			loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
+		System::Void CategoriesPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			loadAllDataToTable(); // Load tất cả data trong DB ra table
+			this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
+			this->categoryObject = new MyObjects::Category(this->MyDB); // Khởi tạo giá trị cho biến object của Category
+			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
 		}
-	}
-		   // Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
-	private: System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->tbxSearch->Text = ""; // clear thanh tìm kiêm
-		loadAllDataToTable(); // load tất cả data trong DB ra Table 
-	}
-		   // Khi nút thêm Category click thì Show lên Form thêm Category
-	private: Void btnAdd_Click(Object^ sender, EventArgs^ e) {
-		BTLAppManagerStore::AddOrEditCategoryForm^ AddCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(); // khởi tạo biến form (form thêm category)
-		AddCategoryForm->categoryObject = this->categoryObject; // gán biến categoryObject cho biến (thuộc tính) của form AddCategoryForm
-		AddCategoryForm->ShowDialog(); // Show from AddCategoryForm lên
-		delete AddCategoryForm; // xóa AddCategoryForm sau khi kết thúc thao tác trên AddCategoryForm
-	}
-		   // Khi nút sửa Category click thì Show lên Form sửa Category
-	private: Void btnEdit_Click(Object^ sender, EventArgs^ e) {
-		if (this->dataTable->Rows->Count != 0) { // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Edit
-			unsigned int id = getIdByRowIndex(this->currentIndexRowSelect); // Lấy id của Category hiện tại đang được selected
-			this->categoryObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Category
-			BTLAppManagerStore::AddOrEditCategoryForm^ EditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(true); // tạo form EditCategoryForm
-			EditCategoryForm->categoryObject = this->categoryObject; // truyền(gán) categoryObject vào thuộc tính categoryObject trong form EditCategoryForm
-			EditCategoryForm->ShowDialog(); // Show form EditCategoryForm lên
-			delete EditCategoryForm; // xóa EditCategoryForm sau khi kết thúc thao tác trên EditCategoryForm
-		}
-		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
-	}
-		   // Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-	private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (this->dataTable->Rows->Count != 0) {  // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Delete
-			// Show dialog hỏi có delete hay ko
-			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-			// Nếu có thực hiện delete
-			if (result == System::Windows::Forms::DialogResult::Yes) {
-				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
-				this->categoryObject->setId(id); // set id vừa lấy được vào thuộc tính id của categoryObject
-				this->categoryObject->MoveToTrash(); // thực hiện xóa category
-				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect()); // xóa hàng bị xóa (ở ngoài giao diện)
+		// Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
+		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
+				loadAllDataToTable(); // load tất cả data trong DB ra Table 
+			else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
+				std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+				loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
 			}
 		}
-		else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
-	}
-		   // Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
-	private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-		BTLAppManagerStore::TrashCategoriesForm^ TrashCategoriesForm = gcnew BTLAppManagerStore::TrashCategoriesForm(this->MyDB); // tạo form TrashCategoriesForm
-		TrashCategoriesForm->ShowDialog(); // Show form TrashCategoriesForm lên
-		delete TrashCategoriesForm; // xóa TrashCategoriesForm sau khi kết thúc thao tác trên TrashCategoriesForm
-	}
-		   // Hàm này chạy khi 1 cell nào đó trong dataTable được select
-	private: System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-		// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-		this->currentIndexRowSelect = e->RowIndex;
-	}
-		   // Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-	private: System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-		this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
-	}
-		   // Hàm này sẽ chạy khi cbSearch thay đổi giá trị
-	private: System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-		if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
-		else if (this->cbSearch->SelectedItem->ToString() == "Title") this->searchColumnName = "title"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
-	}
+		// Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
+		System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
+			this->tbxSearch->Text = ""; // clear thanh tìm kiêm
+			loadAllDataToTable(); // load tất cả data trong DB ra Table 
+		}
+		// Khi nút thêm Category click thì Show lên Form thêm Category
+		System::Void btnAdd_Click(Object^ sender, EventArgs^ e) {
+			BTLAppManagerStore::AddOrEditCategoryForm^ AddCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(); // khởi tạo biến form (form thêm category)
+			AddCategoryForm->categoryObject = this->categoryObject; // gán biến categoryObject cho biến (thuộc tính) của form AddCategoryForm
+			AddCategoryForm->ShowDialog(); // Show from AddCategoryForm lên
+			delete AddCategoryForm; // xóa AddCategoryForm sau khi kết thúc thao tác trên AddCategoryForm
+		}
+		// Khi nút sửa Category click thì Show lên Form sửa Category
+		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) { // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Edit
+				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
+				this->categoryObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Category
+				BTLAppManagerStore::AddOrEditCategoryForm^ EditCategoryForm = gcnew BTLAppManagerStore::AddOrEditCategoryForm(true); // tạo form EditCategoryForm
+				EditCategoryForm->categoryObject = this->categoryObject; // truyền(gán) categoryObject vào thuộc tính categoryObject trong form EditCategoryForm
+				EditCategoryForm->ShowDialog(); // Show form EditCategoryForm lên
+				delete EditCategoryForm; // xóa EditCategoryForm sau khi kết thúc thao tác trên EditCategoryForm
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
+		}
+		// Khi nút xóa Category click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+		System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) {  // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Delete
+				// Show dialog hỏi có delete hay ko
+				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+				// Nếu có thực hiện delete
+				if (result == System::Windows::Forms::DialogResult::Yes) {
+					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
+					this->categoryObject->setId(id); // set id vừa lấy được vào thuộc tính id của categoryObject
+					this->categoryObject->MoveToTrash(); // thực hiện xóa category
+					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect()); // xóa hàng bị xóa (ở ngoài giao diện)
+				}
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
+		}
+		// Khi nút xem thùng rác (các Category đã xóa) click thì show Form danh sách Category đã xóa
+		System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
+			BTLAppManagerStore::TrashCategoriesForm^ TrashCategoriesForm = gcnew BTLAppManagerStore::TrashCategoriesForm(this->MyDB); // tạo form TrashCategoriesForm
+			TrashCategoriesForm->ShowDialog(); // Show form TrashCategoriesForm lên
+			delete TrashCategoriesForm; // xóa TrashCategoriesForm sau khi kết thúc thao tác trên TrashCategoriesForm
+		}
+		// Hàm này chạy khi 1 cell nào đó trong dataTable được select
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
+			this->currentIndexRowSelect = e->RowIndex;
+		}
+		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
+		}
+		// Hàm này sẽ chạy khi cbSearch thay đổi giá trị
+		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
+			else if (this->cbSearch->SelectedItem->ToString() == "Title") this->searchColumnName = "title"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
+		}
 	};
 }

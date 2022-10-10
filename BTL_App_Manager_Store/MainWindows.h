@@ -635,7 +635,9 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		BTLAppManagerStore::HomePageForm^ HomePageForm;
 		BTLAppManagerStore::ProductsPageForm^ ProductsPageForm;
@@ -643,19 +645,20 @@ namespace BTLAppManagerStore {
 		BTLAppManagerStore::EmployeesPageForm^ EmployeesPageForm;
 		BTLAppManagerStore::CustomersPageForm^ CustomersPageForm;
 		BTLAppManagerStore::BillsPageForm^ BillsPageForm;
-		System::Drawing::Color activeColorSidebar = System::Drawing::Color::FromArgb(18, 79, 139);
-		MyDatabase* MyDB = new MyDatabase();
+		System::Drawing::Color activeColorSidebar = System::Drawing::Color::FromArgb(18, 79, 139); // Màu active trên menu
+		MyDatabase* MyDB = new MyDatabase(); // Biến MyDB để thực hiện các tương tác đến Database
 
-		// Các hàm tự định nghĩa 
+
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm khởi tạo giá trị cho các Form
 		void initFormsValue() {
-			this->HomePageForm = gcnew BTLAppManagerStore::HomePageForm();
-			this->ProductsPageForm = gcnew BTLAppManagerStore::ProductsPageForm();
+			this->HomePageForm = gcnew BTLAppManagerStore::HomePageForm(this->MyDB);
+			this->ProductsPageForm = gcnew BTLAppManagerStore::ProductsPageForm(this->MyDB);
 			this->CategoriesPageForm = gcnew BTLAppManagerStore::CategoriesPageForm((this->MyDB));
-			this->EmployeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm();
-			this->CustomersPageForm = gcnew BTLAppManagerStore::CustomersPageForm();
-			this->BillsPageForm = gcnew BTLAppManagerStore::BillsPageForm();
+			this->EmployeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm(this->MyDB);
+			this->CustomersPageForm = gcnew BTLAppManagerStore::CustomersPageForm(this->MyDB);
+			this->BillsPageForm = gcnew BTLAppManagerStore::BillsPageForm(this->MyDB);
 		}
 		// Hàm xóa trạng thái active của Menu
 		void clearActiveSidebar() {
@@ -684,7 +687,8 @@ namespace BTLAppManagerStore {
 			form->Show();
 		}
 
-		// Xử lý các trạng thái click của Menu có Menu Con xổ xuống
+	// ****** Các hàm xử lý sự kiện (event) trong form này *****
+	// Xử lý các trạng thái click của Menu có Menu Con xổ xuống
 	private:
 		bool isCollapseNavProds = true;
 		bool isCollapseNavPerson = true;
@@ -717,7 +721,7 @@ namespace BTLAppManagerStore {
 			isCollapseNavPerson = !isCollapseNavPerson;
 		}
 
-		// Xử lý load Form thích hợp vào Form MainWindows khi bấm các nút tương ứng trên Menu
+	// Xử lý load Form thích hợp vào Form MainWindows khi bấm các nút tương ứng trên Menu
 	private:
 		System::Void btnNavHome_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (btnNavHome->BackColor != this->activeColorSidebar) {
@@ -765,25 +769,21 @@ namespace BTLAppManagerStore {
 			MessageBox::Show("Are you sure logout!", "Logout", MessageBoxButtons::OKCancel, MessageBoxIcon::Question);
 		}
 
-		// Xử lý các sự kiện còn lại
-			// Khi Form MainWindows tải
+
+	// Khi Form MainWindows tải
 	private: System::Void MainWindows_Load(System::Object^ sender, System::EventArgs^ e) {
-		// Kết nối đến cơ sở dữ liệu Mysql
-		MyDB->Connect();
-		// Khởi tạo giá trị của các Form
-		initFormsValue();
+		MyDB->Connect(); // Kết nối đến cơ sở dữ liệu Mysql
+		initFormsValue(); // Khởi tạo giá trị của các Form
 		// Load Form HomePageForm.h và active tương ứng trên Menu
-		btnNavHome->BackColor = this->activeColorSidebar;
 		loadFormToPnlmain(HomePageForm);
+		btnNavHome->BackColor = this->activeColorSidebar;
 	}
-		   // Khi Form MainWindows đóng
+
+	// Khi Form MainWindows đóng
 	private: System::Void MainWindows_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
-		// Đóng kết nối cơ sở dữ liệu Mysql 
-		MyDB->Close();
-		// Giải phóng biến MyDB
-		delete MyDB;
-		// Hủy Form MainWindows
-		this->~MainWindows();
+		MyDB->Close(); // Đóng kết nối cơ sở dữ liệu Mysql 
+		delete MyDB; // Giải phóng biến MyDB
+		this->~MainWindows(); // Hủy Form MainWindows
 	}
 	};
 

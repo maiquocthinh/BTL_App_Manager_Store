@@ -1,6 +1,7 @@
 ﻿#include "AddOrEditProductForm.h"
 #include "TrashProductsForm.h"
 #include "ImportProductsForm.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -25,7 +26,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-
+        ProductsPageForm(MyDatabase* const MyDB)
+        {
+            InitializeComponent();
+            this->MyDB = MyDB;
+        }
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -312,6 +317,8 @@ namespace BTLAppManagerStore {
             this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
             this->dataTable->Size = System::Drawing::Size(967, 556);
             this->dataTable->TabIndex = 4;
+            this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &ProductsPageForm::dataTable_CellClick);
+            this->dataTable->Sorted += gcnew System::EventHandler(this, &ProductsPageForm::dataTable_Sorted);
             // 
             // idProduct
             // 
@@ -469,6 +476,7 @@ namespace BTLAppManagerStore {
             this->cbSearch->Name = L"cbSearch";
             this->cbSearch->Size = System::Drawing::Size(132, 26);
             this->cbSearch->TabIndex = 0;
+            this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &ProductsPageForm::cbSearch_SelectedIndexChanged);
             // 
             // ProductsPageForm
             // 
@@ -478,6 +486,7 @@ namespace BTLAppManagerStore {
             this->Controls->Add(this->tableLayoutPanel1);
             this->Name = L"ProductsPageForm";
             this->Text = L"ProductsPageForm";
+            this->Load += gcnew System::EventHandler(this, &ProductsPageForm::ProductsPageForm_Load);
             this->tableLayoutPanel1->ResumeLayout(false);
             this->tableLayoutPanel2->ResumeLayout(false);
             this->tableLayoutPanel3->ResumeLayout(false);
@@ -491,36 +500,56 @@ namespace BTLAppManagerStore {
 #pragma endregion
 
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    // Khi nút thêm Product click thì Show lên Form thêm Product
-    private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-        Form^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
-        AddProductForm->ShowDialog();
-        delete AddProductForm;
-    }
-    // Khi nút sửa Product click thì Show lên Form sửa Product
-    private: System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
-        Form^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
-        EditProductForm->ShowDialog();
-        delete EditProductForm;
-    }
-    // Khi nút xóa Product click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-    private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-        System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-        if (result == System::Windows::Forms::DialogResult::Yes) {
-            // xử lý xóa Product
+
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    private:
+        // Biến MyDB để thực hiện các tương tác đến Database
+        MyDatabase* MyDB = new MyDatabase();
+
+    // ****** Các hàm ta tự định nghĩa ******
+
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        // Khi form tải
+        System::Void ProductsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
         }
-    }
-    // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
-    private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-        Form^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm();
-        TrashProductsForm->ShowDialog();
-        delete TrashProductsForm;
-    }
-    // Khi nút Import click Show lên Form Import Product
-    private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-        Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
-        ImportProductsForm->ShowDialog();
-        delete ImportProductsForm;
-    }
-	};
+        // Khi nút thêm Product click thì Show lên Form thêm Product
+        System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+            Form^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
+            AddProductForm->ShowDialog();
+            delete AddProductForm;
+        }
+        // Khi nút sửa Product click thì Show lên Form sửa Product
+        System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
+            Form^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
+            EditProductForm->ShowDialog();
+            delete EditProductForm;
+        }
+        // Khi nút xóa Product click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+        System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+            System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+            if (result == System::Windows::Forms::DialogResult::Yes) {
+                // xử lý xóa Product
+            }
+        }
+        // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
+        System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
+            Form^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm();
+            TrashProductsForm->ShowDialog();
+            delete TrashProductsForm;
+        }
+        // Khi nút Import click Show lên Form Import Product
+        System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
+            Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
+            ImportProductsForm->ShowDialog();
+            delete ImportProductsForm;
+        }
+        System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+        }
+        System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+        }
+        System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+        }
+};
 }

@@ -1,5 +1,6 @@
 ﻿#include "AddOrEditCustomerForm.h"
 #include "TrashCustomerForm.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -23,6 +24,11 @@ namespace BTLAppManagerStore {
 			//
 			//TODO: Add the constructor code here
 			//
+		}
+		CustomersPageForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
 		}
 
 	protected:
@@ -331,6 +337,7 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 0;
+			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &CustomersPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// dataTable
 			// 
@@ -352,6 +359,8 @@ namespace BTLAppManagerStore {
 			this->dataTable->RowTemplate->Height = 28;
 			this->dataTable->Size = System::Drawing::Size(992, 605);
 			this->dataTable->TabIndex = 4;
+			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &CustomersPageForm::dataTable_CellClick);
+			this->dataTable->Sorted += gcnew System::EventHandler(this, &CustomersPageForm::dataTable_Sorted);
 			// 
 			// customerID
 			// 
@@ -403,6 +412,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Name = L"CustomersPageForm";
 			this->Text = L"CustomersPageForm";
+			this->Load += gcnew System::EventHandler(this, &CustomersPageForm::CustomersPageForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->tableLayoutPanel5->ResumeLayout(false);
 			this->tableLayoutPanel2->ResumeLayout(false);
@@ -413,31 +423,52 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Khi nút thêm Customer click thì Show lên Form thêm Customer
-	private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ AddCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm();
-		AddCustomerForm->ShowDialog();
-		delete AddCustomerForm;
-	}
-	// Khi nút sửa Customer click thì Show lên Form sửa Customer
-	private: System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ EditCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(true);
-		EditCustomerForm->ShowDialog();
-		delete EditCustomerForm;
-	}
-	// Khi nút xóa Customer click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-	private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-		System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Customer", "Delete Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-		if (result == System::Windows::Forms::DialogResult::Yes) {
-			// xử lý xóa Customer
+	
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+
+	// ****** Các hàm ta tự định nghĩa ******
+
+
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private: 
+		// Khi form tải
+		System::Void CustomersPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		}
-	}
-	// Khi nút xem thùng rác (các Customer đã xóa) click thì show Form danh sách Customer đã xóa
-	private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-		Form^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm();
-		TrashCustomerForm->ShowDialog();
-		delete TrashCustomerForm;
-	}
-	};
+		// Khi nút thêm Customer click thì Show lên Form thêm Customer
+		System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ AddCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm();
+			AddCustomerForm->ShowDialog();
+			delete AddCustomerForm;
+		}
+		// Khi nút sửa Customer click thì Show lên Form sửa Customer
+		System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ EditCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(true);
+			EditCustomerForm->ShowDialog();
+			delete EditCustomerForm;
+		}
+		// Khi nút xóa Customer click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+		System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Customer", "Delete Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+			if (result == System::Windows::Forms::DialogResult::Yes) {
+				// xử lý xóa Customer
+			}
+		}
+		// Khi nút xem thùng rác (các Customer đã xóa) click thì show Form danh sách Customer đã xóa
+		System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
+			Form^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm();
+			TrashCustomerForm->ShowDialog();
+			delete TrashCustomerForm;
+		}
+		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		}
+		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+		}
+		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		}
+};
 }

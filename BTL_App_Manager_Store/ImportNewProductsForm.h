@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -553,6 +554,16 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	public:
+		// Biến object của Customer
+		MyObjects::BillImport* billImportObject;
+
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+
+
 	};
 }

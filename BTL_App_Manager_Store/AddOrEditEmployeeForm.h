@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -102,9 +103,9 @@ namespace BTLAppManagerStore {
             this->tbxAddress = (gcnew System::Windows::Forms::TextBox());
             this->lbAddress = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
+            this->tbxPosition = (gcnew System::Windows::Forms::TextBox());
             this->lbPosition = (gcnew System::Windows::Forms::Label());
             this->imageEmployee = (gcnew System::Windows::Forms::PictureBox());
-            this->tbxPosition = (gcnew System::Windows::Forms::TextBox());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel3->SuspendLayout();
             this->tableLayoutPanel5->SuspendLayout();
@@ -192,6 +193,7 @@ namespace BTLAppManagerStore {
             this->btnSave->TabIndex = 13;
             this->btnSave->TabStop = false;
             this->btnSave->UseVisualStyleBackColor = true;
+            this->btnSave->Click += gcnew System::EventHandler(this, &AddOrEditEmployeeForm::btnSave_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -471,6 +473,18 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel6->Size = System::Drawing::Size(533, 54);
             this->tableLayoutPanel6->TabIndex = 10;
             // 
+            // tbxPosition
+            // 
+            this->tbxPosition->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->tbxPosition->Location = System::Drawing::Point(162, 12);
+            this->tbxPosition->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxPosition->Name = L"tbxPosition";
+            this->tbxPosition->Size = System::Drawing::Size(341, 26);
+            this->tbxPosition->TabIndex = 2;
+            this->tbxPosition->TabStop = false;
+            // 
             // lbPosition
             // 
             this->lbPosition->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
@@ -502,18 +516,6 @@ namespace BTLAppManagerStore {
             this->imageEmployee->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
             this->imageEmployee->TabIndex = 11;
             this->imageEmployee->TabStop = false;
-            // 
-            // tbxPosition
-            // 
-            this->tbxPosition->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxPosition->Location = System::Drawing::Point(162, 12);
-            this->tbxPosition->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->tbxPosition->Name = L"tbxPosition";
-            this->tbxPosition->Size = System::Drawing::Size(341, 26);
-            this->tbxPosition->TabIndex = 2;
-            this->tbxPosition->TabStop = false;
             // 
             // AddOrEditEmployeeForm
             // 
@@ -548,22 +550,46 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    private: System::Void AddOrEditEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
-        // Chuyển giữa Form tạo mới và Form chỉnh sửa
-        if (this->isEditMode) {
-            this->Text = L"Edit Employee";
-            this->btnSave->ImageKey = L"save-icon.png";
-            this->titleForm->Text = "Edit Employee";
+
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    public:
+        // Biến object của Employee
+        MyObjects::Employee* employeeObject;
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: 
+        // Khi form này tải
+        System::Void AddOrEditEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            // Chuyển giữa Form tạo mới và Form chỉnh sửa
+            if (this->isEditMode) {
+                this->Text = L"Edit Employee";
+                this->btnSave->ImageKey = L"save-icon.png";
+                this->titleForm->Text = "Edit Employee";
+            }
         }
-    }
-           // Tự động load image khi nhập link image vào ô input
-    private: System::Void inputImage_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-        System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditEmployeeForm::typeid));
-        if (this->tbxImage->Text == "")
-            this->imageEmployee->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageEmployee.Image")));
-        else
-            this->imageEmployee->ImageLocation = this->tbxImage->Text;
-    }
-    };
+        // Tự động load image khi nhập link image vào ô input
+        System::Void inputImage_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditEmployeeForm::typeid));
+            if (this->tbxImage->Text == "")
+                this->imageEmployee->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageEmployee.Image")));
+            else
+                this->imageEmployee->ImageLocation = this->tbxImage->Text;
+        }
+
+        System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
+            // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
+            // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+
+            //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+            if (this->isEditMode) {
+
+            }
+            else {
+
+            }
+            this->Close(); // đóng form này lại
+        }
+};
 }
