@@ -567,10 +567,10 @@ namespace BTLAppManagerStore {
 	
         System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
             // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-            this->customerObject->setId(stoi(MyUtils::systemStringToStdString(this->tbxID->Text)));
+            //this->customerObject->setId(stoi(MyUtils::systemStringToStdString(this->tbxID->Text)));
             this->customerObject->setFullName(MyUtils::systemStringToStdString(this->tbxName->Text));
             this->customerObject->setPhone(MyUtils::systemStringToStdString(this->tbxPhone->Text));
-            this->customerObject->setSex(stoi(MyUtils::systemStringToStdString(this->cbSex->Text)));
+            //this->customerObject->setSex(stoi(MyUtils::systemStringToStdString(this->cbSex->Text)));
             this->customerObject->setAddress(MyUtils::systemStringToStdString(this->tbxAddress->Text));
             this->customerObject->setPoints(stoi(MyUtils::systemStringToStdString(this->tbxPoints->Text)));
             // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
@@ -578,7 +578,7 @@ namespace BTLAppManagerStore {
             //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
             if (this->isEditMode) {
                 this->customerObject->Update();
-                MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
             else {
                 this->customerObject->Create();

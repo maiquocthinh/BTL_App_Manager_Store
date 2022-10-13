@@ -286,6 +286,7 @@ namespace BTLAppManagerStore {
 			this->btnRefresh->TabIndex = 3;
 			this->btnRefresh->Text = L"Refresh";
 			this->btnRefresh->UseVisualStyleBackColor = true;
+			this->btnRefresh->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnRefresh_Click);
 			// 
 			// btnSearch
 			// 
@@ -301,6 +302,7 @@ namespace BTLAppManagerStore {
 			this->btnSearch->TabIndex = 2;
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
+			this->btnSearch->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnSearch_Click);
 			// 
 			// tbxSearch
 			// 
@@ -465,9 +467,9 @@ namespace BTLAppManagerStore {
 					this->dataTable->Rows->Add(
 						res->getInt("id"),
 						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
 						MyUtils::stdStringToSystemString(res->getString("phone")),
+						MyUtils::stdStringToSystemString(res->getString("address")),
+						MyUtils::stdStringToSystemString(res->getString("sex")),
 						res->getInt("points")
 					);
 				this->dataTable->ClearSelection();
@@ -481,9 +483,10 @@ namespace BTLAppManagerStore {
 					this->dataTable->Rows->Add(
 						res->getInt("id"),
 						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
 						MyUtils::stdStringToSystemString(res->getString("phone")),
+						MyUtils::stdStringToSystemString(res->getString("address")),
+						MyUtils::stdStringToSystemString(res->getString("sex")),
+						
 						res->getInt("points")
 					);
 				this->dataTable->ClearSelection();
@@ -493,6 +496,7 @@ namespace BTLAppManagerStore {
 	private: 
 		// Khi form tải
 		System::Void CustomersPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			loadAllDataToTable();
 			this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
 			this->customerObject = new MyObjects::Customer(this->MyDB); // Khởi tạo giá trị cho biến object của Customer
 			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
@@ -563,7 +567,9 @@ namespace BTLAppManagerStore {
 		// Hàm này sẽ chạy khi cbSearch thay đổi giá trị
 		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
-			else if (this->cbSearch->SelectedItem->ToString() == "Title") this->searchColumnName = "title"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
+			else if (this->cbSearch->SelectedItem->ToString() == "Full Name") this->searchColumnName = "fullname"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
+			else if (this->cbSearch->SelectedItem->ToString() == "Phone") this->searchColumnName = "phone";
+			else if (this->cbSearch->SelectedItem->ToString() == "Address") this->searchColumnName = "address";
 		}
 };
 }

@@ -270,7 +270,7 @@ namespace BTLAppManagerStore {
 		// Hàm load dữ liệu trong database ra `dataTable` trong form
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0)";
+			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 1)";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
