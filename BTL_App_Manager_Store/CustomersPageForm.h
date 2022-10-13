@@ -114,17 +114,18 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				200)));
+				178)));
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel5, 1, 0);
 			this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel2, 0, 0);
 			this->tableLayoutPanel1->Controls->Add(this->dataTable, 0, 1);
 			this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
+			this->tableLayoutPanel1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 2;
-			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 80)));
+			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 64)));
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(1198, 691);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(1065, 553);
 			this->tableLayoutPanel1->TabIndex = 1;
 			// 
 			// tableLayoutPanel5
@@ -140,8 +141,8 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel5->Controls->Add(this->btnAdd, 0, 0);
 			this->tableLayoutPanel5->Controls->Add(this->btnEdit, 0, 1);
 			this->tableLayoutPanel5->Controls->Add(this->btnDelete, 0, 2);
-			this->tableLayoutPanel5->Location = System::Drawing::Point(1001, 40);
-			this->tableLayoutPanel5->Margin = System::Windows::Forms::Padding(3, 40, 3, 40);
+			this->tableLayoutPanel5->Location = System::Drawing::Point(890, 32);
+			this->tableLayoutPanel5->Margin = System::Windows::Forms::Padding(3, 32, 3, 32);
 			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
 			this->tableLayoutPanel5->RowCount = 4;
 			this->tableLayoutPanel1->SetRowSpan(this->tableLayoutPanel5, 2);
@@ -149,8 +150,8 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
 			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 25)));
-			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
-			this->tableLayoutPanel5->Size = System::Drawing::Size(194, 611);
+			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 16)));
+			this->tableLayoutPanel5->Size = System::Drawing::Size(172, 489);
 			this->tableLayoutPanel5->TabIndex = 3;
 			// 
 			// btnTrash
@@ -168,10 +169,10 @@ namespace BTLAppManagerStore {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnTrash->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnTrash->ImageKey = L"(none)";
-			this->btnTrash->Location = System::Drawing::Point(30, 496);
-			this->btnTrash->Margin = System::Windows::Forms::Padding(30, 40, 30, 40);
+			this->btnTrash->Location = System::Drawing::Point(27, 398);
+			this->btnTrash->Margin = System::Windows::Forms::Padding(27, 32, 27, 32);
 			this->btnTrash->Name = L"btnTrash";
-			this->btnTrash->Size = System::Drawing::Size(134, 75);
+			this->btnTrash->Size = System::Drawing::Size(118, 59);
 			this->btnTrash->TabIndex = 3;
 			this->btnTrash->UseVisualStyleBackColor = true;
 			this->btnTrash->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnTrash_Click);
@@ -191,10 +192,10 @@ namespace BTLAppManagerStore {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnAdd->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnAdd->ImageKey = L"(none)";
-			this->btnAdd->Location = System::Drawing::Point(30, 40);
-			this->btnAdd->Margin = System::Windows::Forms::Padding(30, 40, 30, 40);
+			this->btnAdd->Location = System::Drawing::Point(27, 32);
+			this->btnAdd->Margin = System::Windows::Forms::Padding(27, 32, 27, 32);
 			this->btnAdd->Name = L"btnAdd";
-			this->btnAdd->Size = System::Drawing::Size(134, 72);
+			this->btnAdd->Size = System::Drawing::Size(118, 58);
 			this->btnAdd->TabIndex = 0;
 			this->btnAdd->UseVisualStyleBackColor = true;
 			this->btnAdd->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnAdd_Click);
@@ -214,10 +215,10 @@ namespace BTLAppManagerStore {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnEdit->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnEdit->ImageKey = L"(none)";
-			this->btnEdit->Location = System::Drawing::Point(30, 192);
-			this->btnEdit->Margin = System::Windows::Forms::Padding(30, 40, 30, 40);
+			this->btnEdit->Location = System::Drawing::Point(27, 154);
+			this->btnEdit->Margin = System::Windows::Forms::Padding(27, 32, 27, 32);
 			this->btnEdit->Name = L"btnEdit";
-			this->btnEdit->Size = System::Drawing::Size(134, 72);
+			this->btnEdit->Size = System::Drawing::Size(118, 58);
 			this->btnEdit->TabIndex = 1;
 			this->btnEdit->UseVisualStyleBackColor = true;
 			this->btnEdit->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnEdit_Click);
@@ -237,10 +238,10 @@ namespace BTLAppManagerStore {
 				static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->btnDelete->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->btnDelete->ImageKey = L"(none)";
-			this->btnDelete->Location = System::Drawing::Point(30, 344);
-			this->btnDelete->Margin = System::Windows::Forms::Padding(30, 40, 30, 40);
+			this->btnDelete->Location = System::Drawing::Point(27, 276);
+			this->btnDelete->Margin = System::Windows::Forms::Padding(27, 32, 27, 32);
 			this->btnDelete->Name = L"btnDelete";
-			this->btnDelete->Size = System::Drawing::Size(134, 72);
+			this->btnDelete->Size = System::Drawing::Size(118, 58);
 			this->btnDelete->TabIndex = 2;
 			this->btnDelete->UseVisualStyleBackColor = true;
 			this->btnDelete->Click += gcnew System::EventHandler(this, &CustomersPageForm::btnDelete_Click);
@@ -252,22 +253,23 @@ namespace BTLAppManagerStore {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->tableLayoutPanel2->ColumnCount = 4;
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				150)));
+				133)));
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				150)));
+				133)));
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
-				150)));
+				133)));
 			this->tableLayoutPanel2->Controls->Add(this->btnRefresh, 3, 0);
 			this->tableLayoutPanel2->Controls->Add(this->btnSearch, 2, 0);
 			this->tableLayoutPanel2->Controls->Add(this->tbxSearch, 1, 0);
 			this->tableLayoutPanel2->Controls->Add(this->groupBox1, 0, 0);
-			this->tableLayoutPanel2->Location = System::Drawing::Point(3, 3);
+			this->tableLayoutPanel2->Location = System::Drawing::Point(3, 2);
+			this->tableLayoutPanel2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 1;
 			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-			this->tableLayoutPanel2->Size = System::Drawing::Size(992, 74);
+			this->tableLayoutPanel2->Size = System::Drawing::Size(881, 60);
 			this->tableLayoutPanel2->TabIndex = 0;
 			// 
 			// btnRefresh
@@ -277,10 +279,10 @@ namespace BTLAppManagerStore {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnRefresh->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnRefresh->Location = System::Drawing::Point(854, 12);
-			this->btnRefresh->Margin = System::Windows::Forms::Padding(12);
+			this->btnRefresh->Location = System::Drawing::Point(759, 10);
+			this->btnRefresh->Margin = System::Windows::Forms::Padding(11, 10, 11, 10);
 			this->btnRefresh->Name = L"btnRefresh";
-			this->btnRefresh->Size = System::Drawing::Size(126, 50);
+			this->btnRefresh->Size = System::Drawing::Size(111, 40);
 			this->btnRefresh->TabIndex = 3;
 			this->btnRefresh->Text = L"Refresh";
 			this->btnRefresh->UseVisualStyleBackColor = true;
@@ -292,10 +294,10 @@ namespace BTLAppManagerStore {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnSearch->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnSearch->Location = System::Drawing::Point(704, 12);
-			this->btnSearch->Margin = System::Windows::Forms::Padding(12);
+			this->btnSearch->Location = System::Drawing::Point(626, 10);
+			this->btnSearch->Margin = System::Windows::Forms::Padding(11, 10, 11, 10);
 			this->btnSearch->Name = L"btnSearch";
-			this->btnSearch->Size = System::Drawing::Size(126, 50);
+			this->btnSearch->Size = System::Drawing::Size(111, 40);
 			this->btnSearch->TabIndex = 2;
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
@@ -307,10 +309,10 @@ namespace BTLAppManagerStore {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->tbxSearch->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->tbxSearch->Location = System::Drawing::Point(168, 14);
-			this->tbxSearch->Margin = System::Windows::Forms::Padding(18, 14, 18, 18);
+			this->tbxSearch->Location = System::Drawing::Point(149, 11);
+			this->tbxSearch->Margin = System::Windows::Forms::Padding(16, 11, 16, 14);
 			this->tbxSearch->Name = L"tbxSearch";
-			this->tbxSearch->Size = System::Drawing::Size(506, 38);
+			this->tbxSearch->Size = System::Drawing::Size(450, 33);
 			this->tbxSearch->TabIndex = 1;
 			// 
 			// groupBox1
@@ -321,9 +323,11 @@ namespace BTLAppManagerStore {
 			this->groupBox1->Controls->Add(this->cbSearch);
 			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 8, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->groupBox1->Location = System::Drawing::Point(3, 3);
+			this->groupBox1->Location = System::Drawing::Point(3, 2);
+			this->groupBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(144, 68);
+			this->groupBox1->Padding = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->groupBox1->Size = System::Drawing::Size(127, 56);
 			this->groupBox1->TabIndex = 0;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Search";
@@ -333,9 +337,10 @@ namespace BTLAppManagerStore {
 			this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbSearch->FormattingEnabled = true;
 			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"ID", L"Full Name", L"Phone", L"Address" });
-			this->cbSearch->Location = System::Drawing::Point(6, 21);
+			this->cbSearch->Location = System::Drawing::Point(5, 17);
+			this->cbSearch->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->cbSearch->Name = L"cbSearch";
-			this->cbSearch->Size = System::Drawing::Size(132, 26);
+			this->cbSearch->Size = System::Drawing::Size(118, 23);
 			this->cbSearch->TabIndex = 0;
 			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &CustomersPageForm::cbSearch_SelectedIndexChanged);
 			// 
@@ -352,12 +357,13 @@ namespace BTLAppManagerStore {
 				this->customerID,
 					this->customerFullName, this->customerPhone, this->customerAddress, this->customerSex, this->customerPoint
 			});
-			this->dataTable->Location = System::Drawing::Point(3, 83);
+			this->dataTable->Location = System::Drawing::Point(3, 66);
+			this->dataTable->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->dataTable->Name = L"dataTable";
 			this->dataTable->ReadOnly = true;
 			this->dataTable->RowHeadersWidth = 62;
 			this->dataTable->RowTemplate->Height = 28;
-			this->dataTable->Size = System::Drawing::Size(992, 605);
+			this->dataTable->Size = System::Drawing::Size(881, 485);
 			this->dataTable->TabIndex = 4;
 			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &CustomersPageForm::dataTable_CellClick);
 			this->dataTable->Sorted += gcnew System::EventHandler(this, &CustomersPageForm::dataTable_Sorted);
@@ -406,10 +412,11 @@ namespace BTLAppManagerStore {
 			// 
 			// CustomersPageForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1198, 691);
+			this->ClientSize = System::Drawing::Size(1065, 553);
 			this->Controls->Add(this->tableLayoutPanel1);
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->Name = L"CustomersPageForm";
 			this->Text = L"CustomersPageForm";
 			this->Load += gcnew System::EventHandler(this, &CustomersPageForm::CustomersPageForm_Load);
@@ -430,45 +437,124 @@ namespace BTLAppManagerStore {
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
+		// Biến này lưu row index hiện select hiện tại của `dataTable`
+		int currentIndexRowSelect;
+		// Biến object của Category
+		MyObjects::Customer* customerObject;
+		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
+		System::String^ searchColumnName;
 
 	// ****** Các hàm ta tự định nghĩa ******
-
+		private:
+			// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
+			int getCurrentIndexRowSelect() {
+				if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
+				else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
+				return this->currentIndexRowSelect;
+			}
+			// Hàm này lấy id của hàng thông qua rowIndex
+			int getIdByRowIndex(int rowIndex) {
+				return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			}
+			// Load tất cả data trong Database ra Table
+			void loadAllDataToTable() {
+				this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			//
+				std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0)";
+				sql::ResultSet* res = this->MyDB->ReadQuery(query);
+				while (res->next())
+					this->dataTable->Rows->Add(
+						res->getInt("id"),
+						MyUtils::stdStringToSystemString(res->getString("title"))
+					);
+			}
+			// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
+			void loadSearchDataToTable(std::string searchKey) {
+				this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+				std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0) AND (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
+				sql::ResultSet* res = this->MyDB->ReadQuery(query);
+				while (res->next())
+					this->dataTable->Rows->Add(
+						res->getInt("id"),
+						MyUtils::stdStringToSystemString(res->getString("title"))
+					);
+			}
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private: 
 		// Khi form tải
 		System::Void CustomersPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
+			this->customerObject = new MyObjects::Customer(this->MyDB); // Khởi tạo giá trị cho biến object của Customer
+			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
+		}
+		// Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
+		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
+				loadAllDataToTable(); // load tất cả data trong DB ra Table 
+			else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
+				std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+				loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
+			}
+		}
+		// Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
+		System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
+			this->tbxSearch->Text = ""; // clear thanh tìm kiêm
+			loadAllDataToTable(); // load tất cả data trong DB ra Table 
 		}
 		// Khi nút thêm Customer click thì Show lên Form thêm Customer
-		System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-			Form^ AddCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm();
-			AddCustomerForm->ShowDialog();
-			delete AddCustomerForm;
+		System::Void btnAdd_Click(Object^ sender, EventArgs^ e) {
+			BTLAppManagerStore::AddOrEditCustomerForm^ AddCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(); // khởi tạo biến form (form thêm customer)
+			AddCustomerForm->customerObject = this->customerObject; // gán biến customerObject cho biến (thuộc tính) của form AddCustomerForm
+			AddCustomerForm->ShowDialog(); // Show from AddCustomerForm lên
+			delete AddCustomerForm; // xóa AddCustomerForm sau khi kết thúc thao tác trên AddCustomerForm
 		}
 		// Khi nút sửa Customer click thì Show lên Form sửa Customer
-		System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
-			Form^ EditCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(true);
-			EditCustomerForm->ShowDialog();
-			delete EditCustomerForm;
+		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) { // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Edit
+				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
+				this->customerObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Customer
+				BTLAppManagerStore::AddOrEditCustomerForm^ EditCustomerForm = gcnew BTLAppManagerStore::AddOrEditCustomerForm(true); // tạo form EditCustomerForm
+				EditCustomerForm->customerObject = this->customerObject; // truyền(gán) customerObject vào thuộc tính customerObject trong form EditCustomerForm
+				EditCustomerForm->ShowDialog(); // Show form EditCustomerForm lên
+				delete EditCustomerForm; // xóa EditCustomerForm sau khi kết thúc thao tác trên EditCustomerForm
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
 		}
 		// Khi nút xóa Customer click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
 		System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Customer", "Delete Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-			if (result == System::Windows::Forms::DialogResult::Yes) {
-				// xử lý xóa Customer
+			if (this->dataTable->Rows->Count != 0) {  // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Delete
+				// Show dialog hỏi có delete hay ko
+				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Customer", "Delete Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+				// Nếu có thực hiện delete
+				if (result == System::Windows::Forms::DialogResult::Yes) {
+					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
+					this->customerObject->setId(id); // set id vừa lấy được vào thuộc tính id của customerObject
+					this->customerObject->MoveToTrash(); // thực hiện xóa customer
+					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect()); // xóa hàng bị xóa (ở ngoài giao diện)
+				}
 			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
 		}
 		// Khi nút xem thùng rác (các Customer đã xóa) click thì show Form danh sách Customer đã xóa
 		System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-			Form^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm();
-			TrashCustomerForm->ShowDialog();
-			delete TrashCustomerForm;
+			BTLAppManagerStore::TrashCustomerForm^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm(this->MyDB); // tạo form TrashCustomeresForm
+			TrashCustomerForm->ShowDialog(); // Show form TrashCustomeresForm lên
+			delete TrashCustomerForm; // xóa TrashCustomerForm sau khi kết thúc thao tác trên TrashCustomerForm
 		}
+		// Hàm này chạy khi 1 cell nào đó trong dataTable được select
 		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
+			this->currentIndexRowSelect = e->RowIndex;
 		}
+		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
 		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->ClearSelection(); // Clear các khách hàng đang được chọn (trong dataTable)
 		}
+		// Hàm này sẽ chạy khi cbSearch thay đổi giá trị
 		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
+			else if (this->cbSearch->SelectedItem->ToString() == "Title") this->searchColumnName = "title"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
 		}
 };
 }

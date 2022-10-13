@@ -1,4 +1,6 @@
-﻿#include "Objects.h"
+﻿#include "Database.h"
+#include "Utils.h"
+#include "Objects.h"
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -23,7 +25,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-
+		TrashCustomerForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
+		}
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
