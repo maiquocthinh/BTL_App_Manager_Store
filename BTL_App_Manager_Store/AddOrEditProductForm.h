@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -740,6 +741,14 @@ namespace BTLAppManagerStore {
                 this->Text = L"Edit Product";
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Product";
+                // Load data trong DB vào form
+                this->tbxName->Text = MyUtils::stdStringToSystemString(this->productObject->getName());
+                this->tbxDescription->Text = MyUtils::stdStringToSystemString(this->productObject->getDescription());
+                this->tbxImage->Text = MyUtils::stdStringToSystemString(this->productObject->getImage());
+                this->tbxUnit->Text = MyUtils::stdStringToSystemString(this->productObject->getUnit());
+                this->tbxImportPrice->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->productObject->getImportPrice()));
+                this->tbxSellPrice->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->productObject->getSellPrice()));
+                this->tbxPosition->Text = MyUtils::stdStringToSystemString(this->productObject->getPosition());
             }
         }
         // Tự động load image khi nhập link image vào ô input
@@ -753,14 +762,22 @@ namespace BTLAppManagerStore {
     
         System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
             // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-            // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+            this->productObject->setName(MyUtils::systemStringToStdString(this->tbxName->Text));
+            this->productObject->setDescription(MyUtils::systemStringToStdString(this->tbxDescription->Text));
+            this->productObject->setImage(MyUtils::systemStringToStdString(this->tbxImage->Text));
+            this->productObject->setUnit(MyUtils::systemStringToStdString(this->tbxUnit->Text));
+            this->productObject->setImprotPrice(stoi(MyUtils::systemStringToStdString(this->tbxImportPrice->Text)));
+            this->productObject->setsellPrice(stoi(MyUtils::systemStringToStdString(this->tbxSellPrice->Text)));
+            this->productObject->setPosition(MyUtils::systemStringToStdString(this->tbxPosition->Text));
 
             //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
             if (this->isEditMode) {
-
+                this->productObject->Update();
+                MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
             else {
-
+                this->productObject->Create();
+                MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
             this->Close(); // đóng form này lại
         }
