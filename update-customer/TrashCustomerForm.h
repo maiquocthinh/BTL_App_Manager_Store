@@ -261,73 +261,19 @@ namespace BTLAppManagerStore {
 		int currentIndexRowSelect;
 
 	// ****** Các hàm ta tự định nghĩa ******
-	// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
-		int getCurrentIndexRowSelect() {
-			if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
-			else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
-			return this->currentIndexRowSelect;
-		}
-		// Hàm load dữ liệu trong database ra `dataTable` trong form
-		void loadAllDataToTable() {
-			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0)";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
-			while (res->next())
-				this->dataTable->Rows->Add(
-					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("fullname")),
-					MyUtils::stdStringToSystemString(res->getString("sex")),
-					MyUtils::stdStringToSystemString(res->getString("address")),
-					MyUtils::stdStringToSystemString(res->getString("phone")),
-					res->getInt("points")
-				);
-			this->dataTable->ClearSelection();
-		}
-		// Hàm này lấy id của hàng thông qua rowIndex
-		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
-		}
+
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private: 
-		//khi form tải 
 		System::Void TrashCustomerForm_Load(System::Object^ sender, System::EventArgs^ e) {
-			loadAllDataToTable();
-			this->customerObject = new MyObjects::Customer(this->MyDB);
 		}
-		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Customer đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
-			if (this->dataTable->Rows->Count != 0) {
-				// xử lý khôi phục Customer
-				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
-				this->customerObject->setId(id);
-				this->customerObject->Restore();
-				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
-			}
-			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
-		// Hàm này chạy khi nút Delete click, thực hiện xóa (vĩnh viễn) Customer
 		System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-			if (this->dataTable->Rows->Count != 0) {
-				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-				if (result == System::Windows::Forms::DialogResult::Yes) {
-					// xử lý xóa (vĩnh viễn) Category
-					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
-					this->customerObject->setId(id);
-					this->customerObject->Delete();
-					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
-				}
-			}
-			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
-		// Hàm này chạy khi 1 cell nào đó tròn dataTable được select
 		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			// Cập nhật lại biến currentIndexRowSelect mỗi khi call của dataTable đc select
-			this->currentIndexRowSelect = e->RowIndex;
 		}
-		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
 		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn
 		}
 };
 }

@@ -138,15 +138,14 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1->Controls->Add(this->btnSave, 0, 4);
             this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
-            this->tableLayoutPanel1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
             this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
             this->tableLayoutPanel1->RowCount = 5;
-            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 56)));
-            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 48)));
-            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 48)));
-            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 128)));
+            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 70)));
+            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
+            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
+            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 160)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel1->Size = System::Drawing::Size(784, 402);
+            this->tableLayoutPanel1->Size = System::Drawing::Size(878, 494);
             this->tableLayoutPanel1->TabIndex = 0;
             // 
             // tableLayoutPanel5
@@ -161,12 +160,11 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel5->Controls->Add(this->lbSex, 0, 0);
             this->tableLayoutPanel5->Controls->Add(this->cbSex, 1, 0);
-            this->tableLayoutPanel5->Location = System::Drawing::Point(395, 106);
-            this->tableLayoutPanel5->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel5->Location = System::Drawing::Point(442, 133);
             this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
             this->tableLayoutPanel5->RowCount = 1;
             this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel5->Size = System::Drawing::Size(386, 44);
+            this->tableLayoutPanel5->Size = System::Drawing::Size(433, 54);
             this->tableLayoutPanel5->TabIndex = 7;
             // 
             // lbSex
@@ -180,7 +178,7 @@ namespace BTLAppManagerStore {
             this->lbSex->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbSex->Location = System::Drawing::Point(3, 0);
             this->lbSex->Name = L"lbSex";
-            this->lbSex->Size = System::Drawing::Size(109, 44);
+            this->lbSex->Size = System::Drawing::Size(123, 54);
             this->lbSex->TabIndex = 6;
             this->lbSex->Text = L"Sex";
             this->lbSex->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -193,10 +191,10 @@ namespace BTLAppManagerStore {
             this->cbSex->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
             this->cbSex->FormattingEnabled = true;
             this->cbSex->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Male", L"Female" });
-            this->cbSex->Location = System::Drawing::Point(118, 10);
-            this->cbSex->Margin = System::Windows::Forms::Padding(3, 10, 27, 2);
+            this->cbSex->Location = System::Drawing::Point(132, 12);
+            this->cbSex->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->cbSex->Name = L"cbSex";
-            this->cbSex->Size = System::Drawing::Size(241, 24);
+            this->cbSex->Size = System::Drawing::Size(271, 28);
             this->cbSex->TabIndex = 3;
             this->cbSex->TabStop = false;
             // 
@@ -212,14 +210,13 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel2->Controls->Add(this->lbName, 0, 0);
             this->tableLayoutPanel2->Controls->Add(this->tbxName, 1, 0);
-            this->tableLayoutPanel2->Location = System::Drawing::Point(395, 58);
-            this->tableLayoutPanel2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel2->Location = System::Drawing::Point(442, 73);
             this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
             this->tableLayoutPanel2->RowCount = 1;
             this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 44)));
-            this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 44)));
-            this->tableLayoutPanel2->Size = System::Drawing::Size(386, 44);
+            this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 54)));
+            this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 54)));
+            this->tableLayoutPanel2->Size = System::Drawing::Size(433, 54);
             this->tableLayoutPanel2->TabIndex = 5;
             // 
             // lbName
@@ -233,7 +230,7 @@ namespace BTLAppManagerStore {
             this->lbName->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbName->Location = System::Drawing::Point(3, 0);
             this->lbName->Name = L"lbName";
-            this->lbName->Size = System::Drawing::Size(109, 44);
+            this->lbName->Size = System::Drawing::Size(123, 54);
             this->lbName->TabIndex = 2;
             this->lbName->Text = L"Full Name";
             this->lbName->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -243,10 +240,10 @@ namespace BTLAppManagerStore {
             this->tbxName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxName->Location = System::Drawing::Point(118, 10);
-            this->tbxName->Margin = System::Windows::Forms::Padding(3, 10, 27, 2);
+            this->tbxName->Location = System::Drawing::Point(132, 12);
+            this->tbxName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxName->Name = L"tbxName";
-            this->tbxName->Size = System::Drawing::Size(241, 22);
+            this->tbxName->Size = System::Drawing::Size(271, 26);
             this->tbxName->TabIndex = 1;
             this->tbxName->TabStop = false;
             // 
@@ -262,12 +259,11 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel3->Controls->Add(this->tbxID, 1, 0);
             this->tableLayoutPanel3->Controls->Add(this->lbID, 0, 0);
-            this->tableLayoutPanel3->Location = System::Drawing::Point(3, 58);
-            this->tableLayoutPanel3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel3->Location = System::Drawing::Point(3, 73);
             this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
             this->tableLayoutPanel3->RowCount = 1;
             this->tableLayoutPanel3->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel3->Size = System::Drawing::Size(386, 44);
+            this->tableLayoutPanel3->Size = System::Drawing::Size(433, 54);
             this->tableLayoutPanel3->TabIndex = 7;
             // 
             // tbxID
@@ -275,11 +271,11 @@ namespace BTLAppManagerStore {
             this->tbxID->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxID->Location = System::Drawing::Point(118, 10);
-            this->tbxID->Margin = System::Windows::Forms::Padding(3, 10, 27, 2);
+            this->tbxID->Location = System::Drawing::Point(132, 12);
+            this->tbxID->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxID->Name = L"tbxID";
             this->tbxID->ReadOnly = true;
-            this->tbxID->Size = System::Drawing::Size(241, 22);
+            this->tbxID->Size = System::Drawing::Size(271, 26);
             this->tbxID->TabIndex = 0;
             this->tbxID->TabStop = false;
             this->tbxID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
@@ -295,7 +291,7 @@ namespace BTLAppManagerStore {
             this->lbID->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbID->Location = System::Drawing::Point(3, 0);
             this->lbID->Name = L"lbID";
-            this->lbID->Size = System::Drawing::Size(109, 44);
+            this->lbID->Size = System::Drawing::Size(123, 54);
             this->lbID->TabIndex = 0;
             this->lbID->Text = L"ID";
             this->lbID->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -313,7 +309,7 @@ namespace BTLAppManagerStore {
                 static_cast<System::Int32>(static_cast<System::Byte>(192)));
             this->titleForm->Location = System::Drawing::Point(3, 0);
             this->titleForm->Name = L"titleForm";
-            this->titleForm->Size = System::Drawing::Size(778, 56);
+            this->titleForm->Size = System::Drawing::Size(872, 70);
             this->titleForm->TabIndex = 0;
             this->titleForm->Text = L"Add Customer";
             this->titleForm->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -330,12 +326,11 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel6->Controls->Add(this->tbxPoints, 1, 0);
             this->tableLayoutPanel6->Controls->Add(this->lbPoints, 0, 0);
-            this->tableLayoutPanel6->Location = System::Drawing::Point(395, 154);
-            this->tableLayoutPanel6->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel6->Location = System::Drawing::Point(442, 193);
             this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
             this->tableLayoutPanel6->RowCount = 1;
             this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel6->Size = System::Drawing::Size(386, 124);
+            this->tableLayoutPanel6->Size = System::Drawing::Size(433, 154);
             this->tableLayoutPanel6->TabIndex = 8;
             // 
             // tbxPoints
@@ -343,10 +338,10 @@ namespace BTLAppManagerStore {
             this->tbxPoints->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxPoints->Location = System::Drawing::Point(118, 10);
-            this->tbxPoints->Margin = System::Windows::Forms::Padding(3, 10, 27, 2);
+            this->tbxPoints->Location = System::Drawing::Point(132, 12);
+            this->tbxPoints->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxPoints->Name = L"tbxPoints";
-            this->tbxPoints->Size = System::Drawing::Size(241, 22);
+            this->tbxPoints->Size = System::Drawing::Size(271, 26);
             this->tbxPoints->TabIndex = 5;
             this->tbxPoints->TabStop = false;
             // 
@@ -361,8 +356,8 @@ namespace BTLAppManagerStore {
             this->lbPoints->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbPoints->Location = System::Drawing::Point(3, 0);
             this->lbPoints->Name = L"lbPoints";
-            this->lbPoints->Padding = System::Windows::Forms::Padding(0, 10, 0, 0);
-            this->lbPoints->Size = System::Drawing::Size(109, 124);
+            this->lbPoints->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
+            this->lbPoints->Size = System::Drawing::Size(123, 154);
             this->lbPoints->TabIndex = 10;
             this->lbPoints->Text = L"Points";
             this->lbPoints->TextAlign = System::Drawing::ContentAlignment::TopCenter;
@@ -379,12 +374,11 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel7->Controls->Add(this->tbxPhone, 1, 0);
             this->tableLayoutPanel7->Controls->Add(this->lbPhone, 0, 0);
-            this->tableLayoutPanel7->Location = System::Drawing::Point(3, 106);
-            this->tableLayoutPanel7->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel7->Location = System::Drawing::Point(3, 133);
             this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
             this->tableLayoutPanel7->RowCount = 1;
             this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel7->Size = System::Drawing::Size(386, 44);
+            this->tableLayoutPanel7->Size = System::Drawing::Size(433, 54);
             this->tableLayoutPanel7->TabIndex = 9;
             // 
             // tbxPhone
@@ -392,10 +386,10 @@ namespace BTLAppManagerStore {
             this->tbxPhone->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxPhone->Location = System::Drawing::Point(118, 10);
-            this->tbxPhone->Margin = System::Windows::Forms::Padding(3, 10, 27, 2);
+            this->tbxPhone->Location = System::Drawing::Point(132, 12);
+            this->tbxPhone->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxPhone->Name = L"tbxPhone";
-            this->tbxPhone->Size = System::Drawing::Size(241, 22);
+            this->tbxPhone->Size = System::Drawing::Size(271, 26);
             this->tbxPhone->TabIndex = 2;
             this->tbxPhone->TabStop = false;
             // 
@@ -410,7 +404,7 @@ namespace BTLAppManagerStore {
             this->lbPhone->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbPhone->Location = System::Drawing::Point(3, 0);
             this->lbPhone->Name = L"lbPhone";
-            this->lbPhone->Size = System::Drawing::Size(109, 44);
+            this->lbPhone->Size = System::Drawing::Size(123, 54);
             this->lbPhone->TabIndex = 4;
             this->lbPhone->Text = L"Phone";
             this->lbPhone->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -427,12 +421,11 @@ namespace BTLAppManagerStore {
                 70)));
             this->tableLayoutPanel4->Controls->Add(this->tbxAddress, 1, 0);
             this->tableLayoutPanel4->Controls->Add(this->lbAddress, 0, 0);
-            this->tableLayoutPanel4->Location = System::Drawing::Point(3, 154);
-            this->tableLayoutPanel4->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+            this->tableLayoutPanel4->Location = System::Drawing::Point(3, 193);
             this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
             this->tableLayoutPanel4->RowCount = 1;
             this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel4->Size = System::Drawing::Size(386, 124);
+            this->tableLayoutPanel4->Size = System::Drawing::Size(433, 154);
             this->tableLayoutPanel4->TabIndex = 6;
             // 
             // tbxAddress
@@ -440,11 +433,11 @@ namespace BTLAppManagerStore {
             this->tbxAddress->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxAddress->Location = System::Drawing::Point(118, 10);
-            this->tbxAddress->Margin = System::Windows::Forms::Padding(3, 10, 27, 10);
+            this->tbxAddress->Location = System::Drawing::Point(132, 12);
+            this->tbxAddress->Margin = System::Windows::Forms::Padding(3, 12, 30, 12);
             this->tbxAddress->Multiline = true;
             this->tbxAddress->Name = L"tbxAddress";
-            this->tbxAddress->Size = System::Drawing::Size(241, 104);
+            this->tbxAddress->Size = System::Drawing::Size(271, 130);
             this->tbxAddress->TabIndex = 4;
             this->tbxAddress->TabStop = false;
             // 
@@ -459,8 +452,8 @@ namespace BTLAppManagerStore {
             this->lbAddress->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbAddress->Location = System::Drawing::Point(3, 0);
             this->lbAddress->Name = L"lbAddress";
-            this->lbAddress->Padding = System::Windows::Forms::Padding(0, 10, 0, 0);
-            this->lbAddress->Size = System::Drawing::Size(109, 124);
+            this->lbAddress->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
+            this->lbAddress->Size = System::Drawing::Size(123, 154);
             this->lbAddress->TabIndex = 8;
             this->lbAddress->Text = L"Address";
             this->lbAddress->TextAlign = System::Drawing::ContentAlignment::TopCenter;
@@ -477,10 +470,10 @@ namespace BTLAppManagerStore {
             this->btnCancel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->btnCancel->ImageKey = L"cancel-icon.png";
             this->btnCancel->ImageList = this->ListIcon;
-            this->btnCancel->Location = System::Drawing::Point(413, 299);
-            this->btnCancel->Margin = System::Windows::Forms::Padding(21, 19, 3, 19);
+            this->btnCancel->Location = System::Drawing::Point(463, 374);
+            this->btnCancel->Margin = System::Windows::Forms::Padding(24, 24, 3, 24);
             this->btnCancel->Name = L"btnCancel";
-            this->btnCancel->Size = System::Drawing::Size(124, 84);
+            this->btnCancel->Size = System::Drawing::Size(140, 96);
             this->btnCancel->TabIndex = 7;
             this->btnCancel->TabStop = false;
             this->btnCancel->UseVisualStyleBackColor = true;
@@ -496,10 +489,10 @@ namespace BTLAppManagerStore {
             this->btnSave->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->btnSave->ImageKey = L"add-icon.png";
             this->btnSave->ImageList = this->ListIcon;
-            this->btnSave->Location = System::Drawing::Point(247, 299);
-            this->btnSave->Margin = System::Windows::Forms::Padding(3, 19, 21, 19);
+            this->btnSave->Location = System::Drawing::Point(275, 374);
+            this->btnSave->Margin = System::Windows::Forms::Padding(3, 24, 24, 24);
             this->btnSave->Name = L"btnSave";
-            this->btnSave->Size = System::Drawing::Size(124, 84);
+            this->btnSave->Size = System::Drawing::Size(140, 96);
             this->btnSave->TabIndex = 6;
             this->btnSave->TabStop = false;
             this->btnSave->UseVisualStyleBackColor = true;
@@ -507,14 +500,13 @@ namespace BTLAppManagerStore {
             // 
             // AddOrEditCustomerForm
             // 
-            this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+            this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(784, 402);
+            this->ClientSize = System::Drawing::Size(878, 494);
             this->Controls->Add(this->tableLayoutPanel1);
-            this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
             this->MaximizeBox = false;
-            this->MaximumSize = System::Drawing::Size(802, 449);
-            this->MinimumSize = System::Drawing::Size(802, 449);
+            this->MaximumSize = System::Drawing::Size(900, 550);
+            this->MinimumSize = System::Drawing::Size(900, 550);
             this->Name = L"AddOrEditCustomerForm";
             this->ShowInTaskbar = false;
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
@@ -555,34 +547,19 @@ namespace BTLAppManagerStore {
                 this->Text = L"Edit Customer";
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Customer";
-                //Load data trong DB vao form
-                this->tbxID->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->customerObject->getId()));
-                this->tbxName->Text = MyUtils::stdStringToSystemString(this->customerObject->getFullName());
-                this->tbxPhone->Text = MyUtils::stdStringToSystemString(this->customerObject->getPhone());
-                this->cbSex->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->customerObject->getSex()));
-                this->tbxAddress->Text = MyUtils::stdStringToSystemString(this->customerObject->getAddress());
-                this->tbxPoints->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->customerObject->getPoints()));
             }
         }
 	
         System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
             // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-            this->customerObject->setId(stoi(MyUtils::systemStringToStdString(this->tbxID->Text)));
-            this->customerObject->setFullName(MyUtils::systemStringToStdString(this->tbxName->Text));
-            this->customerObject->setPhone(MyUtils::systemStringToStdString(this->tbxPhone->Text));
-            this->customerObject->setSex(stoi(MyUtils::systemStringToStdString(this->cbSex->Text)));
-            this->customerObject->setAddress(MyUtils::systemStringToStdString(this->tbxAddress->Text));
-            this->customerObject->setPoints(stoi(MyUtils::systemStringToStdString(this->tbxPoints->Text)));
             // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
             
             //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
             if (this->isEditMode) {
-                this->customerObject->Update();
-                MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                
             }
             else {
-                this->customerObject->Create();
-                MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+               
             }
             this->Close(); // đóng form này lại
         }

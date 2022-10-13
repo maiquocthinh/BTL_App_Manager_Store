@@ -459,18 +459,14 @@ namespace BTLAppManagerStore {
 			// Load tất cả data trong Database ra Table
 			void loadAllDataToTable() {
 				this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			//
 				std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0)";
 				sql::ResultSet* res = this->MyDB->ReadQuery(query);
 				while (res->next())
 					this->dataTable->Rows->Add(
 						res->getInt("id"),
-						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
-						MyUtils::stdStringToSystemString(res->getString("phone")),
-						res->getInt("points")
+						MyUtils::stdStringToSystemString(res->getString("title"))
 					);
-				this->dataTable->ClearSelection();
 			}
 			// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 			void loadSearchDataToTable(std::string searchKey) {
@@ -480,13 +476,8 @@ namespace BTLAppManagerStore {
 				while (res->next())
 					this->dataTable->Rows->Add(
 						res->getInt("id"),
-						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
-						MyUtils::stdStringToSystemString(res->getString("phone")),
-						res->getInt("points")
+						MyUtils::stdStringToSystemString(res->getString("title"))
 					);
-				this->dataTable->ClearSelection();
 			}
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
