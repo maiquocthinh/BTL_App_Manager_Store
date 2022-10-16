@@ -185,10 +185,12 @@ namespace BTLAppManagerStore {
             });
             this->tableLayoutPanel1->SetColumnSpan(this->dataTable, 2);
             this->dataTable->Location = System::Drawing::Point(3, 193);
+            this->dataTable->MultiSelect = false;
             this->dataTable->Name = L"dataTable";
             this->dataTable->ReadOnly = true;
             this->dataTable->RowHeadersWidth = 62;
             this->dataTable->RowTemplate->Height = 28;
+            this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
             this->dataTable->Size = System::Drawing::Size(1094, 417);
             this->dataTable->TabIndex = 7;
             // 
@@ -274,7 +276,6 @@ namespace BTLAppManagerStore {
             this->tbxDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxDate->Enabled = false;
             this->tbxDate->Location = System::Drawing::Point(164, 12);
             this->tbxDate->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxDate->Name = L"tbxDate";
@@ -323,7 +324,6 @@ namespace BTLAppManagerStore {
             this->tbxBillID->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxBillID->Enabled = false;
             this->tbxBillID->Location = System::Drawing::Point(164, 12);
             this->tbxBillID->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxBillID->Name = L"tbxBillID";
@@ -413,7 +413,6 @@ namespace BTLAppManagerStore {
             this->tbxCustomerName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxCustomerName->Enabled = false;
             this->tbxCustomerName->Location = System::Drawing::Point(164, 12);
             this->tbxCustomerName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxCustomerName->Name = L"tbxCustomerName";
@@ -462,7 +461,6 @@ namespace BTLAppManagerStore {
             this->tbxEmployeeName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxEmployeeName->Enabled = false;
             this->tbxEmployeeName->Location = System::Drawing::Point(164, 12);
             this->tbxEmployeeName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxEmployeeName->Name = L"tbxEmployeeName";
@@ -630,7 +628,10 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(1100, 733);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->MaximizeBox = false;
             this->Name = L"BillDetailForm";
+            this->ShowInTaskbar = false;
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
             this->Text = L"BillDetailForm";
             this->Load += gcnew System::EventHandler(this, &BillDetailForm::BillDetailForm_Load);
             this->tableLayoutPanel1->ResumeLayout(false);
@@ -655,21 +656,73 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
+        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+            // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
         // Biến MyDB để thực hiện các tương tác đến Database
         MyDatabase* MyDB = new MyDatabase();
+        MyObjects::SList<MyStructs::Product>* listProducts = new MyObjects::SList<MyStructs::Product>();
+    public:
+        // Biến object của BillCustomer
+        MyObjects::BillCustomer* billCustomerObject;
 
-    // ****** Các hàm ta tự định nghĩa ******
-
-
-    // ****** Các hàm xử lý sự kiện (event) trong form này ******
-    private: 
-        System::Void BillDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        // ****** Các hàm ta tự định nghĩa ******
+    private:
+        void fillListProducts() {
+            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
+            while (res->next())
+            {
+                MyStructs::Product pd;
+                pd.id = res->getInt("id");
+                pd.name = res->getString("name");
+                pd.quantity = res->getInt("quantity");
+                pd.importPrice = res->getInt("import_price");
+                pd.sellPrice = res->getInt("sell_price");
+                this->listProducts->addFirst(pd);
+            }
         }
-        System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+        void loadAllDataToTable() {
+            std::vector<std::string> vtQuantities, vtProductIDs;
+            vtProductIDs = MyUtils::split(this->billCustomerObject->getProductIDs(), ",");
+            vtQuantities = MyUtils::split(this->billCustomerObject->getQuantityProducts(), ",");
+            for (int i = 0; i < vtProductIDs.size() - 1; i++)
+            {
+                MyObjects::Node<MyStructs::Product>* productNode = this->listProducts->getNodeByID(std::stoi(vtProductIDs[i]));
+                if (productNode != NULL) {
+                    this->dataTable->Rows->Add(
+                        std::stoi(vtProductIDs[i]),
+                        MyUtils::stdStringToSystemString(productNode->data.name),
+                        productNode->data.sellPrice,
+                        std::stoi(vtQuantities[i]),
+                        productNode->data.sellPrice * std::stoi(vtQuantities[i])
+                    );
+                }
+                delete productNode;
+            }
         }
-};
+
+        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: System::Void BillDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        fillListProducts();
+        sql::ResultSet* res;
+        std::string nameEmployee, nameCustomer;
+        res = this->MyDB->ReadQuery("SELECT `fullname` FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getEmployeeID()) + ") LIMIT 1");
+        if (res->next()) this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(res->getString("fullname"));
+        res = this->MyDB->ReadQuery("SELECT `fullname` FROM `tb_customers` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getCustomerID()) + ") LIMIT 1");
+        if (res->next()) this->tbxCustomerName->Text = MyUtils::stdStringToSystemString(res->getString("fullname"));
+        this->tbxBillID->Text = this->billCustomerObject->getId().ToString();
+        this->tbxDate->Text = MyUtils::stdStringToSystemString(this->billCustomerObject->getDate());
+        this->tbxDiscount->Text = this->billCustomerObject->getDiscountByPoints().ToString();
+        this->tbxTotalBill->Text = (this->billCustomerObject->getTotalPrice() + this->billCustomerObject->getDiscountByPoints()).ToString();
+        loadAllDataToTable();
+    }
+           System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+               System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Bill", "Delete Bill", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+               if (result == System::Windows::Forms::DialogResult::Yes) {
+                   this->billCustomerObject->Delete();
+                   this->Close();
+               }
+           }
+    };
 }

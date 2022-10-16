@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -21,6 +22,11 @@ namespace BTLAppManagerStore {
             //
             //TODO: Add the constructor code here
             //
+        }
+        NewBillForm(MyDatabase* const MyDB)
+        {
+            InitializeComponent();
+            this->MyDB = MyDB;
         }
 
     protected:
@@ -46,8 +52,9 @@ namespace BTLAppManagerStore {
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::Label^ lbProduct;
+    private: System::Windows::Forms::ComboBox^ cbProducts;
 
-    private: System::Windows::Forms::ComboBox^ cbProduct;
+
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel9;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel12;
@@ -63,7 +70,8 @@ namespace BTLAppManagerStore {
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::Label^ lbCustomerName;
-    private: System::Windows::Forms::ComboBox^ cbCustomerName;
+    private: System::Windows::Forms::ComboBox^ cbCustomersName;
+
 
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
@@ -71,8 +79,8 @@ namespace BTLAppManagerStore {
 
     private: System::Windows::Forms::Label^ lbEmployeeName;
 
-    private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel11;
-    private: System::Windows::Forms::Label^ lbDiscount;
+
+
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel10;
     private: System::Windows::Forms::Label^ lbQuantity;
@@ -107,13 +115,17 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::Label^ lbChange;
 
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel22;
-    private: System::Windows::Forms::TextBox^ tbxCash;
+
 
     private: System::Windows::Forms::Label^ lbCash;
     private: System::Windows::Forms::Button^ btnPay;
+    private: System::Windows::Forms::NumericUpDown^ numCash;
 
 
-    private: System::Windows::Forms::NumericUpDown^ numDiscount;
+
+
+
+
 
     private:
         /// <summary>
@@ -134,7 +146,7 @@ namespace BTLAppManagerStore {
             this->tbxChange = (gcnew System::Windows::Forms::TextBox());
             this->lbChange = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel22 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->tbxCash = (gcnew System::Windows::Forms::TextBox());
+            this->numCash = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbCash = (gcnew System::Windows::Forms::Label());
             this->dataTable = (gcnew System::Windows::Forms::DataGridView());
             this->productID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -148,7 +160,7 @@ namespace BTLAppManagerStore {
             this->lbPrice = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->lbProduct = (gcnew System::Windows::Forms::Label());
-            this->cbProduct = (gcnew System::Windows::Forms::ComboBox());
+            this->cbProducts = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel12 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->btnRemove = (gcnew System::Windows::Forms::Button());
             this->btnAdd = (gcnew System::Windows::Forms::Button());
@@ -156,9 +168,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel10 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->lbQuantity = (gcnew System::Windows::Forms::Label());
             this->numQuantity = (gcnew System::Windows::Forms::NumericUpDown());
-            this->tableLayoutPanel11 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->numDiscount = (gcnew System::Windows::Forms::NumericUpDown());
-            this->lbDiscount = (gcnew System::Windows::Forms::Label());
             this->titleForm = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -166,7 +175,7 @@ namespace BTLAppManagerStore {
             this->lbDate = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->lbCustomerName = (gcnew System::Windows::Forms::Label());
-            this->cbCustomerName = (gcnew System::Windows::Forms::ComboBox());
+            this->cbCustomersName = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tbxEmployeeName = (gcnew System::Windows::Forms::TextBox());
             this->lbEmployeeName = (gcnew System::Windows::Forms::Label());
@@ -182,6 +191,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel18->SuspendLayout();
             this->tableLayoutPanel19->SuspendLayout();
             this->tableLayoutPanel22->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCash))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
             this->tableLayoutPanel3->SuspendLayout();
             this->tableLayoutPanel8->SuspendLayout();
@@ -190,8 +200,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel9->SuspendLayout();
             this->tableLayoutPanel10->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->BeginInit();
-            this->tableLayoutPanel11->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->BeginInit();
             this->tableLayoutPanel2->SuspendLayout();
             this->tableLayoutPanel6->SuspendLayout();
             this->tableLayoutPanel5->SuspendLayout();
@@ -277,6 +285,7 @@ namespace BTLAppManagerStore {
             this->tbxChange->Location = System::Drawing::Point(164, 12);
             this->tbxChange->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxChange->Name = L"tbxChange";
+            this->tbxChange->ReadOnly = true;
             this->tbxChange->Size = System::Drawing::Size(344, 26);
             this->tbxChange->TabIndex = 1;
             this->tbxChange->TabStop = false;
@@ -307,7 +316,7 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel22->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel22->Controls->Add(this->tbxCash, 1, 0);
+            this->tableLayoutPanel22->Controls->Add(this->numCash, 0, 0);
             this->tableLayoutPanel22->Controls->Add(this->lbCash, 0, 0);
             this->tableLayoutPanel22->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel22->Name = L"tableLayoutPanel22";
@@ -318,17 +327,17 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel22->Size = System::Drawing::Size(538, 51);
             this->tableLayoutPanel22->TabIndex = 9;
             // 
-            // tbxCash
+            // numCash
             // 
-            this->tbxCash->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxCash->Location = System::Drawing::Point(164, 12);
-            this->tbxCash->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->tbxCash->Name = L"tbxCash";
-            this->tbxCash->Size = System::Drawing::Size(344, 26);
-            this->tbxCash->TabIndex = 1;
-            this->tbxCash->TabStop = false;
+            this->numCash->Anchor = System::Windows::Forms::AnchorStyles::None;
+            this->numCash->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
+            this->numCash->Location = System::Drawing::Point(164, 17);
+            this->numCash->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->numCash->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 999999999, 0, 0, 0 });
+            this->numCash->Name = L"numCash";
+            this->numCash->Size = System::Drawing::Size(344, 26);
+            this->numCash->TabIndex = 2;
+            this->numCash->ValueChanged += gcnew System::EventHandler(this, &NewBillForm::numCash_ValueChanged);
             // 
             // lbCash
             // 
@@ -361,10 +370,12 @@ namespace BTLAppManagerStore {
             });
             this->tableLayoutPanel1->SetColumnSpan(this->dataTable, 2);
             this->dataTable->Location = System::Drawing::Point(3, 313);
+            this->dataTable->MultiSelect = false;
             this->dataTable->Name = L"dataTable";
             this->dataTable->ReadOnly = true;
             this->dataTable->RowHeadersWidth = 62;
             this->dataTable->RowTemplate->Height = 28;
+            this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
             this->dataTable->Size = System::Drawing::Size(1094, 197);
             this->dataTable->TabIndex = 6;
             // 
@@ -448,7 +459,6 @@ namespace BTLAppManagerStore {
             this->tbxPrice->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxPrice->Enabled = false;
             this->tbxPrice->Location = System::Drawing::Point(164, 12);
             this->tbxPrice->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxPrice->Name = L"tbxPrice";
@@ -484,7 +494,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
             this->tableLayoutPanel7->Controls->Add(this->lbProduct, 0, 0);
-            this->tableLayoutPanel7->Controls->Add(this->cbProduct, 1, 0);
+            this->tableLayoutPanel7->Controls->Add(this->cbProducts, 1, 0);
             this->tableLayoutPanel7->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
             this->tableLayoutPanel7->RowCount = 1;
@@ -508,18 +518,19 @@ namespace BTLAppManagerStore {
             this->lbProduct->Text = L"Product";
             this->lbProduct->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // cbProduct
+            // cbProducts
             // 
-            this->cbProduct->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->cbProducts->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->cbProduct->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->cbProduct->FormattingEnabled = true;
-            this->cbProduct->Location = System::Drawing::Point(164, 12);
-            this->cbProduct->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->cbProduct->Name = L"cbProduct";
-            this->cbProduct->Size = System::Drawing::Size(344, 28);
-            this->cbProduct->TabIndex = 1;
+            this->cbProducts->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbProducts->FormattingEnabled = true;
+            this->cbProducts->Location = System::Drawing::Point(164, 12);
+            this->cbProducts->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbProducts->Name = L"cbProducts";
+            this->cbProducts->Size = System::Drawing::Size(344, 28);
+            this->cbProducts->TabIndex = 1;
+            this->cbProducts->SelectedIndexChanged += gcnew System::EventHandler(this, &NewBillForm::cbProducts_SelectedIndexChanged);
             // 
             // tableLayoutPanel12
             // 
@@ -553,6 +564,7 @@ namespace BTLAppManagerStore {
             this->btnRemove->TabIndex = 1;
             this->btnRemove->Text = L"Remove";
             this->btnRemove->UseVisualStyleBackColor = true;
+            this->btnRemove->Click += gcnew System::EventHandler(this, &NewBillForm::btnRemove_Click);
             // 
             // btnAdd
             // 
@@ -567,19 +579,17 @@ namespace BTLAppManagerStore {
             this->btnAdd->TabIndex = 0;
             this->btnAdd->Text = L"Add";
             this->btnAdd->UseVisualStyleBackColor = true;
+            this->btnAdd->Click += gcnew System::EventHandler(this, &NewBillForm::btnAdd_Click);
             // 
             // tableLayoutPanel9
             // 
             this->tableLayoutPanel9->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tableLayoutPanel9->ColumnCount = 2;
-            this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                50)));
+            this->tableLayoutPanel9->ColumnCount = 1;
             this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 50)));
             this->tableLayoutPanel9->Controls->Add(this->tableLayoutPanel10, 0, 0);
-            this->tableLayoutPanel9->Controls->Add(this->tableLayoutPanel11, 1, 0);
             this->tableLayoutPanel9->Location = System::Drawing::Point(3, 119);
             this->tableLayoutPanel9->Name = L"tableLayoutPanel9";
             this->tableLayoutPanel9->RowCount = 1;
@@ -594,16 +604,16 @@ namespace BTLAppManagerStore {
                 | System::Windows::Forms::AnchorStyles::Right));
             this->tableLayoutPanel10->ColumnCount = 2;
             this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                36.36364F)));
+                30)));
             this->tableLayoutPanel10->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                63.63636F)));
+                70)));
             this->tableLayoutPanel10->Controls->Add(this->lbQuantity, 0, 0);
             this->tableLayoutPanel10->Controls->Add(this->numQuantity, 1, 0);
             this->tableLayoutPanel10->Location = System::Drawing::Point(3, 3);
             this->tableLayoutPanel10->Name = L"tableLayoutPanel10";
             this->tableLayoutPanel10->RowCount = 1;
             this->tableLayoutPanel10->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel10->Size = System::Drawing::Size(263, 46);
+            this->tableLayoutPanel10->Size = System::Drawing::Size(532, 46);
             this->tableLayoutPanel10->TabIndex = 12;
             // 
             // lbQuantity
@@ -617,67 +627,19 @@ namespace BTLAppManagerStore {
             this->lbQuantity->ForeColor = System::Drawing::SystemColors::ControlText;
             this->lbQuantity->Location = System::Drawing::Point(3, 0);
             this->lbQuantity->Name = L"lbQuantity";
-            this->lbQuantity->Size = System::Drawing::Size(89, 46);
+            this->lbQuantity->Size = System::Drawing::Size(153, 46);
             this->lbQuantity->TabIndex = 0;
             this->lbQuantity->Text = L"Quantity";
             this->lbQuantity->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // numQuantity
             // 
-            this->numQuantity->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->numQuantity->Location = System::Drawing::Point(110, 15);
-            this->numQuantity->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
+            this->numQuantity->Anchor = System::Windows::Forms::AnchorStyles::None;
+            this->numQuantity->Location = System::Drawing::Point(162, 14);
+            this->numQuantity->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->numQuantity->Name = L"numQuantity";
-            this->numQuantity->Size = System::Drawing::Size(138, 26);
+            this->numQuantity->Size = System::Drawing::Size(340, 26);
             this->numQuantity->TabIndex = 1;
-            // 
-            // tableLayoutPanel11
-            // 
-            this->tableLayoutPanel11->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->tableLayoutPanel11->ColumnCount = 2;
-            this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                50)));
-            this->tableLayoutPanel11->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-                50)));
-            this->tableLayoutPanel11->Controls->Add(this->numDiscount, 0, 0);
-            this->tableLayoutPanel11->Controls->Add(this->lbDiscount, 0, 0);
-            this->tableLayoutPanel11->Location = System::Drawing::Point(272, 3);
-            this->tableLayoutPanel11->Name = L"tableLayoutPanel11";
-            this->tableLayoutPanel11->RowCount = 1;
-            this->tableLayoutPanel11->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel11->Size = System::Drawing::Size(263, 46);
-            this->tableLayoutPanel11->TabIndex = 11;
-            // 
-            // numDiscount
-            // 
-            this->numDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->numDiscount->Location = System::Drawing::Point(146, 15);
-            this->numDiscount->Margin = System::Windows::Forms::Padding(15, 15, 15, 3);
-            this->numDiscount->Name = L"numDiscount";
-            this->numDiscount->Size = System::Drawing::Size(102, 26);
-            this->numDiscount->TabIndex = 2;
-            // 
-            // lbDiscount
-            // 
-            this->lbDiscount->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->lbDiscount->AutoSize = true;
-            this->lbDiscount->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-                static_cast<System::Byte>(0)));
-            this->lbDiscount->ForeColor = System::Drawing::SystemColors::ControlText;
-            this->lbDiscount->Location = System::Drawing::Point(3, 0);
-            this->lbDiscount->Name = L"lbDiscount";
-            this->lbDiscount->Size = System::Drawing::Size(125, 46);
-            this->lbDiscount->TabIndex = 0;
-            this->lbDiscount->Text = L"Discount (%)";
-            this->lbDiscount->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
             // titleForm
             // 
@@ -776,7 +738,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
             this->tableLayoutPanel5->Controls->Add(this->lbCustomerName, 0, 0);
-            this->tableLayoutPanel5->Controls->Add(this->cbCustomerName, 1, 0);
+            this->tableLayoutPanel5->Controls->Add(this->cbCustomersName, 1, 0);
             this->tableLayoutPanel5->Location = System::Drawing::Point(3, 61);
             this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
             this->tableLayoutPanel5->RowCount = 1;
@@ -800,18 +762,19 @@ namespace BTLAppManagerStore {
             this->lbCustomerName->Text = L"Customer Name";
             this->lbCustomerName->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // cbCustomerName
+            // cbCustomersName
             // 
-            this->cbCustomerName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+            this->cbCustomersName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->cbCustomerName->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->cbCustomerName->FormattingEnabled = true;
-            this->cbCustomerName->Location = System::Drawing::Point(164, 12);
-            this->cbCustomerName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->cbCustomerName->Name = L"cbCustomerName";
-            this->cbCustomerName->Size = System::Drawing::Size(344, 28);
-            this->cbCustomerName->TabIndex = 1;
+            this->cbCustomersName->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbCustomersName->FormattingEnabled = true;
+            this->cbCustomersName->Location = System::Drawing::Point(164, 12);
+            this->cbCustomersName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbCustomersName->Name = L"cbCustomersName";
+            this->cbCustomersName->Size = System::Drawing::Size(344, 28);
+            this->cbCustomersName->TabIndex = 1;
+            this->cbCustomersName->SelectedIndexChanged += gcnew System::EventHandler(this, &NewBillForm::cbCustomersName_SelectedIndexChanged);
             // 
             // tableLayoutPanel4
             // 
@@ -837,7 +800,6 @@ namespace BTLAppManagerStore {
             this->tbxEmployeeName->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxEmployeeName->Enabled = false;
             this->tbxEmployeeName->Location = System::Drawing::Point(164, 12);
             this->tbxEmployeeName->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->tbxEmployeeName->Name = L"tbxEmployeeName";
@@ -916,6 +878,7 @@ namespace BTLAppManagerStore {
             this->tbxTotalBill->Size = System::Drawing::Size(344, 26);
             this->tbxTotalBill->TabIndex = 1;
             this->tbxTotalBill->TabStop = false;
+            this->tbxTotalBill->Text = L"0";
             // 
             // lbTotalBill
             // 
@@ -980,6 +943,7 @@ namespace BTLAppManagerStore {
             this->cbDiscountByPoint->Name = L"cbDiscountByPoint";
             this->cbDiscountByPoint->Size = System::Drawing::Size(344, 28);
             this->cbDiscountByPoint->TabIndex = 1;
+            this->cbDiscountByPoint->SelectedIndexChanged += gcnew System::EventHandler(this, &NewBillForm::cbDiscountByPoint_SelectedIndexChanged);
             // 
             // btnPay
             // 
@@ -998,6 +962,7 @@ namespace BTLAppManagerStore {
             this->btnPay->TabIndex = 8;
             this->btnPay->Text = L"PAY";
             this->btnPay->UseVisualStyleBackColor = true;
+            this->btnPay->Click += gcnew System::EventHandler(this, &NewBillForm::btnPay_Click);
             // 
             // NewBillForm
             // 
@@ -1010,8 +975,9 @@ namespace BTLAppManagerStore {
             this->MinimumSize = System::Drawing::Size(1122, 789);
             this->Name = L"NewBillForm";
             this->ShowInTaskbar = false;
-            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
             this->Text = L"New Bill";
+            this->Load += gcnew System::EventHandler(this, &NewBillForm::NewBillForm_Load);
             this->tableLayoutPanel1->ResumeLayout(false);
             this->tableLayoutPanel1->PerformLayout();
             this->tableLayoutPanel18->ResumeLayout(false);
@@ -1019,6 +985,7 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel19->PerformLayout();
             this->tableLayoutPanel22->ResumeLayout(false);
             this->tableLayoutPanel22->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCash))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->EndInit();
             this->tableLayoutPanel3->ResumeLayout(false);
             this->tableLayoutPanel8->ResumeLayout(false);
@@ -1030,9 +997,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel10->ResumeLayout(false);
             this->tableLayoutPanel10->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->EndInit();
-            this->tableLayoutPanel11->ResumeLayout(false);
-            this->tableLayoutPanel11->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numDiscount))->EndInit();
             this->tableLayoutPanel2->ResumeLayout(false);
             this->tableLayoutPanel6->ResumeLayout(false);
             this->tableLayoutPanel6->PerformLayout();
@@ -1049,6 +1013,209 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+            // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    private:
+        // Biến MyDB để thực hiện các tương tác đến Database
+        MyDatabase* MyDB = new MyDatabase();
+        // Biến object của BillCustomer
+        MyObjects::BillCustomer* billCustomerObject;
+        MyObjects::SList<MyStructs::Product>* ListProducts = new MyObjects::SList<MyStructs::Product>();
+        MyObjects::SList<MyStructs::Customer>* ListCustomer = new MyObjects::SList<MyStructs::Customer>();
+        MyStructs::Customer* currentCustomer = NULL;
+        MyStructs::Product* currentProduct = NULL;
+
+        // ****** Các hàm ta tự định nghĩa ******
+    private:
+        int getCurrentRowSelectedIndex() {
+            int index = this->dataTable->CurrentRow->Index;
+            if (index > this->dataTable->Rows->Count) index = this->dataTable->Rows->Count - 1;
+            else if (index < 0) index = 0;
+            return index;
+        }
+        void fillListCustomer() {
+            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `fullname`, `points` FROM `tb_customers` WHERE (`isDelete` = 0)");
+            while (res->next())
+            {
+                MyStructs::Customer customer;
+                customer.id = res->getInt("id");
+                customer.fullName = res->getString("fullname");
+                customer.points = res->getInt("points");
+                this->ListCustomer->addFirst(customer);
+            }
+        }
+        void fillListProducts() {
+            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
+            while (res->next())
+            {
+                MyStructs::Product pd;
+                pd.id = res->getInt("id");
+                pd.name = res->getString("name");
+                pd.quantity = res->getInt("quantity");
+                pd.importPrice = res->getInt("import_price");
+                pd.sellPrice = res->getInt("sell_price");
+                this->ListProducts->addFirst(pd);
+            }
+        }
+        void loadCBProducts() {
+            for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+            {
+                this->cbProducts->Items->Add(MyUtils::stdStringToSystemString(i->data.name));
+            }
+        }
+        void loadCBCustomers() {
+            this->cbCustomersName->Items->Add(L"Khách vãng lai");
+            for (MyObjects::Node<MyStructs::Customer>* i = this->ListCustomer->getHead(); i != NULL; i = i->next)
+            {
+                this->cbCustomersName->Items->Add(MyUtils::stdStringToSystemString(i->data.fullName));
+            }
+        }
+        MyStructs::Product* getProductByName(std::string name) {
+            for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+            {
+                if (i->data.name == name) {
+                    return &(i->data);
+                }
+            }
+        }
+        MyStructs::Customer* getCustomerByFullName(std::string fullName) {
+            for (MyObjects::Node<MyStructs::Customer>* i = this->ListCustomer->getHead(); i != NULL; i = i->next)
+            {
+                if (i->data.fullName == fullName) {
+                    return &(i->data);
+                }
+            }
+        }
+        void calcTotalMoney() {
+            unsigned int sum = 0;
+            for (int i = 0; i < this->dataTable->Rows->Count; i++)
+            {
+                sum += std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
+            }
+            this->tbxTotalBill->Text = sum.ToString();
+        }
+        void calcChangeMoney() {
+            unsigned int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+            unsigned int cashMonney = (unsigned int)this->numCash->Value;
+            if (cashMonney >= totalMoney) {
+                this->tbxChange->Text = (cashMonney - totalMoney).ToString();
+            }
+            else {
+                this->tbxChange->Text = "Cash Tendered not enough!!!";
+            }
+        }
+        void updateQuantityProducts(std::string quantities, std::string productIDs) {
+            std::vector<std::string> vtQuantities, vtProductIDs;
+            vtProductIDs = MyUtils::split(productIDs, ",");
+            vtQuantities = MyUtils::split(quantities, ",");
+            for (int i = 0; i < vtProductIDs.size() - 1; i++)
+            {
+                this->MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` - " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
+            }
+        }
+        void updateDiscountPointsCustomer(unsigned int idCustomer, bool isUsedPoints, unsigned int totalMoney) {
+            unsigned int extraPoints = totalMoney / 100;
+            if (isUsedPoints) {
+                std::string qr = "UPDATE `tb_customers` SET `points`=" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")";
+                this->MyDB->CUDQuery(qr);
+            }
+            else {
+                this->MyDB->CUDQuery("UPDATE `tb_customers` SET `points`=`points`+" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")");
+            }
+        }
+
+        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        System::Void NewBillForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            fillListCustomer();
+            fillListProducts();
+            loadCBCustomers();
+            loadCBProducts();
+            this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
+            this->billCustomerObject = new MyObjects::BillCustomer(this->MyDB);
+        }
+        System::Void cbCustomersName_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+            if (this->cbCustomersName->SelectedItem->ToString() != L"Khách vãng lai") {
+                std::string fullNameCustomerSelected = MyUtils::systemStringToStdString(this->cbCustomersName->SelectedItem->ToString());
+                this->currentCustomer = getCustomerByFullName(fullNameCustomerSelected);
+                this->cbDiscountByPoint->Items->Clear();
+                this->cbDiscountByPoint->Items->Add(-this->currentCustomer->points);
+            }
+            else {
+                this->currentCustomer = NULL;
+                this->cbDiscountByPoint->Items->Clear();
+            }
+        }
+        System::Void cbProducts_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+            std::string nameProductSelected = MyUtils::systemStringToStdString(this->cbProducts->SelectedItem->ToString());
+            this->currentProduct = getProductByName(nameProductSelected);
+            this->tbxPrice->Text = this->currentProduct->sellPrice.ToString();
+        }
+        System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+            if (this->currentProduct != NULL) {
+                if (this->numQuantity->Value <= this->currentProduct->quantity) {
+                    this->dataTable->Rows->Add(
+                        this->currentProduct->id,
+                        MyUtils::stdStringToSystemString(this->currentProduct->name),
+                        this->currentProduct->sellPrice,
+                        this->numQuantity->Value,
+                        this->numQuantity->Value * this->currentProduct->sellPrice
+                    );
+                    calcTotalMoney();
+                }
+                else MessageBox::Show("ERROR, Quantity over the allowed", "ERROR", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            }
+        }
+        System::Void btnRemove_Click(System::Object^ sender, System::EventArgs^ e) {
+            this->dataTable->Rows->RemoveAt(this->getCurrentRowSelectedIndex());
+            calcTotalMoney();
+        }
+        System::Void numCash_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+            calcChangeMoney();
+        }
+        System::Void cbDiscountByPoint_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+            if (this->cbDiscountByPoint->SelectedItem != nullptr) {
+                int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+                int discountMoney = (int)this->cbDiscountByPoint->SelectedItem;
+                if (totalMoney + discountMoney > 0)
+                    this->tbxTotalBill->Text = (totalMoney + discountMoney).ToString();
+                calcChangeMoney();
+            }
+        }
+        System::Void btnPay_Click(System::Object^ sender, System::EventArgs^ e) {
+            std::string productIDs = "", quantities = "";
+            std::string date = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            unsigned int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+            for (int i = 0; i < this->dataTable->Rows->Count; i++)
+            {
+                productIDs += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+                quantities += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+            }
+            if (this->currentCustomer != NULL) {
+                this->billCustomerObject->setCustomerID(this->currentCustomer->id);
+            }
+            else {
+                this->billCustomerObject->setCustomerID(0);
+            }
+            if (this->cbDiscountByPoint->SelectedItem != nullptr) {
+                int discount = (int)this->cbDiscountByPoint->SelectedItem;
+                this->billCustomerObject->setDiscountByPoints(discount);
+            }
+            else {
+                this->billCustomerObject->setDiscountByPoints(0);
+            }
+            this->billCustomerObject->setEmployeeID(1);
+            this->billCustomerObject->setTotalPrice(totalMoney);
+            this->billCustomerObject->setProductIDs(productIDs);
+            this->billCustomerObject->setQuantityProducts(quantities);
+            this->billCustomerObject->setDate(date);
+            this->billCustomerObject->Create();
+
+            updateQuantityProducts(quantities, productIDs);
+            updateDiscountPointsCustomer(this->billCustomerObject->getCustomerID(), this->billCustomerObject->getDiscountByPoints(), this->billCustomerObject->getTotalPrice());
+
+            MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+            this->Close();
+        }
     };
 }
