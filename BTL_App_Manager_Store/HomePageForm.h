@@ -1,4 +1,7 @@
-﻿#include "Objects.h"
+﻿#include "Database.h"
+#include "Utils.h"
+#include <vector>
+#include <utility>
 #pragma once
 
 namespace BTLAppManagerStore {
@@ -41,42 +44,30 @@ namespace BTLAppManagerStore {
             }
         }
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
-    protected:
     private: System::Windows::Forms::DataGridView^ tableTopProducts;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ idProduct;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ nameProduct;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ categoryProduct;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ quantity;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ unit;
-    private: System::Windows::Forms::DataGridViewTextBoxColumn^ position;
     private: System::Windows::Forms::Label^ label10;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::Panel^ panel3;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
     private: System::Windows::Forms::Label^ titleTurnoverOfDay;
-
     private: System::Windows::Forms::Label^ turnoverOfDay;
     private: System::Windows::Forms::Panel^ panel2;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::Label^ totalCustomers;
     private: System::Windows::Forms::Label^ titleTotalCustomers;
-
-
     private: System::Windows::Forms::Panel^ panel1;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
     private: System::Windows::Forms::Label^ totalEmployees;
     private: System::Windows::Forms::Label^ titleTotalEmployees;
-
-
     private: System::Windows::Forms::Panel^ panel4;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::Label^ totalProducts;
     private: System::Windows::Forms::Label^ titleTotalProducts;
-
-
-
-
-    protected:
+    private: System::Windows::Forms::DataGridViewTextBoxColumn^ idProduct;
+    private: System::Windows::Forms::DataGridViewTextBoxColumn^ nameProduct;
+    private: System::Windows::Forms::DataGridViewTextBoxColumn^ quantity;
+    private: System::Windows::Forms::DataGridViewTextBoxColumn^ unit;
+    private: System::Windows::Forms::DataGridViewTextBoxColumn^ position;
     private:
         /// <summary>
         /// Required designer variable.
@@ -94,7 +85,6 @@ namespace BTLAppManagerStore {
             this->tableTopProducts = (gcnew System::Windows::Forms::DataGridView());
             this->idProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->nameProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-            this->categoryProduct = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->quantity = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->unit = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
             this->position = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -156,12 +146,13 @@ namespace BTLAppManagerStore {
                 | System::Windows::Forms::AnchorStyles::Right));
             this->tableTopProducts->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
             this->tableTopProducts->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-            this->tableTopProducts->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {
+            this->tableTopProducts->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(5) {
                 this->idProduct,
-                    this->nameProduct, this->categoryProduct, this->quantity, this->unit, this->position
+                    this->nameProduct, this->quantity, this->unit, this->position
             });
             this->tableTopProducts->Location = System::Drawing::Point(30, 73);
             this->tableTopProducts->Margin = System::Windows::Forms::Padding(30, 3, 30, 30);
+            this->tableTopProducts->MultiSelect = false;
             this->tableTopProducts->Name = L"tableTopProducts";
             this->tableTopProducts->ReadOnly = true;
             this->tableTopProducts->RowHeadersWidth = 62;
@@ -183,13 +174,6 @@ namespace BTLAppManagerStore {
             this->nameProduct->MinimumWidth = 8;
             this->nameProduct->Name = L"nameProduct";
             this->nameProduct->ReadOnly = true;
-            // 
-            // categoryProduct
-            // 
-            this->categoryProduct->HeaderText = L"Category";
-            this->categoryProduct->MinimumWidth = 8;
-            this->categoryProduct->Name = L"categoryProduct";
-            this->categoryProduct->ReadOnly = true;
             // 
             // quantity
             // 
@@ -310,7 +294,7 @@ namespace BTLAppManagerStore {
             this->turnoverOfDay->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
             this->turnoverOfDay->Size = System::Drawing::Size(514, 123);
             this->turnoverOfDay->TabIndex = 1;
-            this->turnoverOfDay->Text = L"5.328.000 VND";
+            this->turnoverOfDay->Text = L"0 VND";
             this->turnoverOfDay->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
             // panel2
@@ -357,7 +341,7 @@ namespace BTLAppManagerStore {
             this->totalCustomers->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
             this->totalCustomers->Size = System::Drawing::Size(513, 123);
             this->totalCustomers->TabIndex = 1;
-            this->totalCustomers->Text = L"23";
+            this->totalCustomers->Text = L"0";
             this->totalCustomers->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
             // titleTotalCustomers
@@ -420,7 +404,7 @@ namespace BTLAppManagerStore {
             this->totalEmployees->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
             this->totalEmployees->Size = System::Drawing::Size(514, 114);
             this->totalEmployees->TabIndex = 1;
-            this->totalEmployees->Text = L"23";
+            this->totalEmployees->Text = L"0";
             this->totalEmployees->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
             // titleTotalEmployees
@@ -483,7 +467,7 @@ namespace BTLAppManagerStore {
             this->totalProducts->Padding = System::Windows::Forms::Padding(0, 12, 0, 0);
             this->totalProducts->Size = System::Drawing::Size(513, 114);
             this->totalProducts->TabIndex = 1;
-            this->totalProducts->Text = L"143";
+            this->totalProducts->Text = L"0";
             this->totalProducts->TextAlign = System::Drawing::ContentAlignment::TopCenter;
             // 
             // titleTotalProducts
@@ -534,20 +518,97 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+            // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
         // Biến MyDB để thực hiện các tương tác đến Database
         MyDatabase* MyDB = new MyDatabase();
 
-    // ****** Các hàm ta tự định nghĩa ******
-
-
-    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+        // ****** Các hàm ta tự định nghĩa ******
     private:
-        // Khi form tải
-        System::Void HomePageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        std::vector<std::pair<int, int>> sortByQuantity(std::vector<std::pair<int, int>> listPair) {
+            using namespace std;
+            vector<pair<int, int>> listPairUnique;
+            // sort listPair giam dan
+            for (int i = 0; i < listPair.size(); i++) {
+                for (int j = 0; j < listPair.size() - (i + 1); j++) {
+                    if (listPair[j].first < listPair[j + 1].first) {
+                        pair<int, int> temp = listPair[j];
+                        listPair[j] = listPair[j + 1];
+                        listPair[j + 1] = temp;
+                    }
+                }
+            }
+            //
+            listPairUnique.push_back(listPair[0]);
+            for (int i = 1; i < listPair.size(); i++) {
+                if (listPair[i - 1].first != listPair[i].first) {
+                    listPairUnique.push_back(listPair[i]);
+                }
+                else {
+                    listPairUnique[listPairUnique.size() - 1].second += listPair[i].second;
+                }
+            }
+            //
+            for (int i = 0; i < listPairUnique.size(); i++) {
+                for (int j = 0; j < listPairUnique.size() - (i + 1); j++) {
+                    if (listPairUnique[j].second < listPairUnique[j + 1].second) {
+                        pair<int, int> temp = listPairUnique[j];
+                        listPairUnique[j] = listPairUnique[j + 1];
+                        listPairUnique[j + 1] = temp;
+                    }
+                }
+            }
+            //
+            return listPairUnique;
         }
-};
+
+
+        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        // Khi form này tải
+        System::Void HomePageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            sql::ResultSet* res;
+            // load tổng số nhân viên, khách hàng, hàng hóa ra giao diện
+            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_products` WHERE (`isDelete` = 0)");
+            if (res->next()) this->totalProducts->Text = res->getInt("count").ToString();
+            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_employees` WHERE (`isDelete` = 0)");
+            if (res->next()) this->totalEmployees->Text = res->getInt("count").ToString();
+            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_customers` WHERE (`isDelete` = 0)");
+            if (res->next()) this->totalCustomers->Text = res->getInt("count").ToString();
+            // load tổng thu nhập ngày hôm nay ra giao diện
+            std::string today = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd"));
+            res = this->MyDB->ReadQuery("SELECT SUM(total_money) AS sum FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
+            if (res->next()) this->turnoverOfDay->Text = res->getInt("sum").ToString() + " VND";
+            // tổng hợp và hiển thị các hàng hóa bán chạy của hôm nay ra giao diện
+            res = this->MyDB->ReadQuery("SELECT `product_ids`,`quantities` FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
+            std::vector<std::pair<int, int>> listPair;
+            std::vector<std::string> str_listID, str_listQuantity;
+            while (res->next()) {
+                str_listID = MyUtils::split(res->getString("product_ids"), ",");
+                str_listQuantity = MyUtils::split(res->getString("quantities"), ",");
+                for (int i = 0; i < str_listID.size() - 1; i++)
+                {
+                    listPair.push_back(std::make_pair(std::stoi(str_listID[i]), std::stoi(str_listQuantity[i])));
+                }
+            }
+            std::vector<std::pair<int, int>> listPairUnique = sortByQuantity(listPair);
+            for (int i = 0; i < listPairUnique.size(); i++)
+            {
+                if (i == 8) break;
+                res = this->MyDB->ReadQuery("SELECT `id`, `name`, `unit`,  `position` FROM `tb_products` WHERE (`id`=" + MyUtils::intToStdString(listPairUnique[i].first) + ")");
+                if (res->next()) {
+                    this->tableTopProducts->Rows->Add(
+                        res->getInt("id"),
+                        MyUtils::stdStringToSystemString(res->getString("name")),
+                        listPairUnique[i].second,
+                        MyUtils::stdStringToSystemString(res->getString("unit")),
+                        MyUtils::stdStringToSystemString(res->getString("position"))
+                    );
+                }
+            }
+            this->tableTopProducts->ClearSelection();
+        }
+    };
 }
