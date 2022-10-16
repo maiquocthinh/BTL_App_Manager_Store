@@ -23,6 +23,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
+		ImportNewProductsForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
+		}
 
 	protected:
 		/// <summary>
@@ -109,12 +114,12 @@ namespace BTLAppManagerStore {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->btnAdd = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
-			this->tbxEmployeeName = (gcnew System::Windows::Forms::TextBox());
-			this->lbEmployeeName = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tbxDate = (gcnew System::Windows::Forms::TextBox());
 			this->lbDate = (gcnew System::Windows::Forms::Label());
+			this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->tbxEmployeeName = (gcnew System::Windows::Forms::TextBox());
+			this->lbEmployeeName = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
@@ -123,8 +128,8 @@ namespace BTLAppManagerStore {
 			this->panel2->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->BeginInit();
 			this->tableLayoutPanel4->SuspendLayout();
-			this->tableLayoutPanel5->SuspendLayout();
 			this->tableLayoutPanel6->SuspendLayout();
+			this->tableLayoutPanel5->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -202,6 +207,7 @@ namespace BTLAppManagerStore {
 			this->btnImport->TabIndex = 6;
 			this->btnImport->Text = L"Import";
 			this->btnImport->UseVisualStyleBackColor = true;
+			this->btnImport->Click += gcnew System::EventHandler(this, &ImportNewProductsForm::btnImport_Click);
 			// 
 			// lbMoney
 			// 
@@ -216,7 +222,7 @@ namespace BTLAppManagerStore {
 			this->lbMoney->Name = L"lbMoney";
 			this->lbMoney->Size = System::Drawing::Size(566, 64);
 			this->lbMoney->TabIndex = 1;
-			this->lbMoney->Text = L"12.000.000 (VND)";
+			this->lbMoney->Text = L"0 (VND)";
 			this->lbMoney->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
 			// lbTotal
@@ -252,6 +258,7 @@ namespace BTLAppManagerStore {
 			this->dataTable->ReadOnly = true;
 			this->dataTable->RowHeadersWidth = 62;
 			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dataTable->Size = System::Drawing::Size(972, 344);
 			this->dataTable->TabIndex = 1;
 			// 
@@ -329,6 +336,7 @@ namespace BTLAppManagerStore {
 			this->btnRemove->TabIndex = 6;
 			this->btnRemove->Text = L"Remove";
 			this->btnRemove->UseVisualStyleBackColor = true;
+			this->btnRemove->Click += gcnew System::EventHandler(this, &ImportNewProductsForm::btnRemove_Click);
 			// 
 			// panel1
 			// 
@@ -347,12 +355,14 @@ namespace BTLAppManagerStore {
 			this->cbProducts->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->cbProducts->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbProducts->FormattingEnabled = true;
 			this->cbProducts->Location = System::Drawing::Point(101, 15);
 			this->cbProducts->Margin = System::Windows::Forms::Padding(30, 18, 30, 3);
 			this->cbProducts->Name = L"cbProducts";
 			this->cbProducts->Size = System::Drawing::Size(317, 28);
 			this->cbProducts->TabIndex = 2;
+			this->cbProducts->SelectedIndexChanged += gcnew System::EventHandler(this, &ImportNewProductsForm::cbProducts_SelectedIndexChanged);
 			// 
 			// label1
 			// 
@@ -409,6 +419,7 @@ namespace BTLAppManagerStore {
 			this->btnAdd->TabIndex = 5;
 			this->btnAdd->Text = L"Add";
 			this->btnAdd->UseVisualStyleBackColor = true;
+			this->btnAdd->Click += gcnew System::EventHandler(this, &ImportNewProductsForm::btnAdd_Click);
 			// 
 			// tableLayoutPanel4
 			// 
@@ -428,6 +439,54 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
 			this->tableLayoutPanel4->Size = System::Drawing::Size(972, 54);
 			this->tableLayoutPanel4->TabIndex = 4;
+			// 
+			// tableLayoutPanel6
+			// 
+			this->tableLayoutPanel6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->tableLayoutPanel6->ColumnCount = 2;
+			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				30)));
+			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				70)));
+			this->tableLayoutPanel6->Controls->Add(this->tbxDate, 1, 0);
+			this->tableLayoutPanel6->Controls->Add(this->lbDate, 0, 0);
+			this->tableLayoutPanel6->Location = System::Drawing::Point(489, 3);
+			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
+			this->tableLayoutPanel6->RowCount = 1;
+			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
+			this->tableLayoutPanel6->Size = System::Drawing::Size(480, 48);
+			this->tableLayoutPanel6->TabIndex = 8;
+			// 
+			// tbxDate
+			// 
+			this->tbxDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->tbxDate->Location = System::Drawing::Point(147, 8);
+			this->tbxDate->Margin = System::Windows::Forms::Padding(3, 8, 30, 3);
+			this->tbxDate->Name = L"tbxDate";
+			this->tbxDate->ReadOnly = true;
+			this->tbxDate->Size = System::Drawing::Size(303, 26);
+			this->tbxDate->TabIndex = 1;
+			this->tbxDate->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			// 
+			// lbDate
+			// 
+			this->lbDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->lbDate->AutoSize = true;
+			this->lbDate->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbDate->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->lbDate->Location = System::Drawing::Point(3, 0);
+			this->lbDate->Name = L"lbDate";
+			this->lbDate->Size = System::Drawing::Size(138, 48);
+			this->lbDate->TabIndex = 0;
+			this->lbDate->Text = L"Date";
+			this->lbDate->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// tableLayoutPanel5
 			// 
@@ -460,6 +519,7 @@ namespace BTLAppManagerStore {
 			this->tbxEmployeeName->Size = System::Drawing::Size(273, 26);
 			this->tbxEmployeeName->TabIndex = 1;
 			this->tbxEmployeeName->TabStop = false;
+			this->tbxEmployeeName->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
 			// lbEmployeeName
 			// 
@@ -477,53 +537,6 @@ namespace BTLAppManagerStore {
 			this->lbEmployeeName->Text = L"Employee Name";
 			this->lbEmployeeName->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
-			// tableLayoutPanel6
-			// 
-			this->tableLayoutPanel6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->tableLayoutPanel6->ColumnCount = 2;
-			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				30)));
-			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				70)));
-			this->tableLayoutPanel6->Controls->Add(this->tbxDate, 1, 0);
-			this->tableLayoutPanel6->Controls->Add(this->lbDate, 0, 0);
-			this->tableLayoutPanel6->Location = System::Drawing::Point(489, 3);
-			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
-			this->tableLayoutPanel6->RowCount = 1;
-			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-			this->tableLayoutPanel6->Size = System::Drawing::Size(480, 48);
-			this->tableLayoutPanel6->TabIndex = 8;
-			// 
-			// tbxDate
-			// 
-			this->tbxDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->tbxDate->Location = System::Drawing::Point(147, 8);
-			this->tbxDate->Margin = System::Windows::Forms::Padding(3, 8, 30, 3);
-			this->tbxDate->Name = L"tbxDate";
-			this->tbxDate->ReadOnly = true;
-			this->tbxDate->Size = System::Drawing::Size(303, 26);
-			this->tbxDate->TabIndex = 1;
-			// 
-			// lbDate
-			// 
-			this->lbDate->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->lbDate->AutoSize = true;
-			this->lbDate->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB Demi", 10, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lbDate->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->lbDate->Location = System::Drawing::Point(3, 0);
-			this->lbDate->Name = L"lbDate";
-			this->lbDate->Size = System::Drawing::Size(138, 48);
-			this->lbDate->TabIndex = 0;
-			this->lbDate->Text = L"Date";
-			this->lbDate->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			// 
 			// ImportNewProductsForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -534,6 +547,7 @@ namespace BTLAppManagerStore {
 			this->ShowInTaskbar = false;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
 			this->Text = L"New Import Products";
+			this->Load += gcnew System::EventHandler(this, &ImportNewProductsForm::ImportNewProductsForm_Load);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->tableLayoutPanel1->PerformLayout();
 			this->tableLayoutPanel3->ResumeLayout(false);
@@ -546,24 +560,126 @@ namespace BTLAppManagerStore {
 			this->panel2->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numQuantity))->EndInit();
 			this->tableLayoutPanel4->ResumeLayout(false);
-			this->tableLayoutPanel5->ResumeLayout(false);
-			this->tableLayoutPanel5->PerformLayout();
 			this->tableLayoutPanel6->ResumeLayout(false);
 			this->tableLayoutPanel6->PerformLayout();
+			this->tableLayoutPanel5->ResumeLayout(false);
+			this->tableLayoutPanel5->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+			// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	public:
-		// Biến object của Customer
+		// Biến object của BillImport
 		MyObjects::BillImport* billImportObject;
+	private:
+		// Biến MyDB để thực hiện các tương tác đến Database
+		MyDatabase* MyDB = new MyDatabase();
+		MyObjects::SList<MyStructs::Product>* ListProducts = new MyObjects::SList<MyStructs::Product>();
+		MyStructs::Product* currentProduct;
 
-	// ****** Các hàm xử lý sự kiện (event) trong form này ******
+		// ****** Các hàm ta tự định nghĩa ******
+	private:
+		void fillListProducts() {
+			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
+			while (res->next())
+			{
+				MyStructs::Product pd;
+				pd.id = res->getInt("id");
+				pd.name = res->getString("name");
+				pd.quantity = res->getInt("quantity");
+				pd.importPrice = res->getInt("import_price");
+				pd.sellPrice = res->getInt("sell_price");
+				this->ListProducts->addFirst(pd);
+			}
+		}
+		void loadCBProducts() {
+			for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+			{
+				this->cbProducts->Items->Add(MyUtils::stdStringToSystemString(i->data.name));
+			}
+		}
+		void calcTotalMoney() {
+			unsigned int sum = 0;
+			for (int i = 0; i < this->dataTable->Rows->Count; i++)
+			{
+				sum += std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
+			}
+			this->lbMoney->Text = sum.ToString() + " (VND)";
+		}
+		int getCurrentRowSelectedIndex() {
+			int index = this->dataTable->CurrentRow->Index;
+			if (index > this->dataTable->Rows->Count) index = this->dataTable->Rows->Count - 1;
+			else if (index < 0) index = 0;
+			return index;
+		}
+		MyStructs::Product* getProductByName(std::string name) {
+			for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+			{
+				if (i->data.name == name) {
+					return &(i->data);
+				}
+			}
+		}
+		void updateQuantityProducts(std::string quantities, std::string productIDs) {
+			std::vector<std::string> vtQuantities, vtProductIDs;
+			vtProductIDs = MyUtils::split(productIDs, ",");
+			vtQuantities = MyUtils::split(quantities, ",");
+			for (int i = 0; i < vtProductIDs.size() - 1; i++)
+			{
+				this->MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` + " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
+			}
+		}
 
+		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	private:
+		System::Void ImportNewProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			this->billImportObject = new MyObjects::BillImport(this->MyDB);
+			fillListProducts();
+			loadCBProducts();
+			this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
+		}
+		System::Void cbProducts_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+			std::string nameProductSeleted = MyUtils::systemStringToStdString(this->cbProducts->SelectedItem->ToString());
+			this->currentProduct = getProductByName(nameProductSeleted);
+		}
+		System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->Rows->Add(
+				this->currentProduct->id,
+				MyUtils::stdStringToSystemString(this->currentProduct->name),
+				this->currentProduct->importPrice,
+				this->numQuantity->Value,
+				this->numQuantity->Value * this->currentProduct->importPrice
+			);
+			calcTotalMoney();
+		}
+		System::Void btnRemove_Click(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->Rows->RemoveAt(this->getCurrentRowSelectedIndex());
+			calcTotalMoney();
+		}
+		System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
+			std::string productIDs = "", quantities = "";
+			std::string date = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+			unsigned int totalPrice = std::stoi(MyUtils::systemStringToStdString(this->lbMoney->Text));
+			for (int i = 0; i < this->dataTable->Rows->Count; i++)
+			{
+				productIDs += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+				quantities += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+			}
+			this->billImportObject->setTotalPrice(totalPrice);
+			this->billImportObject->setProductIDs(productIDs);
+			this->billImportObject->setQuantityProducts(quantities);
+			this->billImportObject->setDate(date);
+			this->billImportObject->setEmployeeID(1);
+			this->billImportObject->Create();
 
+			updateQuantityProducts(quantities, productIDs);
+
+			MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			this->Close();
+		}
 	};
 }

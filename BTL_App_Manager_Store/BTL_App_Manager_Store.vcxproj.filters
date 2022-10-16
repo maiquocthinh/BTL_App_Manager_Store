@@ -92,5 +92,8 @@
     <ClInclude Include="Objects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImportProductsDetailForm.h">
+      <Filter>Header Files\ChildrenForms</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

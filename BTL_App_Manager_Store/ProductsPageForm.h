@@ -640,7 +640,7 @@ namespace BTLAppManagerStore {
     }
            // Khi nút Import click Show lên Form Import Product
     private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-        Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
+        Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm(this->MyDB);
         ImportProductsForm->ShowDialog();
         delete ImportProductsForm;
     }

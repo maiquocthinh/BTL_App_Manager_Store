@@ -164,6 +164,9 @@
     <ClInclude Include="ImportNewProductsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ImportProductsDetailForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ImportProductsForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -227,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportNewProductsForm.resx">
       <DependentUpon>ImportNewProductsForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportProductsDetailForm.resx">
+      <DependentUpon>ImportProductsDetailForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportProductsForm.resx">
       <DependentUpon>ImportProductsForm.h</DependentUpon>
