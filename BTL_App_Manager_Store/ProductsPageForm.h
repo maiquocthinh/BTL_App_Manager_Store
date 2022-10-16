@@ -6,42 +6,42 @@
 
 namespace BTLAppManagerStore {
 
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
+    using namespace System;
+    using namespace System::ComponentModel;
+    using namespace System::Collections;
+    using namespace System::Windows::Forms;
+    using namespace System::Data;
+    using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for ProductsPageForm
-	/// </summary>
-	public ref class ProductsPageForm : public System::Windows::Forms::Form
-	{
-	public:
-		ProductsPageForm(void)
-		{
-			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
-		}
+    /// <summary>
+    /// Summary for ProductsPageForm
+    /// </summary>
+    public ref class ProductsPageForm : public System::Windows::Forms::Form
+    {
+    public:
+        ProductsPageForm(void)
+        {
+            InitializeComponent();
+            //
+            //TODO: Add the constructor code here
+            //
+        }
         ProductsPageForm(MyDatabase* const MyDB)
         {
             InitializeComponent();
             this->MyDB = MyDB;
         }
-	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		~ProductsPageForm()
-		{
-			if (components)
-			{
-				delete components;
-			}
-		}
+    protected:
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        ~ProductsPageForm()
+        {
+            if (components)
+            {
+                delete components;
+            }
+        }
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::Button^ btnTrash;
@@ -73,19 +73,19 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::ComboBox^ cbSearch;
 
 
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+    private:
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		void InitializeComponent(void)
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        void InitializeComponent(void)
+        {
             System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ProductsPageForm::typeid));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -310,6 +310,7 @@ namespace BTLAppManagerStore {
                     this->nameProduct, this->categoryProduct, this->quantity, this->unit, this->position, this->importPrice, this->sellPrice
             });
             this->dataTable->Location = System::Drawing::Point(3, 83);
+            this->dataTable->MultiSelect = false;
             this->dataTable->Name = L"dataTable";
             this->dataTable->ReadOnly = true;
             this->dataTable->RowHeadersWidth = 62;
@@ -317,8 +318,6 @@ namespace BTLAppManagerStore {
             this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
             this->dataTable->Size = System::Drawing::Size(967, 556);
             this->dataTable->TabIndex = 4;
-            this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &ProductsPageForm::dataTable_CellClick);
-            this->dataTable->Sorted += gcnew System::EventHandler(this, &ProductsPageForm::dataTable_Sorted);
             // 
             // idProduct
             // 
@@ -501,52 +500,67 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-    // ****** Các biến sẽ được khai báo tập trung ở đây ******
+            // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
         // Biến MyDB để thực hiện các tương tác đến Database
         MyDatabase* MyDB = new MyDatabase();
-        // Biến object của product
+        // Biến object của Category
         MyObjects::Product* productObject;
-        // Biến này lưu row index hiện select hiện tại của `dataTable`
-        int currentIndexRowSelect;
         // Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
         System::String^ searchColumnName;
+        // List lứu trữ struct category
+        MyObjects::SList<MyStructs::Category>* ListCategory = new MyObjects::SList<MyStructs::Category>();
 
-    // ****** Các hàm ta tự định nghĩa ******
+
+        // ****** Các hàm ta tự định nghĩa ******
     private:
+        void fillListCategory() {
+            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `title` FROM `tb_prods_categories` WHERE (`isDelete` = 0)");
+            while (res->next())
+            {
+                MyStructs::Category category;
+                category.id = res->getInt("id");
+                category.title = res->getString("title");
+                this->ListCategory->addFirst(category);
+            }
+        }
         // Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
-        int getCurrentIndexRowSelect() {
-            if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
-            else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
-            return this->currentIndexRowSelect;
+        int getCurrentRowsIndexSelected() {
+            int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+            if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+            return currentRowsIndex;
         }
         // Hàm này lấy id của hàng thông qua rowIndex
         int getIdByRowIndex(int rowIndex) {
-            return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+            //return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+            return (int)this->dataTable->Rows[rowIndex]->Cells[0]->Value;
         }
-        // Load tất cả các  data trong Database ra Table
+        // Load tất cả data trong Database ra Table
         void loadAllDataToTable() {
-            this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong database
+            this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
             std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0)";
             sql::ResultSet* res = this->MyDB->ReadQuery(query);
-            while (res->next())
+            while (res->next()) {
+                MyObjects::Node<MyStructs::Category>* categoryNode = this->ListCategory->getNodeByID(res->getInt("category_id"));
+                String^ categoryName = "";
+                if (categoryNode != NULL) categoryName = MyUtils::stdStringToSystemString(categoryNode->data.title);
                 this->dataTable->Rows->Add(
                     res->getInt("id"),
                     MyUtils::stdStringToSystemString(res->getString("name")),
-                    "",
+                    categoryName,
                     res->getInt("quantity"),
                     MyUtils::stdStringToSystemString(res->getString("unit")),
                     MyUtils::stdStringToSystemString(res->getString("position")),
                     res->getInt("import_price"),
                     res->getInt("sell_price")
                 );
-            this->dataTable->ClearSelection();
+            }
         }
         // Load các data trùng với từ khóa tìm kiếm trong Database ra Table
         void loadSearchDataToTable(std::string searchKey) {
-            this->dataTable->Rows->Clear();
+            this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
             std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) AND (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
             sql::ResultSet* res = this->MyDB->ReadQuery(query);
             while (res->next())
@@ -560,92 +574,82 @@ namespace BTLAppManagerStore {
                     res->getInt("import_price"),
                     res->getInt("sell_price")
                 );
-            this->dataTable->ClearSelection();
         }
 
+        // ****** Các hàm xử lý sự kiện (event) trong form này ******
 
-    // ****** Các hàm xử lý sự kiện (event) trong form này ******
-    private:
-        // Khi form tải
-        System::Void ProductsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
-            loadAllDataToTable();
-            this->cbSearch->SelectedIndex = 1;
-            this->productObject = new MyObjects::Product(this->MyDB);
-            this->dataTable->ClearSelection();
+        // Khi Form tải
+    private: System::Void ProductsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+        fillListCategory();
+        loadAllDataToTable();
+        this->cbSearch->SelectedIndex = 1;
+        this->productObject = new MyObjects::Product(this->MyDB);
+    }
+           // Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
+    private: System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+        if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
+            loadAllDataToTable(); // load tất cả data trong DB ra Table 
+        else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
+            std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+            loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
         }
-        // Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
-        System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
-            if (this->tbxSearch->Text == "") // nếu thanh tìm kiếm chưa nhập gì
-                loadAllDataToTable(); // load tất cả các data ra table
-            else { //ngược lại nếu thanh tìm kiếm đã nhập
-                std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa của thanh tìm kiếm
-                loadSearchDataToTable(searchKey); // load tất cả các data có cùng từ khóa ra table
+    }
+           // Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
+    private: System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
+        this->tbxSearch->Text = ""; // clear thanh tìm kiêm
+        fillListCategory();
+        loadAllDataToTable(); // load tất cả data trong DB ra Table 
+    }
+           // Khi nút thêm Product click thì Show lên Form thêm Product
+    private: System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
+        BTLAppManagerStore::AddOrEditProductForm^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(this->MyDB);
+        AddProductForm->productObject = this->productObject;
+        AddProductForm->ShowDialog();
+        delete AddProductForm;
+    }
+           // Khi nút sửa Product click thì Show lên Form sửa Product
+    private: System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
+        if (this->dataTable->Rows->Count != 0) {
+            unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected()); // Lấy id hiện tại đang được selected
+            this->productObject->Read(id);
+            BTLAppManagerStore::AddOrEditProductForm^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true, this->MyDB);
+            EditProductForm->productObject = this->productObject;
+            EditProductForm->ShowDialog();
+            delete EditProductForm;
+        }
+        else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+           // Khi nút xóa Product click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
+    private: System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+        if (this->dataTable->Rows->Count != 0) {
+            System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+            if (result == System::Windows::Forms::DialogResult::Yes) {
+                unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());
+                this->productObject->setId(id);
+                this->productObject->MoveToTrash();
+                this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
             }
         }
-        // Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào dataTable
-        System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
-            this->tbxSearch->Text = ""; // clear thanh tiềm kiếm
-            loadAllDataToTable(); // load tất cả các database ra table
-        }
-        // Khi nút thêm Product click thì Show lên Form thêm Product
-        System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-            BTLAppManagerStore::AddOrEditProductForm^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
-            AddProductForm->productObject = this->productObject;
-            AddProductForm->ShowDialog();
-            delete AddProductForm;
-        }
-        // Khi nút sửa Product click thì Show lên Form sửa Product
-        System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
-            if (this->dataTable->Rows->Count != 0) {
-                unsigned int id = getIdByRowIndex(this->currentIndexRowSelect); // Láº¥y id hiá»‡n táº¡i Ä‘ang Ä‘Æ°á»£c selected
-                this->productObject->Read(id);
-                BTLAppManagerStore::AddOrEditProductForm^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
-                EditProductForm->productObject = this->productObject;
-                EditProductForm->ShowDialog();
-                delete EditProductForm;
-            }
-            else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
-        }
-        // Khi nút xóa Product click thì sẽ hỏi có xóa hay ko, nếu xóa thì xử lý xóa ở bên trong hàm này
-        System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-            if (this->dataTable->Rows->Count != 0) {
-                System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Product", "Delete Product", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-                if (result == System::Windows::Forms::DialogResult::Yes) {
-                    unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
-                    this->productObject->setId(id);
-                    this->productObject->MoveToTrash();
-                    this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
-                }
-            }
-            else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
-        }
-        // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
-        System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-            BTLAppManagerStore::TrashProductsForm^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm(this->MyDB);
-            TrashProductsForm->ShowDialog();
-            delete TrashProductsForm;
-        }
-        // Khi nút Import click Show lên Form Import Product
-        System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-            Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
-            ImportProductsForm->ShowDialog();
-            delete ImportProductsForm;
-        }
-        // Hàm này chạy khi 1 cell nào đó trong dataTable được select
-        System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-            // Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-            this->currentIndexRowSelect = e->RowIndex;
-        }
-        // Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-        System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-            this->dataTable->ClearSelection(); // Clear các hàng được chọn trong database
-        }
-        // Hàm này sẽ chạy khi cbSearch thay đổi giá trị
-        System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-            if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id";
-            else if (this->cbSearch->SelectedItem->ToString() == "Name") this->searchColumnName = "name";
-            else if (this->cbSearch->SelectedItem->ToString() == "Quantity") this->searchColumnName = "quantity";
-            else if (this->cbSearch->SelectedItem->ToString() == "Position") this->searchColumnName = "position";
-        }
-};
+        else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
+    }
+           // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
+    private: System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
+        BTLAppManagerStore::TrashProductsForm^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm(this->MyDB);
+        TrashProductsForm->ShowDialog();
+        delete TrashProductsForm;
+    }
+           // Khi nút Import click Show lên Form Import Product
+    private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
+        Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
+        ImportProductsForm->ShowDialog();
+        delete ImportProductsForm;
+    }
+           // Hàm này sẽ chạy khi cbSearch thay đổi giá trị
+    private: System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+        if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id";
+        else if (this->cbSearch->SelectedItem->ToString() == "Name") this->searchColumnName = "name";
+        else if (this->cbSearch->SelectedItem->ToString() == "Quantity") this->searchColumnName = "quantity";
+        else if (this->cbSearch->SelectedItem->ToString() == "Position") this->searchColumnName = "position";
+    }
+    };
 }

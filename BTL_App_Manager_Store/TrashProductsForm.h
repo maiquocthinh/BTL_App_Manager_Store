@@ -184,8 +184,6 @@ namespace BTLAppManagerStore {
 			this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dataTable->Size = System::Drawing::Size(1094, 516);
 			this->dataTable->TabIndex = 3;
-			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &TrashProductsForm::dataTable_CellClick);
-			this->dataTable->Sorted += gcnew System::EventHandler(this, &TrashProductsForm::dataTable_Sorted);
 			// 
 			// idProduct
 			// 
@@ -272,33 +270,30 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-
-	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+			// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
-		// Biến object của Product
+		// Biến object của Category
 		MyObjects::Product* productObject;
-		// Biến này lưu row index hiện select hiện tại của `dataTable`
-		int currentIndexRowSelect;
 
-	// ****** Các hàm ta tự định nghĩa ******
+		// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
-		int getCurrentIndexRowSelect() {
-			if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
-			else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
-			return this->currentIndexRowSelect;
+		int getCurrentRowsIndexSelected() {
+			int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+			if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+			return currentRowsIndex;
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
 			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
 		}
-		// Hàm load dữ liệu (đã xóa hay trong thùng rác) trong database ra `dataTable` trong form
+		// Load tất cả data (đã bị xóa) trong Database ra Table
 		void loadAllDataToTable() {
-			this->dataTable->Rows->Clear(); // xóa dữ liệu trong database
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
 			std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 1)";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			while (res->next())
@@ -312,24 +307,22 @@ namespace BTLAppManagerStore {
 					res->getInt("import_price"),
 					res->getInt("sell_price")
 				);
-			this->dataTable->ClearSelection();
 		}
 
-	// ****** Các hàm xử lý sự kiện (event) trong form này ******
-
-	private: 
-		// Khi form tải
+		// ****** Các hàm xử lý sự kiện (event) trong form này 
+	private:
+		// Khi Form tải
 		System::Void TrashProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
 			this->productObject = new MyObjects::Product(this->MyDB);
 		}
-		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những product đã bị xóa
+		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Product đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (this->dataTable->Rows->Count != 0) {
-				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+				unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());
 				this->productObject->setId(id);
 				this->productObject->Restore();
-				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+				this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
@@ -338,22 +331,14 @@ namespace BTLAppManagerStore {
 			if (this->dataTable->Rows->Count != 0) {
 				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
 				if (result == System::Windows::Forms::DialogResult::Yes) {
-					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+					unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());
 					this->productObject->setId(id);
 					this->productObject->Delete();
-					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
-		// Hàm này chạy khi 1 cell nào đó tròn dataTable được select
-		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-			this->currentIndexRowSelect = e->RowIndex;
-		}
-		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-			this->dataTable->ClearSelection(); // clear các hàng đã được chọn
-		}
-};
+
+	};
 }

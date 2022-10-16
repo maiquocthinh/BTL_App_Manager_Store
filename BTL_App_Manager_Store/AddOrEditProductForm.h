@@ -24,10 +24,16 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        AddOrEditProductForm(bool isEditMode)
+        AddOrEditProductForm(MyDatabase* const MyDB)
         {
-            this->isEditMode = isEditMode;
             InitializeComponent();
+            this->MyDB = MyDB;
+        }
+        AddOrEditProductForm(bool isEditMode, MyDatabase* const MyDB)
+        {
+            InitializeComponent();
+            this->isEditMode = isEditMode;
+            this->MyDB = MyDB;
         }
 
     protected:
@@ -69,12 +75,12 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::TextBox^ tbxPosition;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::Label^ lbQuantity;
-    private: System::Windows::Forms::NumericUpDown^ numQuantity;
     private: System::Windows::Forms::ImageList^ ListIcon;
     private: System::Windows::Forms::Button^ btnSave;
     private: System::Windows::Forms::Button^ btnCancel;
     private: System::Windows::Forms::PictureBox^ imageProduct;
-    private: 
+    private: System::Windows::Forms::NumericUpDown^ numQuantity;
+    private:
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -401,6 +407,7 @@ namespace BTLAppManagerStore {
             this->cbCategory->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
+            this->cbCategory->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
             this->cbCategory->FormattingEnabled = true;
             this->cbCategory->Location = System::Drawing::Point(164, 12);
             this->cbCategory->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
@@ -408,6 +415,7 @@ namespace BTLAppManagerStore {
             this->cbCategory->Size = System::Drawing::Size(344, 28);
             this->cbCategory->TabIndex = 2;
             this->cbCategory->TabStop = false;
+            this->cbCategory->SelectedIndexChanged += gcnew System::EventHandler(this, &AddOrEditProductForm::cbCategory_SelectedIndexChanged);
             // 
             // imageProduct
             // 
@@ -657,9 +665,11 @@ namespace BTLAppManagerStore {
             this->numQuantity->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
                 | System::Windows::Forms::AnchorStyles::Left)
                 | System::Windows::Forms::AnchorStyles::Right));
+            this->numQuantity->Enabled = false;
             this->numQuantity->Location = System::Drawing::Point(164, 12);
             this->numQuantity->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
             this->numQuantity->Name = L"numQuantity";
+            this->numQuantity->ReadOnly = true;
             this->numQuantity->Size = System::Drawing::Size(344, 26);
             this->numQuantity->TabIndex = 1;
             this->numQuantity->TabStop = false;
@@ -725,33 +735,70 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-     // ****** Các biến sẽ được khai báo tập trung ở đây ******
+            // ****** Các biến sẽ được khai báo tập trung ở đây ******
     public:
+        // Biến MyDB để thực hiện các tương tác đến Database
+        MyDatabase* MyDB;
         // Biến object của Product
         MyObjects::Product* productObject;
+        MyObjects::SList<MyStructs::Category>* ListCategory = new MyObjects::SList<MyStructs::Category>();
+        MyStructs::Category* currentCategory;
 
-    // ****** Các hàm xử lý sự kiện (event) trong form này ******
-    private: 
-        // Khi form này tải
+
+        // ****** Các hàm ta tự định nghĩa ******
+    private:
+        void fillListCategory() {
+            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `title` FROM `tb_prods_categories` WHERE (`isDelete` = 0)");
+            while (res->next())
+            {
+                MyStructs::Category category;
+                category.id = res->getInt("id");
+                category.title = res->getString("title");
+                this->ListCategory->addFirst(category);
+            }
+        }
+        void loadCBCategory() {
+            for (MyObjects::Node<MyStructs::Category>* i = this->ListCategory->getHead(); i != NULL; i = i->next) {
+                this->cbCategory->Items->Add(MyUtils::stdStringToSystemString(i->data.title));
+            }
+        }
+        MyStructs::Category* getCategoryByTitle(std::string title) {
+            for (MyObjects::Node<MyStructs::Category>* i = this->ListCategory->getHead(); i != NULL; i = i->next)
+            {
+                if (i->data.title == title) {
+                    return &(i->data);
+                }
+            }
+        }
+
+        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        // Khi form tải
         System::Void AddOrEditProductForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            fillListCategory();
+            loadCBCategory();
             // Chuyển giữa Form tạo mới và Form chỉnh sửa
             if (this->isEditMode) {
                 this->Text = L"Edit Product";
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Product";
-                // Load data trong DB vào form
+                // Load data trong Db vào forom
                 this->tbxName->Text = MyUtils::stdStringToSystemString(this->productObject->getName());
                 this->tbxDescription->Text = MyUtils::stdStringToSystemString(this->productObject->getDescription());
                 this->tbxImage->Text = MyUtils::stdStringToSystemString(this->productObject->getImage());
                 this->tbxUnit->Text = MyUtils::stdStringToSystemString(this->productObject->getUnit());
                 this->tbxImportPrice->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->productObject->getImportPrice()));
                 this->tbxSellPrice->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->productObject->getSellPrice()));
+                this->numQuantity->Value = this->productObject->getQuantity();
                 this->tbxPosition->Text = MyUtils::stdStringToSystemString(this->productObject->getPosition());
+                this->currentCategory = &this->ListCategory->getNodeByID(this->productObject->getCategoryID())->data;
+                if (currentCategory != NULL)
+                    this->cbCategory->SelectedItem = MyUtils::stdStringToSystemString(this->currentCategory->title);
             }
         }
-        // Tự động load image khi nhập link image vào ô input
+        // Tự động load image khi nhập link image vào ô image
         System::Void inputImage_TextChanged(System::Object^ sender, System::EventArgs^ e) {
             System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditProductForm::typeid));
             if (this->tbxImage->Text == "")
@@ -759,9 +806,8 @@ namespace BTLAppManagerStore {
             else
                 this->imageProduct->ImageLocation = this->tbxImage->Text;
         }
-    
+        // Khi nút lưu/thêm click
         System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
-            // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
             this->productObject->setName(MyUtils::systemStringToStdString(this->tbxName->Text));
             this->productObject->setDescription(MyUtils::systemStringToStdString(this->tbxDescription->Text));
             this->productObject->setImage(MyUtils::systemStringToStdString(this->tbxImage->Text));
@@ -769,17 +815,21 @@ namespace BTLAppManagerStore {
             this->productObject->setImprotPrice(stoi(MyUtils::systemStringToStdString(this->tbxImportPrice->Text)));
             this->productObject->setsellPrice(stoi(MyUtils::systemStringToStdString(this->tbxSellPrice->Text)));
             this->productObject->setPosition(MyUtils::systemStringToStdString(this->tbxPosition->Text));
-
-            //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+            this->productObject->setCategoryID(this->currentCategory->id);
             if (this->isEditMode) {
                 this->productObject->Update();
-                MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                MessageBox::Show(L"Update Product Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
             else {
                 this->productObject->Create();
-                MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                MessageBox::Show(L"Create Product Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
-            this->Close(); // đóng form này lại
+            this->Close();
         }
-};
+        // Khi cbCategory đổi giá trị
+        System::Void cbCategory_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+            std::string title = MyUtils::systemStringToStdString(this->cbCategory->SelectedItem->ToString());
+            this->currentCategory = getCategoryByTitle(title);
+        }
+    };
 }
