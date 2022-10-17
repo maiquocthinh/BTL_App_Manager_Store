@@ -530,37 +530,38 @@ namespace BTLAppManagerStore {
         std::vector<std::pair<int, int>> sortByQuantity(std::vector<std::pair<int, int>> listPair) {
             using namespace std;
             vector<pair<int, int>> listPairUnique;
-            // sort listPair giam dan
-            for (int i = 0; i < listPair.size(); i++) {
-                for (int j = 0; j < listPair.size() - (i + 1); j++) {
-                    if (listPair[j].first < listPair[j + 1].first) {
-                        pair<int, int> temp = listPair[j];
-                        listPair[j] = listPair[j + 1];
-                        listPair[j + 1] = temp;
+            if (listPair.size() > 0) {
+                // sort listPair giam dan
+                for (int i = 0; i < listPair.size(); i++) {
+                    for (int j = 0; j < listPair.size() - (i + 1); j++) {
+                        if (listPair[j].first < listPair[j + 1].first) {
+                            pair<int, int> temp = listPair[j];
+                            listPair[j] = listPair[j + 1];
+                            listPair[j + 1] = temp;
+                        }
+                    }
+                }
+                //
+                listPairUnique.push_back(listPair[0]);
+                for (int i = 1; i < listPair.size(); i++) {
+                    if (listPair[i - 1].first != listPair[i].first) {
+                        listPairUnique.push_back(listPair[i]);
+                    }
+                    else {
+                        listPairUnique[listPairUnique.size() - 1].second += listPair[i].second;
+                    }
+                }
+                //
+                for (int i = 0; i < listPairUnique.size(); i++) {
+                    for (int j = 0; j < listPairUnique.size() - (i + 1); j++) {
+                        if (listPairUnique[j].second < listPairUnique[j + 1].second) {
+                            pair<int, int> temp = listPairUnique[j];
+                            listPairUnique[j] = listPairUnique[j + 1];
+                            listPairUnique[j + 1] = temp;
+                        }
                     }
                 }
             }
-            //
-            listPairUnique.push_back(listPair[0]);
-            for (int i = 1; i < listPair.size(); i++) {
-                if (listPair[i - 1].first != listPair[i].first) {
-                    listPairUnique.push_back(listPair[i]);
-                }
-                else {
-                    listPairUnique[listPairUnique.size() - 1].second += listPair[i].second;
-                }
-            }
-            //
-            for (int i = 0; i < listPairUnique.size(); i++) {
-                for (int j = 0; j < listPairUnique.size() - (i + 1); j++) {
-                    if (listPairUnique[j].second < listPairUnique[j + 1].second) {
-                        pair<int, int> temp = listPairUnique[j];
-                        listPairUnique[j] = listPairUnique[j + 1];
-                        listPairUnique[j + 1] = temp;
-                    }
-                }
-            }
-            //
             return listPairUnique;
         }
 
@@ -608,6 +609,7 @@ namespace BTLAppManagerStore {
                     );
                 }
             }
+            //
             this->tableTopProducts->ClearSelection();
         }
     };
