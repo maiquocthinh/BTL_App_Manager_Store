@@ -24,6 +24,11 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
+		TrashEmployeeForm(MyDatabase* const MyDB)
+		{
+			InitializeComponent();
+			this->MyDB = MyDB;
+		}
 
 	protected:
 		/// <summary>
@@ -247,7 +252,7 @@ namespace BTLAppManagerStore {
 
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-	// ****** Các biến sẽ được khai báo tập trung ở đây ******
+// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
@@ -256,20 +261,72 @@ namespace BTLAppManagerStore {
 		// Biến này lưu row index hiện select hiện tại của `dataTable`
 		int currentIndexRowSelect;
 
-	// ****** Các hàm ta tự định nghĩa ******
-
-
-	// ****** Các hàm xử lý sự kiện (event) trong form này ******
-	private: 
-		System::Void TrashEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		// ****** Các hàm ta tự định nghĩa ******
+	// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
+		int getCurrentIndexRowSelect() {
+			if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
+			else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
+			return this->currentIndexRowSelect;
 		}
+		// Hàm load dữ liệu trong database ra `dataTable` trong form
+		void loadAllDataToTable() {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_emloyees` WHERE (`isDelete` = 1)";
+			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::stdStringToSystemString(res->getString("fullname")),
+					MyUtils::stdStringToSystemString(res->getString("address")),
+					MyUtils::stdStringToSystemString(res->getString("phone")),
+					MyUtils::stdStringToSystemString(res->getString("sex")),
+					res->getInt("position")
+				);
+			this->dataTable->ClearSelection();
+		}
+		// Hàm này lấy id của hàng thông qua rowIndex
+		int getIdByRowIndex(int rowIndex) {
+			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+		}
+		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+
+	private:
+		// Khi form tai
+		System::Void TrashEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
+			loadAllDataToTable();
+			this->employeeObject = new MyObjects::Employee(this->MyDB);
+		}
+		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Customer đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) {
+				// Xử lý khôi phục Emloyee
+				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+				this->employeeObject->setId(id);
+				this->employeeObject->Restore();
+				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
 		System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->dataTable->Rows->Count != 0) {
+				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+				if (result == System::Windows::Forms::DialogResult::Yes) {
+					// xử lý xóa (vĩnh viễn) Category
+					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+					this->employeeObject->setId(id);
+					this->employeeObject->Delete();
+					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+				}
+			}
+			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
 		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+			// Cập nhật lại biến currentIndexRowSelect mỗi khi call của dataTable đc select
+			this->currentIndexRowSelect = e->RowIndex;
 		}
 		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
+			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn
 		}
 };
 }
+
