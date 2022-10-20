@@ -456,9 +456,9 @@ namespace BTLAppManagerStore {
 						res->getInt("id"),
 						MyUtils::stdStringToSystemString(res->getString("fullname")),
 						MyUtils::stdStringToSystemString(res->getString("address")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
+						res->getBoolean("sex") ? L"Nam" : L"Nữ",
 						MyUtils::stdStringToSystemString(res->getString("phone")),
-						res->getInt("position")
+						res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
 					);
 				this->dataTable->ClearSelection();
 			}
@@ -472,10 +472,9 @@ namespace BTLAppManagerStore {
 						res->getInt("id"),
 						MyUtils::stdStringToSystemString(res->getString("fullname")),
 						MyUtils::stdStringToSystemString(res->getString("address")),
-						MyUtils::stdStringToSystemString(res->getString("sex")),
+						res->getBoolean("sex") ? L"Nam" : L"Nữ",
 						MyUtils::stdStringToSystemString(res->getString("phone")),
-
-						res->getInt("position")
+						res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
 					);
 				this->dataTable->ClearSelection();
 			}
