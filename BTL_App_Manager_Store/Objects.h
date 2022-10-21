@@ -271,7 +271,7 @@ namespace MyObjects {
 			this->MyDB->CUDQuery("INSERT INTO `tb_customers` (`fullname`, `points`, `sex`, `address`, `phone`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->points) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "')");
 		}
 		void Update() {
-			this->MyDB->CUDQuery("INSERT INTO `tb_customers` SET `fullname`='" + this->fullName + "', `points`='" + MyUtils::intToStdString(this->points) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+			this->MyDB->CUDQuery("UPDATE `tb_customers` SET `fullname`='" + this->fullName + "', `points`='" + MyUtils::intToStdString(this->points) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
 		}
 		void MoveToTrash() {
 			this->MyDB->CUDQuery("UPDATE `tb_customers` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
