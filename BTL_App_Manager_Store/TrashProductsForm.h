@@ -270,16 +270,16 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Category
 		MyObjects::Product* productObject;
 
-		// ****** Các hàm ta tự định nghĩa ******
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
 		int getCurrentRowsIndexSelected() {
@@ -309,7 +309,7 @@ namespace BTLAppManagerStore {
 				);
 		}
 
-		// ****** Các hàm xử lý sự kiện (event) trong form này 
+	// ****** Các hàm xử lý sự kiện (event) trong form này 
 	private:
 		// Khi Form tải
 		System::Void TrashProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
