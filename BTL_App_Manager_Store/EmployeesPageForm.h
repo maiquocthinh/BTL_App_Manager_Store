@@ -283,6 +283,7 @@ namespace BTLAppManagerStore {
 			this->btnRefresh->TabIndex = 3;
 			this->btnRefresh->Text = L"Refresh";
 			this->btnRefresh->UseVisualStyleBackColor = true;
+			this->btnRefresh->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnRefresh_Click);
 			// 
 			// btnSearch
 			// 
@@ -298,6 +299,7 @@ namespace BTLAppManagerStore {
 			this->btnSearch->TabIndex = 2;
 			this->btnSearch->Text = L"Search";
 			this->btnSearch->UseVisualStyleBackColor = true;
+			this->btnSearch->Click += gcnew System::EventHandler(this, &EmployeesPageForm::btnSearch_Click);
 			// 
 			// tbxSearch
 			// 
@@ -336,7 +338,6 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 1;
-			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &EmployeesPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// dataTable
 			// 
@@ -352,14 +353,14 @@ namespace BTLAppManagerStore {
 					this->employeeFullName, this->employeeAddress, this->employeeSex, this->employeePhone, this->employeePosition
 			});
 			this->dataTable->Location = System::Drawing::Point(3, 83);
+			this->dataTable->MultiSelect = false;
 			this->dataTable->Name = L"dataTable";
 			this->dataTable->ReadOnly = true;
 			this->dataTable->RowHeadersWidth = 62;
 			this->dataTable->RowTemplate->Height = 28;
+			this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->dataTable->Size = System::Drawing::Size(1019, 627);
 			this->dataTable->TabIndex = 4;
-			this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &EmployeesPageForm::dataTable_CellClick);
-			this->dataTable->Sorted += gcnew System::EventHandler(this, &EmployeesPageForm::dataTable_Sorted);
 			// 
 			// employeeID
 			// 
@@ -423,69 +424,70 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+	
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
-		// Biến này lưu row index hiện select hiện tại của `dataTable`
-		int currentIndexRowSelect;
 		// Biến object của Category
-		MyObjects::Employee* EmloyeesObject;
-		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
-		System::String^ searchColumnName;
+		MyObjects::Employee* emloyeesObject;
 
-		// ****** Các hàm ta tự định nghĩa ******
-		private:
-			// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
-			int getCurrentIndexRowSelect() {
-				if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
-				else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
-				return this->currentIndexRowSelect;
-			}
-			// Hàm này lấy id của hàng thông qua rowIndex
-			int getIdByRowIndex(int rowIndex) {
-				return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
-			}
-			// Load tất cả data trong Database ra Table
-			void loadAllDataToTable() {
-				this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-				std::string query = "SELECT * FROM `tb_employees` WHERE (`isDelete` = 0)";
-				sql::ResultSet* res = this->MyDB->ReadQuery(query);
-				while (res->next())
-					this->dataTable->Rows->Add(
-						res->getInt("id"),
-						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
-						res->getBoolean("sex") ? L"Nam" : L"Nữ",
-						MyUtils::stdStringToSystemString(res->getString("phone")),
-						res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
-					);
-				this->dataTable->ClearSelection();
-			}
-			// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
-			void loadSearchDataToTable(std::string searchKey) {
-				this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-				std::string query = "SELECT * FROM `tb_emloyees` WHERE (`isDelete` = 0) AND (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
-				sql::ResultSet* res = this->MyDB->ReadQuery(query);
-				while (res->next())
-					this->dataTable->Rows->Add(
-						res->getInt("id"),
-						MyUtils::stdStringToSystemString(res->getString("fullname")),
-						MyUtils::stdStringToSystemString(res->getString("address")),
-						res->getBoolean("sex") ? L"Nam" : L"Nữ",
-						MyUtils::stdStringToSystemString(res->getString("phone")),
-						res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
-					);
-				this->dataTable->ClearSelection();
-			}
-			// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	// ****** Các hàm ta tự định nghĩa ******
+	private:
+		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
+		int getCurrentRowsIndexSelected() {
+			int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+			if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+			return currentRowsIndex;
+		}
+		// Hàm này lấy id của hàng thông qua rowIndex
+		int getIdByRowIndex(int rowIndex) {
+			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+		}
+		std::string getSearchColumnName() {
+			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
+			else if (this->cbSearch->SelectedItem->ToString() == "Full Name") return "fullname";
+			else if (this->cbSearch->SelectedItem->ToString() == "Phone") return "phone";
+			else if (this->cbSearch->SelectedItem->ToString() == "Address") return "address";
+		}
+		// Load tất cả data trong Database ra Table
+		void loadAllDataToTable() {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_employees` WHERE (`isDelete` = 0)  ORDER BY `id` DESC";
+			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::stdStringToSystemString(res->getString("fullname")),
+					MyUtils::stdStringToSystemString(res->getString("address")),
+					res->getBoolean("sex") ? L"Nam" : L"Nữ",
+					MyUtils::stdStringToSystemString(res->getString("phone")),
+					res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
+				);
+		}
+		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
+		void loadSearchDataToTable(std::string searchKey) {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_employees` WHERE (`isDelete` = 0) AND (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%')  ORDER BY `id` DESC";
+			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::stdStringToSystemString(res->getString("fullname")),
+					MyUtils::stdStringToSystemString(res->getString("address")),
+					res->getBoolean("sex") ? L"Nam" : L"Nữ",
+					MyUtils::stdStringToSystemString(res->getString("phone")),
+					res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
+				);
+		}
+	
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private:
 		// Khi form tải
 		System::Void EmployeesPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
 			this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
-			this->EmloyeesObject = new MyObjects::Employee(this->MyDB); // Khởi tạo giá trị cho biến object của Emloyees
-			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn (trong dataTable)
+			this->emloyeesObject = new MyObjects::Employee(this->MyDB); // Khởi tạo giá trị cho biến object của Emloyees
 		}
 		// Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
 		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -504,17 +506,17 @@ namespace BTLAppManagerStore {
 		// Khi nút thêm Employee click thì Show lên Form thêm Employee
 		System::Void btnAdd_Click(Object^ sender, EventArgs^ e) {
 			BTLAppManagerStore::AddOrEditEmployeeForm^ AddEmloyeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(); // khởi tạo biến form (form thêm emloyees)
-			AddEmloyeeForm->employeeObject = this->EmloyeesObject; // gán biến customerObject cho biến (thuộc tính) của form AddCustomerForm
+			AddEmloyeeForm->employeeObject = this->emloyeesObject; // gán biến customerObject cho biến (thuộc tính) của form AddCustomerForm
 			AddEmloyeeForm->ShowDialog(); // Show from AddEmployeeForm lên
 			delete AddEmloyeeForm; // xóa AddEmployeeForm sau khi kết thúc thao tác trên AddEmployeeForm
 		}
 		// Khi nút sửa Employee click thì Show lên Form sửa Employee
 		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
 			if (this->dataTable->Rows->Count != 0) { // Kiểm tra dataTable có rỗng ko, nếu ko rỗng thì thực hiện hành động Edit
-				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
-				this->EmloyeesObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Emloyee
+				unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected()); // Lấy id của Employee hiện tại đang được selected
+				this->emloyeesObject->Read(id); // Đọc dữ liều từ DB và đổ vào các thuộc tính của Emloyee
 				BTLAppManagerStore::AddOrEditEmployeeForm^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true); // tạo form EditEmloyeeForm
-				EditEmployeeForm->employeeObject = this->EmloyeesObject; // truyền(gán) emloyeesObject vào thuộc tính emloyeesObjecttrong form EditEmloyeeForm
+				EditEmployeeForm->employeeObject = this->emloyeesObject; // truyền(gán) emloyeesObject vào thuộc tính emloyeesObjecttrong form EditEmloyeeForm
 				EditEmployeeForm->ShowDialog(); // Show form EditEmployeeForm lên
 				delete EditEmployeeForm; // xóa EditEmployeeForm sau khi kết thúc thao tác trên EditEmployeeForm
 			}
@@ -527,10 +529,10 @@ namespace BTLAppManagerStore {
 				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Emloyee", "Delete Emloyee", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
 				// Nếu có thực hiện delete
 				if (result == System::Windows::Forms::DialogResult::Yes) {
-					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect()); // Lấy id của Category hiện tại đang được selected
-					this->EmloyeesObject->setId(id); // set id vừa lấy được vào thuộc tính id của emloyeesObject
-					this->EmloyeesObject->MoveToTrash(); // thực hiện xóa emloyees
-					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect()); // xóa hàng bị xóa (ở ngoài giao diện)
+					unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected()); // Lấy id của Category hiện tại đang được selected
+					this->emloyeesObject->setId(id); // set id vừa lấy được vào thuộc tính id của emloyeesObject
+					this->emloyeesObject->MoveToTrash(); // thực hiện xóa emloyees
+					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected()); // xóa hàng bị xóa (ở ngoài giao diện)
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
@@ -541,22 +543,6 @@ namespace BTLAppManagerStore {
 			TrashEmloyeeForm->ShowDialog(); // Show form TrashEmloyeeForm lên
 			delete TrashEmloyeeForm; // xóa TrashEmloyeeForm sau khi kết thúc thao tác trên TrashEmloyeeForm
 		}
-
-		// Hàm này chạy khi 1 cell nào đó trong dataTable được select
-		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-			this->currentIndexRowSelect = e->RowIndex;
-		}
-		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-			this->dataTable->ClearSelection(); // Clear các khách hàng đang được chọn (trong dataTable)
-		}
-		// Hàm này sẽ chạy khi cbSearch thay đổi giá trị
-		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id"; // nếu cbSearch chọn ID thì gán searchColumnName bằng 'id'		
-			else if (this->cbSearch->SelectedItem->ToString() == "Full Name") this->searchColumnName = "fullname"; // nếu cbSearch chọn Title thì gán searchColumnName bằng 'title'	
-			else if (this->cbSearch->SelectedItem->ToString() == "Phone") this->searchColumnName = "phone";
-			else if (this->cbSearch->SelectedItem->ToString() == "Address") this->searchColumnName = "address";
-		}
+		
 };
 }

@@ -170,6 +170,7 @@ namespace MyObjects {
 		MyDatabase* MyDB = new MyDatabase();
 		unsigned int id;
 		unsigned short int position; // 0 is manager, 1 is employee
+		string username, password, image;
 	// Constructor and Destructor
 	public:
 		Employee(MyDatabase* const MyDB) {
@@ -194,6 +195,21 @@ namespace MyObjects {
 		void setPosition(unsigned short int position) {
 			this->position = position;
 		}
+		string getUsername() {
+			return this->username;
+		}
+		void setUsername(string username) {
+			this->username = username;
+		}
+		void setPassword(string password) {
+			this->password = password;
+		}
+		string getImage() {
+			return this->image;
+		}
+		void setImage(string image) {
+			this->image = image;
+		}
 		// Functions interactive with Database
 	public:
 		void Read(unsigned int id) {
@@ -205,13 +221,16 @@ namespace MyObjects {
 				this->address = res->getString("address");
 				this->phone = res->getString("phone");
 				this->position = res->getInt("position");
+				this->image = res->getString("image");
+				this->username = res->getString("username");
+				this->password = res->getString("password");
 			}
 		}
 		void Create() {
-			this->MyDB->CUDQuery("INSERT INTO `tb_employees` (`fullname`, `position`, `sex`, `address`, `phone`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->position) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "')");
+			this->MyDB->CUDQuery("INSERT INTO `tb_employees` (`fullname`, `position`, `sex`, `address`, `phone`, `image`, `username`, `password`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->position) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "','" + this->image + "','" + this->username + "','" + this->password + "')");
 		}
 		void Update() {
-			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "', `image`='" + this->image + "', `username`='" + this->username + "', `password`='" + this->password + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
 		}
 		void MoveToTrash() {
 			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");

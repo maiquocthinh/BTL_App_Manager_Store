@@ -64,7 +64,17 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::ImageList^ ListIcon;
     private: System::Windows::Forms::Button^ btnCancel;
     private: System::Windows::Forms::Button^ btnSave;
-    private: System::Windows::Forms::TextBox^ tbxPosition;
+
+    private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel9;
+    private: System::Windows::Forms::TextBox^ tbxPassword;
+
+    private: System::Windows::Forms::Label^ lbPassword;
+
+    private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel8;
+    private: System::Windows::Forms::TextBox^ tbxUsername;
+
+    private: System::Windows::Forms::Label^ lbUsername;
+    private: System::Windows::Forms::ComboBox^ cbPosition;
     private: System::ComponentModel::IContainer^ components;
 
     private:
@@ -103,9 +113,15 @@ namespace BTLAppManagerStore {
             this->tbxAddress = (gcnew System::Windows::Forms::TextBox());
             this->lbAddress = (gcnew System::Windows::Forms::Label());
             this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
-            this->tbxPosition = (gcnew System::Windows::Forms::TextBox());
             this->lbPosition = (gcnew System::Windows::Forms::Label());
             this->imageEmployee = (gcnew System::Windows::Forms::PictureBox());
+            this->tableLayoutPanel8 = (gcnew System::Windows::Forms::TableLayoutPanel());
+            this->tbxUsername = (gcnew System::Windows::Forms::TextBox());
+            this->lbUsername = (gcnew System::Windows::Forms::Label());
+            this->tableLayoutPanel9 = (gcnew System::Windows::Forms::TableLayoutPanel());
+            this->tbxPassword = (gcnew System::Windows::Forms::TextBox());
+            this->lbPassword = (gcnew System::Windows::Forms::Label());
+            this->cbPosition = (gcnew System::Windows::Forms::ComboBox());
             this->tableLayoutPanel1->SuspendLayout();
             this->tableLayoutPanel3->SuspendLayout();
             this->tableLayoutPanel5->SuspendLayout();
@@ -114,6 +130,8 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel4->SuspendLayout();
             this->tableLayoutPanel6->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageEmployee))->BeginInit();
+            this->tableLayoutPanel8->SuspendLayout();
+            this->tableLayoutPanel9->SuspendLayout();
             this->SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -123,8 +141,8 @@ namespace BTLAppManagerStore {
                 50)));
             this->tableLayoutPanel1->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 50)));
-            this->tableLayoutPanel1->Controls->Add(this->btnCancel, 1, 6);
-            this->tableLayoutPanel1->Controls->Add(this->btnSave, 0, 6);
+            this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel9, 1, 6);
+            this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel8, 0, 6);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel3, 0, 1);
             this->tableLayoutPanel1->Controls->Add(this->titleForm, 0, 0);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel5, 0, 4);
@@ -133,18 +151,21 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel4, 1, 4);
             this->tableLayoutPanel1->Controls->Add(this->tableLayoutPanel6, 0, 5);
             this->tableLayoutPanel1->Controls->Add(this->imageEmployee, 1, 1);
+            this->tableLayoutPanel1->Controls->Add(this->btnSave, 0, 7);
+            this->tableLayoutPanel1->Controls->Add(this->btnCancel, 1, 7);
             this->tableLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Fill;
             this->tableLayoutPanel1->Location = System::Drawing::Point(0, 0);
             this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
-            this->tableLayoutPanel1->RowCount = 7;
+            this->tableLayoutPanel1->RowCount = 8;
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 70)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
+            this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 60)));
             this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
-            this->tableLayoutPanel1->Size = System::Drawing::Size(1078, 519);
+            this->tableLayoutPanel1->Size = System::Drawing::Size(1078, 579);
             this->tableLayoutPanel1->TabIndex = 1;
             // 
             // btnCancel
@@ -159,7 +180,7 @@ namespace BTLAppManagerStore {
             this->btnCancel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->btnCancel->ImageKey = L"cancel-icon.png";
             this->btnCancel->ImageList = this->ListIcon;
-            this->btnCancel->Location = System::Drawing::Point(563, 394);
+            this->btnCancel->Location = System::Drawing::Point(563, 454);
             this->btnCancel->Margin = System::Windows::Forms::Padding(24, 24, 3, 24);
             this->btnCancel->Name = L"btnCancel";
             this->btnCancel->Size = System::Drawing::Size(140, 101);
@@ -186,7 +207,7 @@ namespace BTLAppManagerStore {
             this->btnSave->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->btnSave->ImageKey = L"add-icon.png";
             this->btnSave->ImageList = this->ListIcon;
-            this->btnSave->Location = System::Drawing::Point(375, 394);
+            this->btnSave->Location = System::Drawing::Point(375, 454);
             this->btnSave->Margin = System::Windows::Forms::Padding(3, 24, 24, 24);
             this->btnSave->Name = L"btnSave";
             this->btnSave->Size = System::Drawing::Size(140, 101);
@@ -464,7 +485,7 @@ namespace BTLAppManagerStore {
                 30)));
             this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
                 70)));
-            this->tableLayoutPanel6->Controls->Add(this->tbxPosition, 0, 0);
+            this->tableLayoutPanel6->Controls->Add(this->cbPosition, 0, 0);
             this->tableLayoutPanel6->Controls->Add(this->lbPosition, 0, 0);
             this->tableLayoutPanel6->Location = System::Drawing::Point(3, 313);
             this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
@@ -472,18 +493,6 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
             this->tableLayoutPanel6->Size = System::Drawing::Size(533, 54);
             this->tableLayoutPanel6->TabIndex = 10;
-            // 
-            // tbxPosition
-            // 
-            this->tbxPosition->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-                | System::Windows::Forms::AnchorStyles::Left)
-                | System::Windows::Forms::AnchorStyles::Right));
-            this->tbxPosition->Location = System::Drawing::Point(162, 12);
-            this->tbxPosition->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
-            this->tbxPosition->Name = L"tbxPosition";
-            this->tbxPosition->Size = System::Drawing::Size(341, 26);
-            this->tbxPosition->TabIndex = 2;
-            this->tbxPosition->TabStop = false;
             // 
             // lbPosition
             // 
@@ -517,15 +526,126 @@ namespace BTLAppManagerStore {
             this->imageEmployee->TabIndex = 11;
             this->imageEmployee->TabStop = false;
             // 
+            // tableLayoutPanel8
+            // 
+            this->tableLayoutPanel8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->tableLayoutPanel8->BackColor = System::Drawing::Color::Ivory;
+            this->tableLayoutPanel8->ColumnCount = 2;
+            this->tableLayoutPanel8->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+                30)));
+            this->tableLayoutPanel8->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+                70)));
+            this->tableLayoutPanel8->Controls->Add(this->tbxUsername, 0, 0);
+            this->tableLayoutPanel8->Controls->Add(this->lbUsername, 0, 0);
+            this->tableLayoutPanel8->Location = System::Drawing::Point(3, 373);
+            this->tableLayoutPanel8->Name = L"tableLayoutPanel8";
+            this->tableLayoutPanel8->RowCount = 1;
+            this->tableLayoutPanel8->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
+            this->tableLayoutPanel8->Size = System::Drawing::Size(533, 54);
+            this->tableLayoutPanel8->TabIndex = 15;
+            // 
+            // tbxUsername
+            // 
+            this->tbxUsername->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->tbxUsername->Location = System::Drawing::Point(162, 12);
+            this->tbxUsername->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxUsername->Name = L"tbxUsername";
+            this->tbxUsername->Size = System::Drawing::Size(341, 26);
+            this->tbxUsername->TabIndex = 2;
+            this->tbxUsername->TabStop = false;
+            // 
+            // lbUsername
+            // 
+            this->lbUsername->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->lbUsername->AutoSize = true;
+            this->lbUsername->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->lbUsername->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbUsername->Location = System::Drawing::Point(3, 0);
+            this->lbUsername->Name = L"lbUsername";
+            this->lbUsername->Size = System::Drawing::Size(153, 54);
+            this->lbUsername->TabIndex = 0;
+            this->lbUsername->Text = L"Username";
+            this->lbUsername->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            // 
+            // tableLayoutPanel9
+            // 
+            this->tableLayoutPanel9->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->tableLayoutPanel9->BackColor = System::Drawing::Color::Ivory;
+            this->tableLayoutPanel9->ColumnCount = 2;
+            this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+                30)));
+            this->tableLayoutPanel9->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+                70)));
+            this->tableLayoutPanel9->Controls->Add(this->tbxPassword, 0, 0);
+            this->tableLayoutPanel9->Controls->Add(this->lbPassword, 0, 0);
+            this->tableLayoutPanel9->Location = System::Drawing::Point(542, 373);
+            this->tableLayoutPanel9->Name = L"tableLayoutPanel9";
+            this->tableLayoutPanel9->RowCount = 1;
+            this->tableLayoutPanel9->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 100)));
+            this->tableLayoutPanel9->Size = System::Drawing::Size(533, 54);
+            this->tableLayoutPanel9->TabIndex = 16;
+            // 
+            // tbxPassword
+            // 
+            this->tbxPassword->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->tbxPassword->Location = System::Drawing::Point(162, 12);
+            this->tbxPassword->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->tbxPassword->Name = L"tbxPassword";
+            this->tbxPassword->Size = System::Drawing::Size(341, 26);
+            this->tbxPassword->TabIndex = 2;
+            this->tbxPassword->TabStop = false;
+            // 
+            // lbPassword
+            // 
+            this->lbPassword->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->lbPassword->AutoSize = true;
+            this->lbPassword->Font = (gcnew System::Drawing::Font(L"Berlin Sans FB", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->lbPassword->ForeColor = System::Drawing::SystemColors::ControlText;
+            this->lbPassword->Location = System::Drawing::Point(3, 0);
+            this->lbPassword->Name = L"lbPassword";
+            this->lbPassword->Size = System::Drawing::Size(153, 54);
+            this->lbPassword->TabIndex = 0;
+            this->lbPassword->Text = L"Password";
+            this->lbPassword->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+            // 
+            // cbPosition
+            // 
+            this->cbPosition->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+                | System::Windows::Forms::AnchorStyles::Left)
+                | System::Windows::Forms::AnchorStyles::Right));
+            this->cbPosition->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->cbPosition->FormattingEnabled = true;
+            this->cbPosition->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Manager", L"Employee" });
+            this->cbPosition->Location = System::Drawing::Point(162, 12);
+            this->cbPosition->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->cbPosition->Name = L"cbPosition";
+            this->cbPosition->Size = System::Drawing::Size(341, 28);
+            this->cbPosition->TabIndex = 2;
+            this->cbPosition->TabStop = false;
+            // 
             // AddOrEditEmployeeForm
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(1078, 519);
+            this->ClientSize = System::Drawing::Size(1078, 579);
             this->Controls->Add(this->tableLayoutPanel1);
             this->MaximizeBox = false;
-            this->MaximumSize = System::Drawing::Size(1100, 575);
-            this->MinimumSize = System::Drawing::Size(1100, 575);
+            this->MaximumSize = System::Drawing::Size(1100, 635);
+            this->MinimumSize = System::Drawing::Size(1100, 635);
             this->Name = L"AddOrEditEmployeeForm";
             this->ShowInTaskbar = false;
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
@@ -546,6 +666,10 @@ namespace BTLAppManagerStore {
             this->tableLayoutPanel6->ResumeLayout(false);
             this->tableLayoutPanel6->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->imageEmployee))->EndInit();
+            this->tableLayoutPanel8->ResumeLayout(false);
+            this->tableLayoutPanel8->PerformLayout();
+            this->tableLayoutPanel9->ResumeLayout(false);
+            this->tableLayoutPanel9->PerformLayout();
             this->ResumeLayout(false);
 
         }
@@ -568,17 +692,13 @@ namespace BTLAppManagerStore {
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Employee";
                 //Load data trong DB vao form
+                this->tbxImage->Text = MyUtils::stdStringToSystemString(this->employeeObject->getImage());
                 this->tbxName->Text = MyUtils::stdStringToSystemString(this->employeeObject->getFullName());
                 this->tbxPhone->Text = MyUtils::stdStringToSystemString(this->employeeObject->getPhone());
-                this->cbSex->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->employeeObject->getSex()));
+                this->cbSex->SelectedItem = this->employeeObject->getSex() ? "Male" : "Female";
                 this->tbxAddress->Text = MyUtils::stdStringToSystemString(this->employeeObject->getAddress());
-                this->tbxPosition->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->employeeObject->getPosition()));
-                //    c1   if (this->tbxPosition->Text = "1")
-                //           this->employeeObject->getPosition = ("manager");
-               //        else
-                //           this->employeeObject->getPosition = ("staf");   
-               //    }
-               //    c2      = (this->tbxPosition->Text == "1") ? "Manager" : " Staff"));
+                this->cbPosition->SelectedItem = this->employeeObject->getPosition() == 0 ? "Manager" : "Employee";
+                this->tbxUsername->Text = MyUtils::stdStringToSystemString(this->employeeObject->getUsername());
             }
         }
             // Tự động load image khi nhập link image vào ô input
@@ -592,22 +712,23 @@ namespace BTLAppManagerStore {
 
             System::Void btnSave_Click(System::Object ^ sender, System::EventArgs ^ e) {
                 // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-                // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+                this->employeeObject->setImage(MyUtils::systemStringToStdString(this->tbxImage->Text));
                 this->employeeObject->setFullName(MyUtils::systemStringToStdString(this->tbxName->Text));
                 this->employeeObject->setPhone(MyUtils::systemStringToStdString(this->tbxPhone->Text));
-                //this->customerObject->setSex(stoi(MyUtils::systemStringToStdString(this->cbSex->Text)));
+                this->employeeObject->setSex(this->cbSex->SelectedItem->ToString() == "Male" ? true : false);
                 this->employeeObject->setAddress(MyUtils::systemStringToStdString(this->tbxAddress->Text));
-                this->employeeObject->setPosition(stoi(MyUtils::systemStringToStdString(this->tbxPosition->Text)));
-                // ... VD: std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+                this->employeeObject->setPosition(this->cbPosition->SelectedItem->ToString() == "Manager" ? 0 : 1);
+                this->employeeObject->setUsername(MyUtils::systemStringToStdString(this->tbxUsername->Text));
+                if(this->tbxPassword->Text != "") this->employeeObject->setPassword(MyUtils::systemStringToStdString(this->tbxPassword->Text));
 
                 //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
                 if (this->isEditMode) {
                     this->employeeObject->Update();
-                    MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                    MessageBox::Show(L"Update Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
                 }
                 else {
                     this->employeeObject->Create();
-                    MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                    MessageBox::Show(L"Create Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
                 }
                 this->Close(); // đóng form này lại
             }
