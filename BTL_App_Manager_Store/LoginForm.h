@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#include "Objects.h"
+#pragma once
 
 namespace BTLAppManagerStore {
 
@@ -42,13 +43,9 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::Label^ usernameLable;
 	private: System::Windows::Forms::TextBox^ usernameInput;
 	private: System::Windows::Forms::TextBox^ passwordInput;
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^ loginBtn;
 	private: System::Windows::Forms::Button^ btnShowHide;
-
-	protected:
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -130,6 +127,7 @@ namespace BTLAppManagerStore {
 			this->loginBtn->TabIndex = 5;
 			this->loginBtn->Text = L"Login";
 			this->loginBtn->UseVisualStyleBackColor = true;
+			this->loginBtn->Click += gcnew System::EventHandler(this, &LoginForm::loginBtn_Click);
 			// 
 			// btnShowHide
 			// 
@@ -180,17 +178,34 @@ namespace BTLAppManagerStore {
 		}
 
 #pragma endregion
+		
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-	// Xử lý ẩn hiện password
-	private: System::Void btnShowHide_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (this->passwordInput->UseSystemPasswordChar) {
-			this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
-			this->btnShowHide->Text = "Hiden";
+	private:
+		// Xử lý ẩn hiện password
+		System::Void btnShowHide_Click(System::Object^ sender, System::EventArgs^ e) {
+			if (this->passwordInput->UseSystemPasswordChar) {
+				this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
+				this->btnShowHide->Text = "Hiden";
+			}
+			else {
+				this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
+				this->btnShowHide->Text = "Show";
+			}
 		}
-		else {
-			this->passwordInput->UseSystemPasswordChar = !this->passwordInput->UseSystemPasswordChar;
-			this->btnShowHide->Text = "Show";
+		// Xử lý login
+		System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+			std::string username = MyUtils::systemStringToStdString(this->usernameInput->Text);
+			std::string password = MyUtils::systemStringToStdString(this->passwordInput->Text);
+			std::string query = "SELECT `id` FROM `tb_employees`  WHERE (`username` = '" + username + "') AND (`password` = '" + password + "') LIMIT 1";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
+			if (res->next()) {
+				APP_SESSION::currentUser->Read(res->getInt("id"));
+				APP_SESSION::isLogin = true;
+				this->Close();
+			}
+			else {
+				MessageBox::Show("Wrong username or password!!!", "ERROR", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
 		}
-	}
-};
+	};
 }

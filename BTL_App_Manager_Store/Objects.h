@@ -550,6 +550,26 @@ namespace MyObjects {
 	};
 
 }
+
+
+class APP_SESSION {
+public:
+	static MyDatabase* MyDB;
+	static MyObjects::Employee* currentUser;
+	static bool isLogin;
+public:
+	APP_SESSION() {
+		this->MyDB->Connect();
+		this->currentUser = new MyObjects::Employee(this->MyDB);
+		this->currentUser->setId(0);
+	}
+	~APP_SESSION() {}
+};
+MyDatabase* APP_SESSION::MyDB = new MyDatabase();
+MyObjects::Employee* APP_SESSION::currentUser;
+bool APP_SESSION::isLogin = false;
+
+
 namespace MyStructs {
 
 	using namespace std;

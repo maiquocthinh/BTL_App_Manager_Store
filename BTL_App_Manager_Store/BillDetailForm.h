@@ -283,6 +283,7 @@ namespace BTLAppManagerStore {
             this->tbxDate->Size = System::Drawing::Size(344, 26);
             this->tbxDate->TabIndex = 1;
             this->tbxDate->TabStop = false;
+            this->tbxDate->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbDate
             // 
@@ -331,6 +332,7 @@ namespace BTLAppManagerStore {
             this->tbxBillID->Size = System::Drawing::Size(344, 26);
             this->tbxBillID->TabIndex = 1;
             this->tbxBillID->TabStop = false;
+            this->tbxBillID->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbBillID
             // 
@@ -420,6 +422,7 @@ namespace BTLAppManagerStore {
             this->tbxCustomerName->Size = System::Drawing::Size(344, 26);
             this->tbxCustomerName->TabIndex = 1;
             this->tbxCustomerName->TabStop = false;
+            this->tbxCustomerName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbCustomerName
             // 
@@ -468,6 +471,7 @@ namespace BTLAppManagerStore {
             this->tbxEmployeeName->Size = System::Drawing::Size(344, 26);
             this->tbxEmployeeName->TabIndex = 1;
             this->tbxEmployeeName->TabStop = false;
+            this->tbxEmployeeName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbEmployeeName
             // 

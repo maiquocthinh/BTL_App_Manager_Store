@@ -518,14 +518,14 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-            // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
         // Biến MyDB để thực hiện các tương tác đến Database
         MyDatabase* MyDB = new MyDatabase();
 
-        // ****** Các hàm ta tự định nghĩa ******
+    // ****** Các hàm ta tự định nghĩa ******
     private:
         std::vector<std::pair<int, int>> sortByQuantity(std::vector<std::pair<int, int>> listPair) {
             using namespace std;
@@ -564,12 +564,8 @@ namespace BTLAppManagerStore {
             }
             return listPairUnique;
         }
-
-
-        // ****** Các hàm xử lý sự kiện (event) trong form này ******
-    private:
-        // Khi form này tải
-        System::Void HomePageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+    public:
+        void loadInfoToForm() {
             sql::ResultSet* res;
             // load tổng số nhân viên, khách hàng, hàng hóa ra giao diện
             res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_products` WHERE (`isDelete` = 0)");
@@ -583,6 +579,7 @@ namespace BTLAppManagerStore {
             res = this->MyDB->ReadQuery("SELECT SUM(total_money) AS sum FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
             if (res->next()) this->turnoverOfDay->Text = res->getInt("sum").ToString() + " VND";
             // tổng hợp và hiển thị các hàng hóa bán chạy của hôm nay ra giao diện
+            this->tableTopProducts->Rows->Clear();
             res = this->MyDB->ReadQuery("SELECT `product_ids`,`quantities` FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
             std::vector<std::pair<int, int>> listPair;
             std::vector<std::string> str_listID, str_listQuantity;
@@ -609,8 +606,14 @@ namespace BTLAppManagerStore {
                     );
                 }
             }
-            //
             this->tableTopProducts->ClearSelection();
+        }
+
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private:
+        // Khi form này tải
+        System::Void HomePageForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            loadInfoToForm();
         }
     };
 }

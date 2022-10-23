@@ -44,27 +44,18 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::ComboBox^ cbProducts;
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::NumericUpDown^ numQuantity;
-
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::DataGridView^ dataTable;
-
 	private: System::Windows::Forms::Button^ btnRemove;
-
 	private: System::Windows::Forms::Button^ btnAdd;
-
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
 	private: System::Windows::Forms::Button^ btnImport;
-
 	private: System::Windows::Forms::Label^ lbMoney;
-
 	private: System::Windows::Forms::Label^ lbTotal;
 	private: System::Windows::Forms::Label^ titleForm;
-
-
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ productID;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ productName;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ productPrice;
@@ -77,8 +68,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
 	private: System::Windows::Forms::TextBox^ tbxDate;
 	private: System::Windows::Forms::Label^ lbDate;
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -519,7 +508,7 @@ namespace BTLAppManagerStore {
 			this->tbxEmployeeName->Size = System::Drawing::Size(273, 26);
 			this->tbxEmployeeName->TabIndex = 1;
 			this->tbxEmployeeName->TabStop = false;
-			this->tbxEmployeeName->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+			this->tbxEmployeeName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// lbEmployeeName
 			// 
@@ -569,9 +558,9 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	public:
 		// Biến object của BillImport
 		MyObjects::BillImport* billImportObject;
@@ -581,7 +570,7 @@ namespace BTLAppManagerStore {
 		MyObjects::SList<MyStructs::Product>* ListProducts = new MyObjects::SList<MyStructs::Product>();
 		MyStructs::Product* currentProduct;
 
-		// ****** Các hàm ta tự định nghĩa ******
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		void fillListProducts() {
 			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
@@ -611,10 +600,9 @@ namespace BTLAppManagerStore {
 			this->lbMoney->Text = sum.ToString() + " (VND)";
 		}
 		int getCurrentRowSelectedIndex() {
-			int index = this->dataTable->CurrentRow->Index;
-			if (index > this->dataTable->Rows->Count) index = this->dataTable->Rows->Count - 1;
-			else if (index < 0) index = 0;
-			return index;
+			int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+			if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+			return currentRowsIndex;
 		}
 		MyStructs::Product* getProductByName(std::string name) {
 			for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
@@ -640,6 +628,7 @@ namespace BTLAppManagerStore {
 			this->billImportObject = new MyObjects::BillImport(this->MyDB);
 			fillListProducts();
 			loadCBProducts();
+			this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
 			this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
 		}
 		System::Void cbProducts_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -673,12 +662,12 @@ namespace BTLAppManagerStore {
 			this->billImportObject->setProductIDs(productIDs);
 			this->billImportObject->setQuantityProducts(quantities);
 			this->billImportObject->setDate(date);
-			this->billImportObject->setEmployeeID(1);
+			this->billImportObject->setEmployeeID(APP_SESSION::currentUser->getId());
 			this->billImportObject->Create();
 
 			updateQuantityProducts(quantities, productIDs);
 
-			MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			MessageBox::Show(L"Import Products Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
 			this->Close();
 		}
 	};

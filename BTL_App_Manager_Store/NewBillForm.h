@@ -42,67 +42,38 @@ namespace BTLAppManagerStore {
         }
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::Label^ titleForm;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel8;
     private: System::Windows::Forms::TextBox^ tbxPrice;
-
     private: System::Windows::Forms::Label^ lbPrice;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::Label^ lbProduct;
     private: System::Windows::Forms::ComboBox^ cbProducts;
-
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel9;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel12;
     private: System::Windows::Forms::Button^ btnRemove;
-
     private: System::Windows::Forms::Button^ btnAdd;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
     private: System::Windows::Forms::TextBox^ tbxDate;
-
     private: System::Windows::Forms::Label^ lbDate;
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::Label^ lbCustomerName;
     private: System::Windows::Forms::ComboBox^ cbCustomersName;
-
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
     private: System::Windows::Forms::TextBox^ tbxEmployeeName;
-
     private: System::Windows::Forms::Label^ lbEmployeeName;
-
-
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel10;
     private: System::Windows::Forms::Label^ lbQuantity;
     private: System::Windows::Forms::NumericUpDown^ numQuantity;
-
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel13;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel15;
     private: System::Windows::Forms::TextBox^ tbxTotalBill;
-
     private: System::Windows::Forms::Label^ lbTotalBill;
-
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel14;
     private: System::Windows::Forms::Label^ lbDiscountByPoint;
     private: System::Windows::Forms::ComboBox^ cbDiscountByPoint;
-
-
-
     private: System::Windows::Forms::DataGridView^ dataTable;
-
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productID;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productName;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productPrice;
@@ -111,22 +82,11 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel18;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel19;
     private: System::Windows::Forms::TextBox^ tbxChange;
-
     private: System::Windows::Forms::Label^ lbChange;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel22;
-
-
     private: System::Windows::Forms::Label^ lbCash;
     private: System::Windows::Forms::Button^ btnPay;
     private: System::Windows::Forms::NumericUpDown^ numCash;
-
-
-
-
-
-
-
     private:
         /// <summary>
         /// Required designer variable.
@@ -466,6 +426,7 @@ namespace BTLAppManagerStore {
             this->tbxPrice->Size = System::Drawing::Size(344, 26);
             this->tbxPrice->TabIndex = 1;
             this->tbxPrice->TabStop = false;
+            this->tbxPrice->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbPrice
             // 
@@ -640,6 +601,7 @@ namespace BTLAppManagerStore {
             this->numQuantity->Name = L"numQuantity";
             this->numQuantity->Size = System::Drawing::Size(340, 26);
             this->numQuantity->TabIndex = 1;
+            this->numQuantity->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // titleForm
             // 
@@ -710,6 +672,7 @@ namespace BTLAppManagerStore {
             this->tbxDate->Size = System::Drawing::Size(344, 26);
             this->tbxDate->TabIndex = 1;
             this->tbxDate->TabStop = false;
+            this->tbxDate->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbDate
             // 
@@ -807,6 +770,7 @@ namespace BTLAppManagerStore {
             this->tbxEmployeeName->Size = System::Drawing::Size(344, 26);
             this->tbxEmployeeName->TabIndex = 1;
             this->tbxEmployeeName->TabStop = false;
+            this->tbxEmployeeName->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
             // 
             // lbEmployeeName
             // 
@@ -1013,8 +977,9 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
-        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
-            // ****** Các biến sẽ được khai báo tập trung ở đây ******
+
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
         // Biến MyDB để thực hiện các tương tác đến Database
         MyDatabase* MyDB = new MyDatabase();
@@ -1025,7 +990,7 @@ namespace BTLAppManagerStore {
         MyStructs::Customer* currentCustomer = NULL;
         MyStructs::Product* currentProduct = NULL;
 
-        // ****** Các hàm ta tự định nghĩa ******
+    // ****** Các hàm ta tự định nghĩa ******
     private:
         int getCurrentRowSelectedIndex() {
             int index = this->dataTable->CurrentRow->Index;
@@ -1124,13 +1089,14 @@ namespace BTLAppManagerStore {
             }
         }
 
-        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
     private:
         System::Void NewBillForm_Load(System::Object^ sender, System::EventArgs^ e) {
             fillListCustomer();
             fillListProducts();
             loadCBCustomers();
             loadCBProducts();
+            this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
             this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
             this->billCustomerObject = new MyObjects::BillCustomer(this->MyDB);
         }
@@ -1204,7 +1170,7 @@ namespace BTLAppManagerStore {
             else {
                 this->billCustomerObject->setDiscountByPoints(0);
             }
-            this->billCustomerObject->setEmployeeID(1);
+            this->billCustomerObject->setEmployeeID(APP_SESSION::currentUser->getId());
             this->billCustomerObject->setTotalPrice(totalMoney);
             this->billCustomerObject->setProductIDs(productIDs);
             this->billCustomerObject->setQuantityProducts(quantities);
@@ -1214,7 +1180,7 @@ namespace BTLAppManagerStore {
             updateQuantityProducts(quantities, productIDs);
             updateDiscountPointsCustomer(this->billCustomerObject->getCustomerID(), this->billCustomerObject->getDiscountByPoints(), this->billCustomerObject->getTotalPrice());
 
-            MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+            MessageBox::Show(L"Create New Bill Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
             this->Close();
         }
     };

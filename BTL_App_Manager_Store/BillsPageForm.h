@@ -303,9 +303,9 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			 // ****** Các biến sẽ được khai báo tập trung ở đây ******
+		// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
@@ -316,12 +316,12 @@ namespace BTLAppManagerStore {
 		MyObjects::SList<MyStructs::Employee>* ListEmployee = new MyObjects::SList<MyStructs::Employee>();
 		MyObjects::SList<MyStructs::Customer>* ListCustomer = new MyObjects::SList<MyStructs::Customer>();
 
-		// ****** Các hàm ta tự định nghĩa ******
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Load tất cả data trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_bills`";
+			std::string query = "SELECT * FROM `tb_bills` ORDER BY `id` DESC";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			while (res->next()) {
 				MyObjects::Node<MyStructs::Employee>* employeeNode = this->ListEmployee->getNodeByID(res->getInt("employee_id"));
@@ -335,14 +335,13 @@ namespace BTLAppManagerStore {
 					MyUtils::stdStringToSystemString(res->getString("date")),
 					MyUtils::stdStringToSystemString(res->getString("total_money"))
 				);
-				//delete employeeNode, customerNode;
 			}
 			this->dataTable->ClearSelection();
 		}
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_bills` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
+			std::string query = "SELECT * FROM `tb_bills` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			while (res->next()) {
 				MyObjects::Node<MyStructs::Employee>* employeeNode = this->ListEmployee->getNodeByID(res->getInt("employee_id"));
@@ -355,7 +354,6 @@ namespace BTLAppManagerStore {
 					MyUtils::stdStringToSystemString(res->getString("date")),
 					MyUtils::stdStringToSystemString(res->getString("total_money"))
 				);
-				delete employeeNode, customerNode;
 			}
 			this->dataTable->ClearSelection();
 		}
@@ -381,7 +379,7 @@ namespace BTLAppManagerStore {
 		}
 
 
-		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private:
 		System::Void BillsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			fillListEmployee();

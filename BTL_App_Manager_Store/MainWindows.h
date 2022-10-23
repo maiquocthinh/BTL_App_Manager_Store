@@ -204,15 +204,15 @@ namespace BTLAppManagerStore {
 			// 
 			this->tableLayoutPanel2->ColumnCount = 1;
 			this->tableLayoutPanel2->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				50)));
+				100)));
 			this->tableLayoutPanel2->Controls->Add(this->positionUser, 0, 1);
 			this->tableLayoutPanel2->Controls->Add(this->nameUser, 0, 0);
 			this->tableLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel2->Location = System::Drawing::Point(107, 3);
 			this->tableLayoutPanel2->Name = L"tableLayoutPanel2";
 			this->tableLayoutPanel2->RowCount = 2;
-			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 71.42857F)));
+			this->tableLayoutPanel2->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 28.57143F)));
 			this->tableLayoutPanel2->Size = System::Drawing::Size(238, 116);
 			this->tableLayoutPanel2->TabIndex = 1;
 			// 
@@ -225,9 +225,9 @@ namespace BTLAppManagerStore {
 			this->positionUser->Font = (gcnew System::Drawing::Font(L"Gill Sans Ultra Bold", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->positionUser->ForeColor = System::Drawing::SystemColors::AppWorkspace;
-			this->positionUser->Location = System::Drawing::Point(3, 58);
+			this->positionUser->Location = System::Drawing::Point(3, 82);
 			this->positionUser->Name = L"positionUser";
-			this->positionUser->Size = System::Drawing::Size(232, 58);
+			this->positionUser->Size = System::Drawing::Size(232, 34);
 			this->positionUser->TabIndex = 2;
 			this->positionUser->Text = L"Manager";
 			this->positionUser->TextAlign = System::Drawing::ContentAlignment::TopCenter;
@@ -238,12 +238,12 @@ namespace BTLAppManagerStore {
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->nameUser->AutoSize = true;
-			this->nameUser->Font = (gcnew System::Drawing::Font(L"Gill Sans Ultra Bold", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->nameUser->Font = (gcnew System::Drawing::Font(L"Times New Roman", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->nameUser->ForeColor = System::Drawing::SystemColors::ControlLightLight;
 			this->nameUser->Location = System::Drawing::Point(3, 0);
 			this->nameUser->Name = L"nameUser";
-			this->nameUser->Size = System::Drawing::Size(232, 58);
+			this->nameUser->Size = System::Drawing::Size(232, 82);
 			this->nameUser->TabIndex = 1;
 			this->nameUser->Text = L"admin";
 			this->nameUser->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -710,7 +710,11 @@ namespace BTLAppManagerStore {
 			isCollapseNavProds = true;
 			this->pnlNavDropdownProds->Height = 60;
 			this->btnNavProds->ImageKey = L"arrow-down.png";
-			if (isCollapseNavPerson) {
+			if (isCollapseNavPerson && APP_SESSION::currentUser->getPosition() > 0) {
+				this->pnlNavDropdownPerson->Height = 116;
+				this->btnNavPerson->ImageKey = L"arrow-up.png";
+			}
+			else if (isCollapseNavPerson) {
 				this->pnlNavDropdownPerson->Height = 252;
 				this->btnNavPerson->ImageKey = L"arrow-up.png";
 			}
@@ -727,6 +731,7 @@ namespace BTLAppManagerStore {
 			if (btnNavHome->BackColor != this->activeColorSidebar) {
 				clearActiveSidebar();
 				btnNavHome->BackColor = this->activeColorSidebar;
+				HomePageForm->loadInfoToForm();
 				loadFormToPnlmain(HomePageForm);
 			}
 		}
@@ -766,7 +771,12 @@ namespace BTLAppManagerStore {
 			}
 		}
 		System::Void btnNavLogout_Click(System::Object^ sender, System::EventArgs^ e) {
-			MessageBox::Show("Are you sure logout!", "Logout", MessageBoxButtons::OKCancel, MessageBoxIcon::Question);
+			System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure logout!", "Logout", MessageBoxButtons::YesNo, MessageBoxIcon::Question);
+			if (result == System::Windows::Forms::DialogResult::Yes) {
+				APP_SESSION::isLogin = false;
+				APP_SESSION::currentUser->setId(0);
+				this->Close();
+			}
 		}
 
 
@@ -777,6 +787,13 @@ namespace BTLAppManagerStore {
 		// Load Form HomePageForm.h và active tương ứng trên Menu
 		loadFormToPnlmain(HomePageForm);
 		btnNavHome->BackColor = this->activeColorSidebar;
+
+		// Load username và position
+		this->nameUser->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
+		this->positionUser->Text = APP_SESSION::currentUser->getPosition() == 0 ? "Manager" : "Employee";
+		if (APP_SESSION::currentUser->getImage() != "")
+			this->avatarUser->ImageLocation = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getImage());
+		if (APP_SESSION::currentUser->getPosition() > 0) this->btnNavEmployees->Hide();
 	}
 
 	// Khi Form MainWindows đóng

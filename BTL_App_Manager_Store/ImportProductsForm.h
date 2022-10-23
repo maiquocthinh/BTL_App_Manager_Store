@@ -292,9 +292,9 @@ namespace BTLAppManagerStore {
 		}
 #pragma endregion
 
-		// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-			// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
 		// Biến MyDB để thực hiện các tương tác đến Database
 		MyDatabase* MyDB = new MyDatabase();
@@ -311,7 +311,7 @@ namespace BTLAppManagerStore {
 		// Load tất cả data trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_imports`";
+			std::string query = "SELECT * FROM `tb_imports` ORDER BY `id` DESC";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			MyStructs::Employee employee;
 			while (res->next()) {
@@ -328,7 +328,7 @@ namespace BTLAppManagerStore {
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_imports` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%')";
+			std::string query = "SELECT * FROM `tb_imports` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
 			sql::ResultSet* res = this->MyDB->ReadQuery(query);
 			MyStructs::Employee employee;
 			while (res->next()) {
