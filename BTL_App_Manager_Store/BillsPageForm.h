@@ -25,11 +25,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		BillsPageForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -43,11 +38,6 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::DataGridView^ dataTable;
-	protected:
-
-
-
-
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
 	private: System::Windows::Forms::TextBox^ tbxSearch;
 	private: System::Windows::Forms::GroupBox^ groupBox1;
@@ -61,7 +51,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billNameCustomer;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billTotalMoney;
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -116,7 +105,6 @@ namespace BTLAppManagerStore {
 			this->dataTable->Size = System::Drawing::Size(1201, 565);
 			this->dataTable->TabIndex = 1;
 			this->dataTable->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &BillsPageForm::dataTable_CellDoubleClick);
-			this->dataTable->Sorted += gcnew System::EventHandler(this, &BillsPageForm::dataTable_Sorted);
 			// 
 			// billID
 			// 
@@ -218,7 +206,6 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 0;
-			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &BillsPageForm::cbSearch_SelectedIndexChanged);
 			// 
 			// btnRefresh
 			// 
@@ -305,16 +292,10 @@ namespace BTLAppManagerStore {
 
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-		// ****** Các biến sẽ được khai báo tập trung ở đây ******
+	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của BillCustomer
 		MyObjects::BillCustomer* billCustomerObject;
-		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
-		System::String^ searchColumnName;
-		MyObjects::SList<MyStructs::Employee>* ListEmployee = new MyObjects::SList<MyStructs::Employee>();
-		MyObjects::SList<MyStructs::Customer>* ListCustomer = new MyObjects::SList<MyStructs::Customer>();
 
 	// ****** Các hàm ta tự định nghĩa ******
 	private:
@@ -322,75 +303,54 @@ namespace BTLAppManagerStore {
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
 			std::string query = "SELECT * FROM `tb_bills` ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = this->ListEmployee->getNodeByID(res->getInt("employee_id"));
-				MyObjects::Node<MyStructs::Customer>* customerNode = this->ListCustomer->getNodeByID(res->getInt("customer_id"));
+				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
+				MyObjects::Node<MyStructs::Customer>* customerNode = APP_SESSION::ListCustomers.getNodeByID(res->getInt("customer_id"));
 				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
 				std::string nameCustomer = (customerNode == NULL) ? u8"Khách vãng lai" : customerNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(nameEmployee),
-					MyUtils::stdStringToSystemString(nameCustomer),
-					MyUtils::stdStringToSystemString(res->getString("date")),
-					MyUtils::stdStringToSystemString(res->getString("total_money"))
+					MyUtils::toSystemString(nameEmployee),
+					MyUtils::toSystemString(nameCustomer),
+					MyUtils::toSystemString(res->getString("date")),
+					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
-			this->dataTable->ClearSelection();
 		}
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_bills` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			std::string query = "SELECT * FROM `tb_bills` WHERE (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = this->ListEmployee->getNodeByID(res->getInt("employee_id"));
-				MyObjects::Node<MyStructs::Customer>* customerNode = this->ListCustomer->getNodeByID(res->getInt("customer_id"));
+				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
+				MyObjects::Node<MyStructs::Customer>* customerNode = APP_SESSION::ListCustomers.getNodeByID(res->getInt("customer_id"));
 				std::string nameCustomer = (customerNode == NULL) ? u8"Khách vãng lai" : customerNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(employeeNode->data.fullName),
-					MyUtils::stdStringToSystemString(nameCustomer),
-					MyUtils::stdStringToSystemString(res->getString("date")),
-					MyUtils::stdStringToSystemString(res->getString("total_money"))
+					MyUtils::toSystemString(employeeNode->data.fullName),
+					MyUtils::toSystemString(nameCustomer),
+					MyUtils::toSystemString(res->getString("date")),
+					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
-			this->dataTable->ClearSelection();
 		}
-		void fillListEmployee() {
-			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `fullname` FROM `tb_employees` WHERE (`isDelete` = 0)");
-			while (res->next())
-			{
-				MyStructs::Employee employee;
-				employee.id = res->getInt("id");
-				employee.fullName = res->getString("fullname");
-				this->ListEmployee->addFirst(employee);
-			}
+		std::string getSearchColumnName() {
+			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
+			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "date";
 		}
-		void fillListCustomer() {
-			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `fullname` FROM `tb_customers` WHERE (`isDelete` = 0)");
-			while (res->next())
-			{
-				MyStructs::Customer customer;
-				customer.id = res->getInt("id");
-				customer.fullName = res->getString("fullname");
-				this->ListCustomer->addFirst(customer);
-			}
-		}
-
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private:
 		System::Void BillsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
-			fillListEmployee();
-			fillListCustomer();
 			loadAllDataToTable();
 			this->cbSearch->SelectedIndex = 0;
-			this->billCustomerObject = new MyObjects::BillCustomer(this->MyDB);
+			this->billCustomerObject = new MyObjects::BillCustomer(APP_SESSION::MyDB);
 		}
 		// Khi nút New Bill click thì Show lên Form NewBill
 		System::Void btnNewBill_Click(System::Object^ sender, System::EventArgs^ e) {
-			BTLAppManagerStore::NewBillForm^ NewBillForm = gcnew BTLAppManagerStore::NewBillForm(this->MyDB);
+			BTLAppManagerStore::NewBillForm^ NewBillForm = gcnew BTLAppManagerStore::NewBillForm();
 			NewBillForm->ShowDialog();
 			delete NewBillForm;
 		}
@@ -398,7 +358,7 @@ namespace BTLAppManagerStore {
 			if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
 				loadAllDataToTable(); // load tất cả data trong DB ra Table 
 			else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
-				std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+				std::string searchKey = MyUtils::toStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
 				loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
 			}
 		}
@@ -406,16 +366,10 @@ namespace BTLAppManagerStore {
 			this->tbxSearch->Text = "";
 			loadAllDataToTable();
 		}
-		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-		}
-		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id";
-			else if (this->cbSearch->SelectedItem->ToString() == "Date") this->searchColumnName = "date";
-		}
 		System::Void dataTable_CellDoubleClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			unsigned int billID = std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[e->RowIndex]->Cells[0]->Value->ToString()));
+			unsigned int billID = std::stoi(MyUtils::toStdString(this->dataTable->Rows[e->RowIndex]->Cells[0]->Value->ToString()));
 			this->billCustomerObject->Read(billID);
-			BTLAppManagerStore::BillDetailForm^ BillDetailForm = gcnew BTLAppManagerStore::BillDetailForm(this->MyDB);
+			BTLAppManagerStore::BillDetailForm^ BillDetailForm = gcnew BTLAppManagerStore::BillDetailForm();
 			BillDetailForm->billCustomerObject = this->billCustomerObject;
 			BillDetailForm->ShowDialog();
 			delete BillDetailForm;

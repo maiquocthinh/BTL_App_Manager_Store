@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		TrashCustomerForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -247,8 +242,6 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Customer
 		MyObjects::Customer* customerObject;
 
@@ -262,19 +255,19 @@ namespace BTLAppManagerStore {
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			return std::stoi(MyUtils::toStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
 		}
 		// Hàm load dữ liệu trong database ra `dataTable` trong form
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 1)";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 1) ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("fullname")),
-					MyUtils::stdStringToSystemString(res->getString("phone")),
-					MyUtils::stdStringToSystemString(res->getString("address")),
+					MyUtils::toSystemString(res->getString("fullname")),
+					MyUtils::toSystemString(res->getString("phone")),
+					MyUtils::toSystemString(res->getString("address")),
 					res->getBoolean("sex") ? L"Nam" : L"Nữ",
 					res->getInt("points")
 				);
@@ -285,7 +278,7 @@ namespace BTLAppManagerStore {
 		//khi form tải 
 		System::Void TrashCustomerForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
-			this->customerObject = new MyObjects::Customer(this->MyDB);
+			this->customerObject = new MyObjects::Customer(APP_SESSION::MyDB);
 		}
 		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Customer đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -301,7 +294,7 @@ namespace BTLAppManagerStore {
 		// Hàm này chạy khi nút Delete click, thực hiện xóa (vĩnh viễn) Customer
 		System::Void btnPermanentlyDelete_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (this->dataTable->Rows->Count != 0) {
-				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Customer", "Delete Permanently Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Customer", "Delete Permanently Customer", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
 				if (result == System::Windows::Forms::DialogResult::Yes) {
 					// xử lý xóa (vĩnh viễn) Category
 					unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());

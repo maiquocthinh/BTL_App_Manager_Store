@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		TrashProductsForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -43,12 +38,9 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::Button^ btnPermanentlyDelete;
-
 	private: System::Windows::Forms::Button^ btnRestore;
-
 	private: System::Windows::Forms::ImageList^ ListIcon;
 	private: System::Windows::Forms::DataGridView^ dataTable;
-
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ idProduct;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ nameProduct;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ categoryProduct;
@@ -57,13 +49,11 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ position;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importPrice;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ sellPrice;
-	private: System::ComponentModel::IContainer^ components;
-
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-
+		System::ComponentModel::IContainer^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -270,12 +260,11 @@ namespace BTLAppManagerStore {
 
 		}
 #pragma endregion
+
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Category
 		MyObjects::Product* productObject;
 
@@ -289,21 +278,21 @@ namespace BTLAppManagerStore {
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			return std::stoi(MyUtils::toStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
 		}
 		// Load tất cả data (đã bị xóa) trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 1)";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 1) ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("name")),
+					MyUtils::toSystemString(res->getString("name")),
 					"",
 					res->getInt("quantity"),
-					MyUtils::stdStringToSystemString(res->getString("unit")),
-					MyUtils::stdStringToSystemString(res->getString("position")),
+					MyUtils::toSystemString(res->getString("unit")),
+					MyUtils::toSystemString(res->getString("position")),
 					res->getInt("import_price"),
 					res->getInt("sell_price")
 				);
@@ -314,7 +303,7 @@ namespace BTLAppManagerStore {
 		// Khi Form tải
 		System::Void TrashProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
-			this->productObject = new MyObjects::Product(this->MyDB);
+			this->productObject = new MyObjects::Product(APP_SESSION::MyDB);
 		}
 		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Product đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {

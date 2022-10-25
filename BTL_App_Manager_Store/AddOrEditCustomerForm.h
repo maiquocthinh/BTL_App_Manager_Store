@@ -15,7 +15,6 @@ namespace BTLAppManagerStore {
     /// </summary>
     public ref class AddOrEditCustomerForm : public System::Windows::Forms::Form
     {
-    private: bool isEditMode;
     public:
         AddOrEditCustomerForm(void)
         {
@@ -55,7 +54,6 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::Label^ lbID;
     private: System::Windows::Forms::Label^ titleForm;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
-
     private: System::Windows::Forms::Label^ lbPoints;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::TextBox^ tbxPhone;
@@ -544,6 +542,8 @@ namespace BTLAppManagerStore {
 
     // ****** Các biến sẽ được khai báo tập trung ở đây ******
     public:
+        // Biến này quyết định form này là form edit hay form create
+        bool isEditMode;
         // Biến object của Customer
         MyObjects::Customer* customerObject;
 
@@ -557,21 +557,21 @@ namespace BTLAppManagerStore {
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Customer";
                 //Load data trong DB vao form
-                this->tbxID->Text = MyUtils::stdStringToSystemString(MyUtils::intToStdString(this->customerObject->getId()));
-                this->tbxName->Text = MyUtils::stdStringToSystemString(this->customerObject->getFullName());
-                this->tbxPhone->Text = MyUtils::stdStringToSystemString(this->customerObject->getPhone());
+                this->tbxID->Text = MyUtils::toSystemString(MyUtils::intToStdString(this->customerObject->getId()));
+                this->tbxName->Text = MyUtils::toSystemString(this->customerObject->getFullName());
+                this->tbxPhone->Text = MyUtils::toSystemString(this->customerObject->getPhone());
                 this->cbSex->SelectedItem = this->customerObject->getSex() ? "Male" : "Female";
-                this->tbxAddress->Text = MyUtils::stdStringToSystemString(this->customerObject->getAddress());
+                this->tbxAddress->Text = MyUtils::toSystemString(this->customerObject->getAddress());
                 this->numPoints->Value = this->customerObject->getPoints();
             }
         }
         // Khi nút save/add click
         System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
             // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-            this->customerObject->setFullName(MyUtils::systemStringToStdString(this->tbxName->Text));
-            this->customerObject->setPhone(MyUtils::systemStringToStdString(this->tbxPhone->Text));
+            this->customerObject->setFullName(MyUtils::toStdString(this->tbxName->Text));
+            this->customerObject->setPhone(MyUtils::toStdString(this->tbxPhone->Text));
             this->customerObject->setSex(this->cbSex->SelectedItem->ToString() == "Male" ? true : false);
-            this->customerObject->setAddress(MyUtils::systemStringToStdString(this->tbxAddress->Text));
+            this->customerObject->setAddress(MyUtils::toStdString(this->tbxAddress->Text));
             this->customerObject->setPoints((unsigned int)this->numPoints->Value);
 
             //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
@@ -583,6 +583,7 @@ namespace BTLAppManagerStore {
                 this->customerObject->Create();
                 MessageBox::Show(L"Create Customer Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
+            APP_SESSION::fillListCustomers();
             this->Close(); // đóng form này lại
         }
     };

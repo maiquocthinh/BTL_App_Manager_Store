@@ -25,11 +25,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		TrashCategoriesForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -165,8 +160,6 @@ namespace BTLAppManagerStore {
 			   this->dataTable->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			   this->dataTable->Size = System::Drawing::Size(419, 510);
 			   this->dataTable->TabIndex = 1;
-			   this->dataTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &TrashCategoriesForm::dataTable_CellClick);
-			   this->dataTable->Sorted += gcnew System::EventHandler(this, &TrashCategoriesForm::dataTable_Sorted);
 			   // 
 			   // idCategory
 			   // 
@@ -208,34 +201,31 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Category
 		MyObjects::Category* categoryObject;
-		// Biến này lưu row index hiện select hiện tại của `dataTable`
-		int currentIndexRowSelect;
 
 	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
-		int getCurrentIndexRowSelect() {
-			if (this->currentIndexRowSelect >= this->dataTable->Rows->Count) this->currentIndexRowSelect = this->dataTable->Rows->Count - 1;
-			else if (this->currentIndexRowSelect < 0) this->currentIndexRowSelect = 0;
-			return this->currentIndexRowSelect;
-		}
-		// Hàm load dữ liệu trong database ra `dataTable` trong form
-		void loadDataToDatatable(std::string query) {
-			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
-			while (res->next())
-				this->dataTable->Rows->Add(
-					MyUtils::stdStringToSystemString(res->getString("id")),
-					MyUtils::stdStringToSystemString(res->getString("title"))
-				);
+		int getCurrentRowsIndexSelected() {
+			int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+			if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+			return currentRowsIndex;
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			return std::stoi(MyUtils::toStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+		}
+		// Hàm load dữ liệu trong database ra `dataTable` trong form
+		void loadAllDataToTable() {
+			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
+			std::string query = "SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = 1) ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
+			while (res->next())
+				this->dataTable->Rows->Add(
+					res->getInt("id"),
+					MyUtils::toSystemString(res->getString("title"))
+				);
 		}
 
 
@@ -243,17 +233,17 @@ namespace BTLAppManagerStore {
 	private: 
 		// Hàm này chạy khi Form tải
 		System::Void TrashCategoriesForm_Load(System::Object^ sender, System::EventArgs^ e) {
-			loadDataToDatatable("SELECT * FROM `tb_prods_categories` WHERE (`isDelete` = true)");
-			this->categoryObject = new MyObjects::Category(this->MyDB);
+			loadAllDataToTable();
+			this->categoryObject = new MyObjects::Category(APP_SESSION::MyDB);
 		}
 		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Category đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (this->dataTable->Rows->Count != 0) {
 				// xử lý khôi phục Category
-				unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+				unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());
 				this->categoryObject->setId(id);
 				this->categoryObject->Restore();
-				this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+				this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
@@ -263,22 +253,13 @@ namespace BTLAppManagerStore {
 				System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to `Permanently` delete this Category", "Delete Category", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
 				if (result == System::Windows::Forms::DialogResult::Yes) {
 					// xử lý xóa (vĩnh viễn) Category
-					unsigned int id = getIdByRowIndex(this->getCurrentIndexRowSelect());
+					unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected());
 					this->categoryObject->setId(id);
 					this->categoryObject->Delete();
-					this->dataTable->Rows->RemoveAt(this->getCurrentIndexRowSelect());
+					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
-		}
-		// Hàm này chạy khi 1 cell nào đó tròn dataTable được select
-		System::Void dataTable_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			// Cập nhật lại biến currentIndexRowSelect mỗi khi cell của dataTable đc select
-			this->currentIndexRowSelect = e->RowIndex;
-		}
-		// Hàm này chạy khi dataTable sắp xếp 1 cột nào đó
-		System::Void dataTable_Sorted(System::Object^ sender, System::EventArgs^ e) {
-			this->dataTable->ClearSelection(); // Clear các hàng đang được chọn
 		}
 	};
 }

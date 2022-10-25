@@ -15,8 +15,6 @@ namespace BTLAppManagerStore {
 	/// </summary>
 	public ref class AddOrEditCategoryForm : public System::Windows::Forms::Form
 	{
-	private: bool isEditMode;
-
 	public:
 		AddOrEditCategoryForm(void)
 		{
@@ -130,6 +128,8 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	public: 
+		// Biến này quyết định form này là form edit hay form create
+		bool isEditMode;
 		// Biến object của Category
 		MyObjects::Category* categoryObject;
 
@@ -141,24 +141,25 @@ namespace BTLAppManagerStore {
 			if (this->isEditMode) {
 				this->Text = L"Edit Category";
 				this->btnSave->Text = "Save";
-				this->tbxTitle->Text = MyUtils::stdStringToSystemString(this->categoryObject->getTitle());
+				this->tbxTitle->Text = MyUtils::toSystemString(this->categoryObject->getTitle());
 			}
 		}
 		
 		System::Void btnSave_Click(System::Object^ sender, System::EventArgs^ e) {
 			// Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-			std::string title = MyUtils::systemStringToStdString(this->tbxTitle->Text);
+			std::string title = MyUtils::toStdString(this->tbxTitle->Text);
 			//Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
 			if (this->isEditMode) {
 				this->categoryObject->setTitle(title);
 				this->categoryObject->Update();
-				MessageBox::Show(L"Update Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+				MessageBox::Show(L"Update Category Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
 			}
 			else {
 				this->categoryObject->setTitle(title);
 				this->categoryObject->Create();
-				MessageBox::Show(L"Create Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+				MessageBox::Show(L"Create Category Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
 			}
+			APP_SESSION::fillListCategories();
 			this->Close(); // đóng form này lại
 		}
 	};

@@ -26,11 +26,6 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        ProductsPageForm(MyDatabase* const MyDB)
-        {
-            InitializeComponent();
-            this->MyDB = MyDB;
-        }
     protected:
         /// <summary>
         /// Clean up any resources being used.
@@ -495,26 +490,12 @@ namespace BTLAppManagerStore {
 
     // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
-        // Biến MyDB để thực hiện các tương tác đến Database
-        MyDatabase* MyDB = new MyDatabase();
         // Biến object của Category
         MyObjects::Product* productObject;
-        // List lứu trữ struct category
-        MyObjects::SList<MyStructs::Category>* ListCategory = new MyObjects::SList<MyStructs::Category>();
 
 
-     // ****** Các hàm ta tự định nghĩa ******
+    // ****** Các hàm ta tự định nghĩa ******
     private:
-        void fillListCategory() {
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `title` FROM `tb_prods_categories` WHERE (`isDelete` = 0)");
-            while (res->next())
-            {
-                MyStructs::Category category;
-                category.id = res->getInt("id");
-                category.title = res->getString("title");
-                this->ListCategory->addFirst(category);
-            }
-        }
         // Hàm lấy giá trị biến currentIndexRowSelect (đồng thời kiểm tra biến này có phù hợp luôn hay không)
         int getCurrentRowsIndexSelected() {
             int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
@@ -535,19 +516,17 @@ namespace BTLAppManagerStore {
         // Load tất cả data trong Database ra Table
         void loadAllDataToTable() {
             this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0)";
-            sql::ResultSet* res = this->MyDB->ReadQuery(query);
+            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) ORDER BY `id` DESC";
+            sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
             while (res->next()) {
-                MyObjects::Node<MyStructs::Category>* categoryNode = this->ListCategory->getNodeByID(res->getInt("category_id"));
-                String^ categoryName = "";
-                if (categoryNode != NULL) categoryName = MyUtils::stdStringToSystemString(categoryNode->data.title);
+                MyObjects::Node<MyStructs::Category>* categoryNode = APP_SESSION::ListCategories.getNodeByID(res->getInt("category_id"));
                 int lastIndex = this->dataTable->Rows->Add(
                     res->getInt("id"),
-                    MyUtils::stdStringToSystemString(res->getString("name")),
-                    categoryName,
+                    MyUtils::toSystemString(res->getString("name")),
+                    categoryNode != NULL ? MyUtils::toSystemString(categoryNode->data.title) : "",
                     res->getInt("quantity"),
-                    MyUtils::stdStringToSystemString(res->getString("unit")),
-                    MyUtils::stdStringToSystemString(res->getString("position")),
+                    MyUtils::toSystemString(res->getString("unit")),
+                    MyUtils::toSystemString(res->getString("position")),
                     res->getInt("import_price"),
                     res->getInt("sell_price")
                 );
@@ -562,19 +541,19 @@ namespace BTLAppManagerStore {
         // Load các data trùng với từ khóa tìm kiếm trong Database ra Table
         void loadSearchDataToTable(std::string searchKey) {
             this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) AND (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%')";
-            sql::ResultSet* res = this->MyDB->ReadQuery(query);
+            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) AND (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+            sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
             while (res->next()) {
-                MyObjects::Node<MyStructs::Category>* categoryNode = this->ListCategory->getNodeByID(res->getInt("category_id"));
+                MyObjects::Node<MyStructs::Category>* categoryNode = APP_SESSION::ListCategories.getNodeByID(res->getInt("category_id"));
                 String^ categoryName = "";
-                if (categoryNode != NULL) categoryName = MyUtils::stdStringToSystemString(categoryNode->data.title);
+                if (categoryNode != NULL) categoryName = MyUtils::toSystemString(categoryNode->data.title);
                 int lastIndex = this->dataTable->Rows->Add(
                     res->getInt("id"),
-                    MyUtils::stdStringToSystemString(res->getString("name")),
+                    MyUtils::toSystemString(res->getString("name")),
                     categoryName,
                     res->getInt("quantity"),
-                    MyUtils::stdStringToSystemString(res->getString("unit")),
-                    MyUtils::stdStringToSystemString(res->getString("position")),
+                    MyUtils::toSystemString(res->getString("unit")),
+                    MyUtils::toSystemString(res->getString("position")),
                     res->getInt("import_price"),
                     res->getInt("sell_price")
                 );
@@ -589,29 +568,27 @@ namespace BTLAppManagerStore {
     private: 
         // Khi Form tải
         System::Void ProductsPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
-            fillListCategory();
             loadAllDataToTable();
             this->cbSearch->SelectedIndex = 1;
-            this->productObject = new MyObjects::Product(this->MyDB);
+            this->productObject = new MyObjects::Product(APP_SESSION::MyDB);
         }
         // Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
         System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
             if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
                 loadAllDataToTable(); // load tất cả data trong DB ra Table 
             else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
-                std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+                std::string searchKey = MyUtils::toStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
                 loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
             }
         }
         // Hàm này chạy khi nút refresh click, sẽ load lại dữ liệu vào `dataTable`
         System::Void btnRefresh_Click(System::Object^ sender, System::EventArgs^ e) {
             this->tbxSearch->Text = ""; // clear thanh tìm kiêm
-            fillListCategory();
             loadAllDataToTable(); // load tất cả data trong DB ra Table 
         }
         // Khi nút thêm Product click thì Show lên Form thêm Product
         System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
-            BTLAppManagerStore::AddOrEditProductForm^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(this->MyDB);
+            BTLAppManagerStore::AddOrEditProductForm^ AddProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm();
             AddProductForm->productObject = this->productObject;
             AddProductForm->ShowDialog();
             delete AddProductForm;
@@ -621,7 +598,7 @@ namespace BTLAppManagerStore {
             if (this->dataTable->Rows->Count != 0) {
                 unsigned int id = getIdByRowIndex(this->getCurrentRowsIndexSelected()); // Lấy id hiện tại đang được selected
                 this->productObject->Read(id);
-                BTLAppManagerStore::AddOrEditProductForm^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true, this->MyDB);
+                BTLAppManagerStore::AddOrEditProductForm^ EditProductForm = gcnew BTLAppManagerStore::AddOrEditProductForm(true);
                 EditProductForm->productObject = this->productObject;
                 EditProductForm->ShowDialog();
                 delete EditProductForm;
@@ -643,13 +620,13 @@ namespace BTLAppManagerStore {
         }
         // Khi nút xem thùng rác (các Product đã xóa) click thì show Form danh sách Product đã xóa
         System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-            BTLAppManagerStore::TrashProductsForm^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm(this->MyDB);
+            BTLAppManagerStore::TrashProductsForm^ TrashProductsForm = gcnew BTLAppManagerStore::TrashProductsForm();
             TrashProductsForm->ShowDialog();
             delete TrashProductsForm;
         }
         // Khi nút Import click Show lên Form Import Product
         System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-            Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm(this->MyDB);
+            Form^ ImportProductsForm = gcnew BTLAppManagerStore::ImportProductsForm();
             ImportProductsForm->ShowDialog();
             delete ImportProductsForm;
         }

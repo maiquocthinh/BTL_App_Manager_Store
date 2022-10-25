@@ -8,7 +8,7 @@ namespace MyObjects {
 	class Product {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		unsigned int id, quantity, categoryID, importPrice, sellPrice;
 		string name, image, description, position, unit;
 		// Constructor and Destructor
@@ -167,7 +167,7 @@ namespace MyObjects {
 	class Employee : public Person {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		unsigned int id;
 		unsigned short int position; // 0 is manager, 1 is employee
 		string username, password, image;
@@ -247,7 +247,7 @@ namespace MyObjects {
 	class Customer : public Person {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		unsigned int id, points;
 		// Constructor and Destructor
 	public:
@@ -361,7 +361,7 @@ namespace MyObjects {
 	class BillCustomer : public Bill {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		unsigned int customerID;
 		signed int discountByPoints;
 		// Constructor and Destructor
@@ -414,7 +414,7 @@ namespace MyObjects {
 	class BillImport : public Bill {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		// Constructor and Destructor
 	public:
 		BillImport(MyDatabase* const MyDB) {
@@ -447,7 +447,7 @@ namespace MyObjects {
 	class Category {
 		// Properties
 	private:
-		MyDatabase* MyDB = new MyDatabase();
+		MyDatabase* MyDB;
 		unsigned int id;
 		string title;
 		// Constructor and Destructor
@@ -509,16 +509,16 @@ namespace MyObjects {
 	};
 
 	template <typename T>
-	class SList {
+	class LinkedList {
 	private:
 		Node<T>* head;
-		Node<T>* tail;
 		long size;
 	public:
-		SList() {
-			this->head = this->tail = NULL;
+		LinkedList() {
+			this->head = NULL;
+			this->size = 0;
 		}
-		~SList() {}
+		~LinkedList() {}
 		Node<T>* CreateNode(T v) {
 			Node<T>* newNode = new Node<T>;
 			newNode->data = v;
@@ -528,7 +528,7 @@ namespace MyObjects {
 		void addFirst(const T v) {
 			Node<T>* newNode = this->CreateNode(v);
 			if (this->head == NULL)
-				this->head = this->tail = newNode;
+				this->head = newNode;
 			else {
 				newNode->next = this->head;
 				this->head = newNode;
@@ -547,27 +547,23 @@ namespace MyObjects {
 		Node<T>* getHead() {
 			return this->head;
 		}
+		void clearLinkedList() {
+			if (this->size > 0) {
+				Node<T> *temp = this->head, *next;
+				while (temp->next != NULL)
+				{
+					next = temp->next;
+					delete temp;
+					temp = next;
+				}
+				this->size = 0;
+				this->head = NULL;
+			}
+
+		}
 	};
 
 }
-
-
-class APP_SESSION {
-public:
-	static MyDatabase* MyDB;
-	static MyObjects::Employee* currentUser;
-	static bool isLogin;
-public:
-	APP_SESSION() {
-		this->MyDB->Connect();
-		this->currentUser = new MyObjects::Employee(this->MyDB);
-		this->currentUser->setId(0);
-	}
-	~APP_SESSION() {}
-};
-MyDatabase* APP_SESSION::MyDB = new MyDatabase();
-MyObjects::Employee* APP_SESSION::currentUser;
-bool APP_SESSION::isLogin = false;
 
 
 namespace MyStructs {
@@ -579,17 +575,11 @@ namespace MyStructs {
 		string name;
 	};
 	struct Employee {
-		string fullName, address, phone;
-		bool sex; // true is male, false is female
+		string fullName;
 		unsigned int id;
 	};
-	struct BillCustomer {
-	protected: string date, productIDs, quantityProducts;
-			 unsigned int id, employeeID, totalPrice, customerID, discountByPoints;
-	};
 	struct Customer {
-		string fullName, address, phone;
-		bool sex; // true is male, false is female
+		string fullName;
 		unsigned int id;
 		signed int points;
 	};
@@ -598,3 +588,81 @@ namespace MyStructs {
 		string title;
 	};
 }
+
+
+class APP_SESSION {
+public:
+	static MyDatabase* MyDB;
+	static MyObjects::Employee* currentUser;
+	static bool isLogin;
+	static MyObjects::LinkedList<MyStructs::Product> ListProducts;
+	static MyObjects::LinkedList<MyStructs::Employee> ListEmployees;
+	static MyObjects::LinkedList<MyStructs::Customer> ListCustomers;
+	static MyObjects::LinkedList<MyStructs::Category> ListCategories;
+public:
+	APP_SESSION() {
+		this->MyDB->Connect();
+		this->currentUser = new MyObjects::Employee(this->MyDB);
+		this->currentUser->setId(0);
+		fillListProducts();
+		fillListEmployees();
+		fillListCustomers();
+		fillListCategories();
+	}
+	~APP_SESSION() {}
+	static void fillListProducts() {
+		APP_SESSION::ListProducts.clearLinkedList();
+		sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
+		while (res->next())
+		{
+			MyStructs::Product Product;
+			Product.id = res->getInt("id");
+			Product.name = res->getString("name");
+			Product.quantity = res->getInt("quantity");
+			Product.importPrice = res->getInt("import_price");
+			Product.sellPrice = res->getInt("sell_price");
+			APP_SESSION::ListProducts.addFirst(Product);
+		}
+	}
+	static void fillListEmployees() {
+		APP_SESSION::ListEmployees.clearLinkedList();
+		sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery("SELECT `id`, `fullname`, `sex`, `address`, `phone` FROM `tb_employees` WHERE (`isDelete` = 0)");
+		while (res->next())
+		{
+			MyStructs::Employee employee;
+			employee.id = res->getInt("id");
+			employee.fullName = res->getString("fullname");
+			APP_SESSION::ListEmployees.addFirst(employee);
+		}
+	}
+	static void fillListCustomers() {
+		APP_SESSION::ListCustomers.clearLinkedList();
+		sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery("SELECT `id`, `fullname`, `points` FROM `tb_customers` WHERE (`isDelete` = 0)");
+		while (res->next())
+		{
+			MyStructs::Customer customer;
+			customer.id = res->getInt("id");
+			customer.fullName = res->getString("fullname");
+			customer.points = res->getInt("points");
+			APP_SESSION::ListCustomers.addFirst(customer);
+		}
+	}
+	static void fillListCategories() {
+		APP_SESSION::ListCategories.clearLinkedList();
+		sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery("SELECT `id`, `title` FROM `tb_prods_categories` WHERE (`isDelete` = 0)");
+		while (res->next())
+		{
+			MyStructs::Category category;
+			category.id = res->getInt("id");
+			category.title = res->getString("title");
+			APP_SESSION::ListCategories.addFirst(category);
+		}
+	}
+};
+MyDatabase* APP_SESSION::MyDB = new MyDatabase();
+MyObjects::Employee* APP_SESSION::currentUser;
+bool APP_SESSION::isLogin = false;
+MyObjects::LinkedList<MyStructs::Product> APP_SESSION::ListProducts;
+MyObjects::LinkedList<MyStructs::Employee> APP_SESSION::ListEmployees;
+MyObjects::LinkedList<MyStructs::Customer> APP_SESSION::ListCustomers;
+MyObjects::LinkedList<MyStructs::Category> APP_SESSION::ListCategories;

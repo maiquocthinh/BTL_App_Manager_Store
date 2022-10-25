@@ -194,9 +194,9 @@ namespace BTLAppManagerStore {
 		}
 		// Xử lý login
 		System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-			std::string username = MyUtils::systemStringToStdString(this->usernameInput->Text);
-			std::string password = MyUtils::systemStringToStdString(this->passwordInput->Text);
-			std::string query = "SELECT `id` FROM `tb_employees`  WHERE (`username` = '" + username + "') AND (`password` = '" + password + "') LIMIT 1";
+			std::string username = MyUtils::toStdString(this->usernameInput->Text);
+			std::string password = MyUtils::toStdString(this->passwordInput->Text);
+			std::string query = "SELECT `id` FROM `tb_employees`  WHERE (`username` = '" + username + "') AND (`password` = '" + password + "') AND (`isDelete` = 0) LIMIT 1";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			if (res->next()) {
 				APP_SESSION::currentUser->Read(res->getInt("id"));

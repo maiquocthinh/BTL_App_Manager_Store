@@ -26,11 +26,6 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        HomePageForm(MyDatabase* const MyDB)
-        {
-            InitializeComponent();
-            this->MyDB = MyDB;
-        }
 
     protected:
         /// <summary>
@@ -522,8 +517,6 @@ namespace BTLAppManagerStore {
 
     // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
-        // Biến MyDB để thực hiện các tương tác đến Database
-        MyDatabase* MyDB = new MyDatabase();
 
     // ****** Các hàm ta tự định nghĩa ******
     private:
@@ -568,19 +561,19 @@ namespace BTLAppManagerStore {
         void loadInfoToForm() {
             sql::ResultSet* res;
             // load tổng số nhân viên, khách hàng, hàng hóa ra giao diện
-            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_products` WHERE (`isDelete` = 0)");
+            res = APP_SESSION::MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_products` WHERE (`isDelete` = 0)");
             if (res->next()) this->totalProducts->Text = res->getInt("count").ToString();
-            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_employees` WHERE (`isDelete` = 0)");
+            res = APP_SESSION::MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_employees` WHERE (`isDelete` = 0)");
             if (res->next()) this->totalEmployees->Text = res->getInt("count").ToString();
-            res = this->MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_customers` WHERE (`isDelete` = 0)");
+            res = APP_SESSION::MyDB->ReadQuery("SELECT COUNT(*) AS count FROM `tb_customers` WHERE (`isDelete` = 0)");
             if (res->next()) this->totalCustomers->Text = res->getInt("count").ToString();
             // load tổng thu nhập ngày hôm nay ra giao diện
-            std::string today = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd"));
-            res = this->MyDB->ReadQuery("SELECT SUM(total_money) AS sum FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
+            std::string today = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd"));
+            res = APP_SESSION::MyDB->ReadQuery("SELECT SUM(total_money) AS sum FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
             if (res->next()) this->turnoverOfDay->Text = res->getInt("sum").ToString() + " VND";
             // tổng hợp và hiển thị các hàng hóa bán chạy của hôm nay ra giao diện
             this->tableTopProducts->Rows->Clear();
-            res = this->MyDB->ReadQuery("SELECT `product_ids`,`quantities` FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
+            res = APP_SESSION::MyDB->ReadQuery("SELECT `product_ids`,`quantities` FROM `tb_bills` WHERE (`date` LIKE '" + today + "%')");
             std::vector<std::pair<int, int>> listPair;
             std::vector<std::string> str_listID, str_listQuantity;
             while (res->next()) {
@@ -595,14 +588,14 @@ namespace BTLAppManagerStore {
             for (int i = 0; i < listPairUnique.size(); i++)
             {
                 if (i == 8) break;
-                res = this->MyDB->ReadQuery("SELECT `id`, `name`, `unit`,  `position` FROM `tb_products` WHERE (`id`=" + MyUtils::intToStdString(listPairUnique[i].first) + ")");
+                res = APP_SESSION::MyDB->ReadQuery("SELECT `id`, `name`, `unit`,  `position` FROM `tb_products` WHERE (`id`=" + MyUtils::intToStdString(listPairUnique[i].first) + ")");
                 if (res->next()) {
                     this->tableTopProducts->Rows->Add(
                         res->getInt("id"),
-                        MyUtils::stdStringToSystemString(res->getString("name")),
+                        MyUtils::toSystemString(res->getString("name")),
                         listPairUnique[i].second,
-                        MyUtils::stdStringToSystemString(res->getString("unit")),
-                        MyUtils::stdStringToSystemString(res->getString("position"))
+                        MyUtils::toSystemString(res->getString("unit")),
+                        MyUtils::toSystemString(res->getString("position"))
                     );
                 }
             }

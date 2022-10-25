@@ -25,11 +25,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		CustomersPageForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -429,8 +424,6 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Category
 		MyObjects::Customer* customerObject;
 
@@ -444,7 +437,7 @@ namespace BTLAppManagerStore {
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			return std::stoi(MyUtils::toStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
 		}
 		std::string getSearchColumnName() {
 			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
@@ -456,13 +449,13 @@ namespace BTLAppManagerStore {
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
 			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0) ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("fullname")),
-					MyUtils::stdStringToSystemString(res->getString("phone")),
-					MyUtils::stdStringToSystemString(res->getString("address")),
+					MyUtils::toSystemString(res->getString("fullname")),
+					MyUtils::toSystemString(res->getString("phone")),
+					MyUtils::toSystemString(res->getString("address")),
 					res->getBoolean("sex") ? L"Nam" : L"Nữ",
 					res->getInt("points")
 				);
@@ -471,13 +464,13 @@ namespace BTLAppManagerStore {
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
 			std::string query = "SELECT * FROM `tb_customers` WHERE (`isDelete` = 0) AND (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("fullname")),
-					MyUtils::stdStringToSystemString(res->getString("phone")),
-					MyUtils::stdStringToSystemString(res->getString("address")),
+					MyUtils::toSystemString(res->getString("fullname")),
+					MyUtils::toSystemString(res->getString("phone")),
+					MyUtils::toSystemString(res->getString("address")),
 					res->getBoolean("sex") ? L"Nam" : L"Nữ",
 					res->getInt("points")
 				);
@@ -489,14 +482,14 @@ namespace BTLAppManagerStore {
 		System::Void CustomersPageForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
 			this->cbSearch->SelectedIndex = 1; // selected `Title` trong cbSearch
-			this->customerObject = new MyObjects::Customer(this->MyDB); // Khởi tạo giá trị cho biến object của Customer
+			this->customerObject = new MyObjects::Customer(APP_SESSION::MyDB); // Khởi tạo giá trị cho biến object của Customer
 		}
 		// Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
 		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
 				loadAllDataToTable(); // load tất cả data trong DB ra Table 
 			else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
-				std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+				std::string searchKey = MyUtils::toStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
 				loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
 			}
 		}
@@ -541,7 +534,7 @@ namespace BTLAppManagerStore {
 		}
 		// Khi nút xem thùng rác (các Customer đã xóa) click thì show Form danh sách Customer đã xóa
 		System::Void btnTrash_Click(System::Object^ sender, System::EventArgs^ e) {
-			BTLAppManagerStore::TrashCustomerForm^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm(this->MyDB); // tạo form TrashCustomeresForm
+			BTLAppManagerStore::TrashCustomerForm^ TrashCustomerForm = gcnew BTLAppManagerStore::TrashCustomerForm(); // tạo form TrashCustomeresForm
 			TrashCustomerForm->ShowDialog(); // Show form TrashCustomeresForm lên
 			delete TrashCustomerForm; // xóa TrashCustomerForm sau khi kết thúc thao tác trên TrashCustomerForm
 		}

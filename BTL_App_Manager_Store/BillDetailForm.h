@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        BillDetailForm(MyDatabase* const MyDB)
-        {
-            InitializeComponent();
-            this->MyDB = MyDB;
-        }
 
     protected:
         /// <summary>
@@ -42,35 +37,21 @@ namespace BTLAppManagerStore {
         }
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
     private: System::Windows::Forms::Label^ titleForm;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel4;
     private: System::Windows::Forms::TextBox^ tbxEmployeeName;
-
-
     private: System::Windows::Forms::Label^ lbEmployeeName;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel3;
     private: System::Windows::Forms::TextBox^ tbxCustomerName;
-
-
     private: System::Windows::Forms::Label^ lbCustomerName;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel6;
     private: System::Windows::Forms::TextBox^ tbxDate;
-
-
     private: System::Windows::Forms::Label^ lbDate;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::TextBox^ tbxBillID;
-
-
     private: System::Windows::Forms::Label^ lbBillID;
     private: System::Windows::Forms::DataGridView^ dataTable;
-
-
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productID;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productName;
     private: System::Windows::Forms::DataGridViewTextBoxColumn^ productPrice;
@@ -79,17 +60,11 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel13;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel15;
     private: System::Windows::Forms::TextBox^ tbxTotalBill;
-
     private: System::Windows::Forms::Label^ lbTotalBill;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel14;
     private: System::Windows::Forms::TextBox^ tbxDiscount;
-
     private: System::Windows::Forms::Label^ lbDiscount;
     private: System::Windows::Forms::Button^ btnDelete;
-
-
-
     private:
         /// <summary>
         /// Required designer variable.
@@ -660,73 +635,55 @@ namespace BTLAppManagerStore {
 
         }
 #pragma endregion
-        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-            // ****** Các biến sẽ được khai báo tập trung ở đây ******
-    private:
-        // Biến MyDB để thực hiện các tương tác đến Database
-        MyDatabase* MyDB = new MyDatabase();
-        MyObjects::SList<MyStructs::Product>* listProducts = new MyObjects::SList<MyStructs::Product>();
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
     public:
         // Biến object của BillCustomer
         MyObjects::BillCustomer* billCustomerObject;
 
-        // ****** Các hàm ta tự định nghĩa ******
+    // ****** Các hàm ta tự định nghĩa ******
     private:
-        void fillListProducts() {
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
-            while (res->next())
-            {
-                MyStructs::Product pd;
-                pd.id = res->getInt("id");
-                pd.name = res->getString("name");
-                pd.quantity = res->getInt("quantity");
-                pd.importPrice = res->getInt("import_price");
-                pd.sellPrice = res->getInt("sell_price");
-                this->listProducts->addFirst(pd);
-            }
-        }
         void loadAllDataToTable() {
             std::vector<std::string> vtQuantities, vtProductIDs;
             vtProductIDs = MyUtils::split(this->billCustomerObject->getProductIDs(), ",");
             vtQuantities = MyUtils::split(this->billCustomerObject->getQuantityProducts(), ",");
             for (int i = 0; i < vtProductIDs.size() - 1; i++)
             {
-                MyObjects::Node<MyStructs::Product>* productNode = this->listProducts->getNodeByID(std::stoi(vtProductIDs[i]));
+                MyObjects::Node<MyStructs::Product>* productNode = APP_SESSION::ListProducts.getNodeByID(std::stoi(vtProductIDs[i]));
                 if (productNode != NULL) {
                     this->dataTable->Rows->Add(
                         std::stoi(vtProductIDs[i]),
-                        MyUtils::stdStringToSystemString(productNode->data.name),
+                        MyUtils::toSystemString(productNode->data.name),
                         productNode->data.sellPrice,
                         std::stoi(vtQuantities[i]),
                         productNode->data.sellPrice * std::stoi(vtQuantities[i])
                     );
                 }
-                delete productNode;
             }
         }
 
-        // ****** Các hàm xử lý sự kiện (event) trong form này ******
-    private: System::Void BillDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
-        fillListProducts();
-        sql::ResultSet* res;
-        std::string nameEmployee, nameCustomer;
-        res = this->MyDB->ReadQuery("SELECT `fullname` FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getEmployeeID()) + ") LIMIT 1");
-        if (res->next()) this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(res->getString("fullname"));
-        res = this->MyDB->ReadQuery("SELECT `fullname` FROM `tb_customers` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getCustomerID()) + ") LIMIT 1");
-        if (res->next()) this->tbxCustomerName->Text = MyUtils::stdStringToSystemString(res->getString("fullname"));
-        this->tbxBillID->Text = this->billCustomerObject->getId().ToString();
-        this->tbxDate->Text = MyUtils::stdStringToSystemString(this->billCustomerObject->getDate());
-        this->tbxDiscount->Text = this->billCustomerObject->getDiscountByPoints().ToString();
-        this->tbxTotalBill->Text = (this->billCustomerObject->getTotalPrice() + this->billCustomerObject->getDiscountByPoints()).ToString();
-        loadAllDataToTable();
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    private: 
+        System::Void BillDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
+            sql::ResultSet* res;
+            std::string nameEmployee, nameCustomer;
+            res = APP_SESSION::MyDB->ReadQuery("SELECT `fullname` FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getEmployeeID()) + ") LIMIT 1");
+            if (res->next()) this->tbxEmployeeName->Text = MyUtils::toSystemString(res->getString("fullname"));
+            res = APP_SESSION::MyDB->ReadQuery("SELECT `fullname` FROM `tb_customers` WHERE (`id` = " + MyUtils::intToStdString(this->billCustomerObject->getCustomerID()) + ") LIMIT 1");
+            if (res->next()) this->tbxCustomerName->Text = MyUtils::toSystemString(res->getString("fullname"));
+            this->tbxBillID->Text = this->billCustomerObject->getId().ToString();
+            this->tbxDate->Text = MyUtils::toSystemString(this->billCustomerObject->getDate());
+            this->tbxDiscount->Text = this->billCustomerObject->getDiscountByPoints().ToString();
+            this->tbxTotalBill->Text = (this->billCustomerObject->getTotalPrice() + this->billCustomerObject->getDiscountByPoints()).ToString();
+            loadAllDataToTable();
+        }
+    System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
+        System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Bill", "Delete Bill", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
+        if (result == System::Windows::Forms::DialogResult::Yes) {
+            this->billCustomerObject->Delete();
+            this->Close();
+        }
     }
-           System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
-               System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Bill", "Delete Bill", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);
-               if (result == System::Windows::Forms::DialogResult::Yes) {
-                   this->billCustomerObject->Delete();
-                   this->Close();
-               }
-           }
     };
 }

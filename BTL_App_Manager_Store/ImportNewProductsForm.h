@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		ImportNewProductsForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -565,47 +560,31 @@ namespace BTLAppManagerStore {
 		// Biến object của BillImport
 		MyObjects::BillImport* billImportObject;
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
-		MyObjects::SList<MyStructs::Product>* ListProducts = new MyObjects::SList<MyStructs::Product>();
 		MyStructs::Product* currentProduct;
 
 	// ****** Các hàm ta tự định nghĩa ******
 	private:
-		void fillListProducts() {
-			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
-			while (res->next())
-			{
-				MyStructs::Product pd;
-				pd.id = res->getInt("id");
-				pd.name = res->getString("name");
-				pd.quantity = res->getInt("quantity");
-				pd.importPrice = res->getInt("import_price");
-				pd.sellPrice = res->getInt("sell_price");
-				this->ListProducts->addFirst(pd);
-			}
-		}
 		void loadCBProducts() {
-			for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+			for (MyObjects::Node<MyStructs::Product>* i = APP_SESSION::ListProducts.getHead(); i != NULL; i = i->next)
 			{
-				this->cbProducts->Items->Add(MyUtils::stdStringToSystemString(i->data.name));
+				this->cbProducts->Items->Add(MyUtils::toSystemString(i->data.name));
 			}
 		}
 		void calcTotalMoney() {
 			unsigned int sum = 0;
 			for (int i = 0; i < this->dataTable->Rows->Count; i++)
 			{
-				sum += std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
+				sum += std::stoi(MyUtils::toStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
 			}
 			this->lbMoney->Text = sum.ToString() + " (VND)";
 		}
-		int getCurrentRowSelectedIndex() {
+		int getCurrentRowsIndexSelected() {
 			int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
 			if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
 			return currentRowsIndex;
 		}
 		MyStructs::Product* getProductByName(std::string name) {
-			for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+			for (MyObjects::Node<MyStructs::Product>* i = APP_SESSION::ListProducts.getHead(); i != NULL; i = i->next)
 			{
 				if (i->data.name == name) {
 					return &(i->data);
@@ -618,27 +597,26 @@ namespace BTLAppManagerStore {
 			vtQuantities = MyUtils::split(quantities, ",");
 			for (int i = 0; i < vtProductIDs.size() - 1; i++)
 			{
-				this->MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` + " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
+				APP_SESSION::MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` + " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
 			}
 		}
 
-		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private:
 		System::Void ImportNewProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
-			this->billImportObject = new MyObjects::BillImport(this->MyDB);
-			fillListProducts();
+			this->billImportObject = new MyObjects::BillImport(APP_SESSION::MyDB);
 			loadCBProducts();
-			this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
+			this->tbxEmployeeName->Text = MyUtils::toSystemString(APP_SESSION::currentUser->getFullName());
 			this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
 		}
 		System::Void cbProducts_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-			std::string nameProductSeleted = MyUtils::systemStringToStdString(this->cbProducts->SelectedItem->ToString());
+			std::string nameProductSeleted = MyUtils::toStdString(this->cbProducts->SelectedItem->ToString());
 			this->currentProduct = getProductByName(nameProductSeleted);
 		}
 		System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
 			this->dataTable->Rows->Add(
 				this->currentProduct->id,
-				MyUtils::stdStringToSystemString(this->currentProduct->name),
+				MyUtils::toSystemString(this->currentProduct->name),
 				this->currentProduct->importPrice,
 				this->numQuantity->Value,
 				this->numQuantity->Value * this->currentProduct->importPrice
@@ -646,17 +624,19 @@ namespace BTLAppManagerStore {
 			calcTotalMoney();
 		}
 		System::Void btnRemove_Click(System::Object^ sender, System::EventArgs^ e) {
-			this->dataTable->Rows->RemoveAt(this->getCurrentRowSelectedIndex());
-			calcTotalMoney();
+			if (this->dataTable->Rows->Count > 0) {
+				this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
+				calcTotalMoney();
+			}
 		}
 		System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
 			std::string productIDs = "", quantities = "";
-			std::string date = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
-			unsigned int totalPrice = std::stoi(MyUtils::systemStringToStdString(this->lbMoney->Text));
+			std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+			unsigned int totalPrice = std::stoi(MyUtils::toStdString(this->lbMoney->Text));
 			for (int i = 0; i < this->dataTable->Rows->Count; i++)
 			{
-				productIDs += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
-				quantities += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+				productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+				quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
 			}
 			this->billImportObject->setTotalPrice(totalPrice);
 			this->billImportObject->setProductIDs(productIDs);

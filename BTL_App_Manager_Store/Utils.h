@@ -5,7 +5,7 @@
 
 namespace MyUtils {
 	// Chuyển đổi từ System::String^ thành std::string
-	std::string systemStringToStdString(System::String^ systemString) {
+	std::string toStdString(System::String^ systemString) {
 		array<System::Byte>^ bytes = System::Text::Encoding::UTF8->GetBytes(systemString);
 		char* chars = new char[bytes->Length + 1];
 		System::Runtime::InteropServices::Marshal::Copy(bytes, 0, System::IntPtr(chars), bytes->Length);
@@ -15,7 +15,7 @@ namespace MyUtils {
 		return stdString;
 	}
 	// Chuyển đổi từ std::string thành System::String^
-	System::String^ stdStringToSystemString(std::string stdString) {
+	System::String^ toSystemString(std::string stdString) {
 		array<System::Byte>^ bytes = gcnew array<System::Byte>(stdString.length());
 		int i = stdString.length();
 		while (i-- > 0)

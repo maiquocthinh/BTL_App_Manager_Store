@@ -612,7 +612,6 @@ namespace BTLAppManagerStore {
 			this->Name = L"MainWindows";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"MainWindows";
-			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MainWindows::MainWindows_FormClosed);
 			this->Load += gcnew System::EventHandler(this, &MainWindows::MainWindows_Load);
 			this->pnlSidebarHead->ResumeLayout(false);
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -639,27 +638,17 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		BTLAppManagerStore::HomePageForm^ HomePageForm;
-		BTLAppManagerStore::ProductsPageForm^ ProductsPageForm;
-		BTLAppManagerStore::CategoriesPageForm^ CategoriesPageForm;
-		BTLAppManagerStore::EmployeesPageForm^ EmployeesPageForm;
-		BTLAppManagerStore::CustomersPageForm^ CustomersPageForm;
-		BTLAppManagerStore::BillsPageForm^ BillsPageForm;
+		BTLAppManagerStore::HomePageForm^ HomePageForm = gcnew BTLAppManagerStore::HomePageForm();
+		BTLAppManagerStore::ProductsPageForm^ ProductsPageForm = gcnew BTLAppManagerStore::ProductsPageForm();
+		BTLAppManagerStore::CategoriesPageForm^ CategoriesPageForm = gcnew BTLAppManagerStore::CategoriesPageForm();
+		BTLAppManagerStore::EmployeesPageForm^ EmployeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm();
+		BTLAppManagerStore::CustomersPageForm^ CustomersPageForm = gcnew BTLAppManagerStore::CustomersPageForm();
+		BTLAppManagerStore::BillsPageForm^ BillsPageForm = gcnew BTLAppManagerStore::BillsPageForm();
 		System::Drawing::Color activeColorSidebar = System::Drawing::Color::FromArgb(18, 79, 139); // Màu active trên menu
-		MyDatabase* MyDB = new MyDatabase(); // Biến MyDB để thực hiện các tương tác đến Database
 
 
 	// ****** Các hàm ta tự định nghĩa ******
 	private:
-		// Hàm khởi tạo giá trị cho các Form
-		void initFormsValue() {
-			this->HomePageForm = gcnew BTLAppManagerStore::HomePageForm(this->MyDB);
-			this->ProductsPageForm = gcnew BTLAppManagerStore::ProductsPageForm(this->MyDB);
-			this->CategoriesPageForm = gcnew BTLAppManagerStore::CategoriesPageForm((this->MyDB));
-			this->EmployeesPageForm = gcnew BTLAppManagerStore::EmployeesPageForm(this->MyDB);
-			this->CustomersPageForm = gcnew BTLAppManagerStore::CustomersPageForm(this->MyDB);
-			this->BillsPageForm = gcnew BTLAppManagerStore::BillsPageForm(this->MyDB);
-		}
 		// Hàm xóa trạng thái active của Menu
 		void clearActiveSidebar() {
 			if (btnNavHome->BackColor == this->activeColorSidebar)
@@ -782,26 +771,16 @@ namespace BTLAppManagerStore {
 
 	// Khi Form MainWindows tải
 	private: System::Void MainWindows_Load(System::Object^ sender, System::EventArgs^ e) {
-		MyDB->Connect(); // Kết nối đến cơ sở dữ liệu Mysql
-		initFormsValue(); // Khởi tạo giá trị của các Form
 		// Load Form HomePageForm.h và active tương ứng trên Menu
 		loadFormToPnlmain(HomePageForm);
 		btnNavHome->BackColor = this->activeColorSidebar;
 
 		// Load username và position
-		this->nameUser->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
+		this->nameUser->Text = MyUtils::toSystemString(APP_SESSION::currentUser->getFullName());
 		this->positionUser->Text = APP_SESSION::currentUser->getPosition() == 0 ? "Manager" : "Employee";
 		if (APP_SESSION::currentUser->getImage() != "")
-			this->avatarUser->ImageLocation = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getImage());
+			this->avatarUser->ImageLocation = MyUtils::toSystemString(APP_SESSION::currentUser->getImage());
 		if (APP_SESSION::currentUser->getPosition() > 0) this->btnNavEmployees->Hide();
 	}
-
-	// Khi Form MainWindows đóng
-	private: System::Void MainWindows_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) {
-		MyDB->Close(); // Đóng kết nối cơ sở dữ liệu Mysql 
-		delete MyDB; // Giải phóng biến MyDB
-		this->~MainWindows(); // Hủy Form MainWindows
-	}
-	};
-
+};
 }

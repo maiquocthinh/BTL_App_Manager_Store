@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        NewBillForm(MyDatabase* const MyDB)
-        {
-            InitializeComponent();
-            this->MyDB = MyDB;
-        }
 
     protected:
         /// <summary>
@@ -979,64 +974,36 @@ namespace BTLAppManagerStore {
 #pragma endregion
 
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+    
     // ****** Các biến sẽ được khai báo tập trung ở đây ******
     private:
-        // Biến MyDB để thực hiện các tương tác đến Database
-        MyDatabase* MyDB = new MyDatabase();
         // Biến object của BillCustomer
         MyObjects::BillCustomer* billCustomerObject;
-        MyObjects::SList<MyStructs::Product>* ListProducts = new MyObjects::SList<MyStructs::Product>();
-        MyObjects::SList<MyStructs::Customer>* ListCustomer = new MyObjects::SList<MyStructs::Customer>();
         MyStructs::Customer* currentCustomer = NULL;
         MyStructs::Product* currentProduct = NULL;
 
     // ****** Các hàm ta tự định nghĩa ******
     private:
         int getCurrentRowSelectedIndex() {
-            int index = this->dataTable->CurrentRow->Index;
-            if (index > this->dataTable->Rows->Count) index = this->dataTable->Rows->Count - 1;
-            else if (index < 0) index = 0;
-            return index;
-        }
-        void fillListCustomer() {
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `fullname`, `points` FROM `tb_customers` WHERE (`isDelete` = 0)");
-            while (res->next())
-            {
-                MyStructs::Customer customer;
-                customer.id = res->getInt("id");
-                customer.fullName = res->getString("fullname");
-                customer.points = res->getInt("points");
-                this->ListCustomer->addFirst(customer);
-            }
-        }
-        void fillListProducts() {
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
-            while (res->next())
-            {
-                MyStructs::Product pd;
-                pd.id = res->getInt("id");
-                pd.name = res->getString("name");
-                pd.quantity = res->getInt("quantity");
-                pd.importPrice = res->getInt("import_price");
-                pd.sellPrice = res->getInt("sell_price");
-                this->ListProducts->addFirst(pd);
-            }
+            int currentRowsIndex = (int)this->dataTable->CurrentRow->Index;
+            if (currentRowsIndex >= this->dataTable->Rows->Count) return this->dataTable->Rows->Count - 1;
+            return currentRowsIndex;
         }
         void loadCBProducts() {
-            for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+            for (MyObjects::Node<MyStructs::Product>* i = APP_SESSION::ListProducts.getHead(); i != NULL; i = i->next)
             {
-                this->cbProducts->Items->Add(MyUtils::stdStringToSystemString(i->data.name));
+                this->cbProducts->Items->Add(MyUtils::toSystemString(i->data.name));
             }
         }
         void loadCBCustomers() {
             this->cbCustomersName->Items->Add(L"Khách vãng lai");
-            for (MyObjects::Node<MyStructs::Customer>* i = this->ListCustomer->getHead(); i != NULL; i = i->next)
+            for (MyObjects::Node<MyStructs::Customer>* i = APP_SESSION::ListCustomers.getHead(); i != NULL; i = i->next)
             {
-                this->cbCustomersName->Items->Add(MyUtils::stdStringToSystemString(i->data.fullName));
+                this->cbCustomersName->Items->Add(MyUtils::toSystemString(i->data.fullName));
             }
         }
         MyStructs::Product* getProductByName(std::string name) {
-            for (MyObjects::Node<MyStructs::Product>* i = this->ListProducts->getHead(); i != NULL; i = i->next)
+            for (MyObjects::Node<MyStructs::Product>* i = APP_SESSION::ListProducts.getHead(); i != NULL; i = i->next)
             {
                 if (i->data.name == name) {
                     return &(i->data);
@@ -1044,7 +1011,7 @@ namespace BTLAppManagerStore {
             }
         }
         MyStructs::Customer* getCustomerByFullName(std::string fullName) {
-            for (MyObjects::Node<MyStructs::Customer>* i = this->ListCustomer->getHead(); i != NULL; i = i->next)
+            for (MyObjects::Node<MyStructs::Customer>* i = APP_SESSION::ListCustomers.getHead(); i != NULL; i = i->next)
             {
                 if (i->data.fullName == fullName) {
                     return &(i->data);
@@ -1055,12 +1022,12 @@ namespace BTLAppManagerStore {
             unsigned int sum = 0;
             for (int i = 0; i < this->dataTable->Rows->Count; i++)
             {
-                sum += std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
+                sum += std::stoi(MyUtils::toStdString(this->dataTable->Rows[i]->Cells[4]->Value->ToString()));
             }
             this->tbxTotalBill->Text = sum.ToString();
         }
         void calcChangeMoney() {
-            unsigned int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+            unsigned int totalMoney = std::stoi(MyUtils::toStdString(this->tbxTotalBill->Text));
             unsigned int cashMonney = (unsigned int)this->numCash->Value;
             if (cashMonney >= totalMoney) {
                 this->tbxChange->Text = (cashMonney - totalMoney).ToString();
@@ -1075,34 +1042,32 @@ namespace BTLAppManagerStore {
             vtQuantities = MyUtils::split(quantities, ",");
             for (int i = 0; i < vtProductIDs.size() - 1; i++)
             {
-                this->MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` - " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
+                APP_SESSION::MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` - " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
             }
         }
         void updateDiscountPointsCustomer(unsigned int idCustomer, bool isUsedPoints, unsigned int totalMoney) {
             unsigned int extraPoints = totalMoney / 100;
             if (isUsedPoints) {
                 std::string qr = "UPDATE `tb_customers` SET `points`=" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")";
-                this->MyDB->CUDQuery(qr);
+                APP_SESSION::MyDB->CUDQuery(qr);
             }
             else {
-                this->MyDB->CUDQuery("UPDATE `tb_customers` SET `points`=`points`+" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")");
+                APP_SESSION::MyDB->CUDQuery("UPDATE `tb_customers` SET `points`=`points`+" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")");
             }
         }
 
     // ****** Các hàm xử lý sự kiện (event) trong form này ******
     private:
         System::Void NewBillForm_Load(System::Object^ sender, System::EventArgs^ e) {
-            fillListCustomer();
-            fillListProducts();
             loadCBCustomers();
             loadCBProducts();
-            this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(APP_SESSION::currentUser->getFullName());
+            this->tbxEmployeeName->Text = MyUtils::toSystemString(APP_SESSION::currentUser->getFullName());
             this->tbxDate->Text = DateTime::Now.ToString("yyyy-MM-dd");
-            this->billCustomerObject = new MyObjects::BillCustomer(this->MyDB);
+            this->billCustomerObject = new MyObjects::BillCustomer(APP_SESSION::MyDB);
         }
         System::Void cbCustomersName_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
             if (this->cbCustomersName->SelectedItem->ToString() != L"Khách vãng lai") {
-                std::string fullNameCustomerSelected = MyUtils::systemStringToStdString(this->cbCustomersName->SelectedItem->ToString());
+                std::string fullNameCustomerSelected = MyUtils::toStdString(this->cbCustomersName->SelectedItem->ToString());
                 this->currentCustomer = getCustomerByFullName(fullNameCustomerSelected);
                 this->cbDiscountByPoint->Items->Clear();
                 this->cbDiscountByPoint->Items->Add(-this->currentCustomer->points);
@@ -1113,7 +1078,7 @@ namespace BTLAppManagerStore {
             }
         }
         System::Void cbProducts_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-            std::string nameProductSelected = MyUtils::systemStringToStdString(this->cbProducts->SelectedItem->ToString());
+            std::string nameProductSelected = MyUtils::toStdString(this->cbProducts->SelectedItem->ToString());
             this->currentProduct = getProductByName(nameProductSelected);
             this->tbxPrice->Text = this->currentProduct->sellPrice.ToString();
         }
@@ -1122,7 +1087,7 @@ namespace BTLAppManagerStore {
                 if (this->numQuantity->Value <= this->currentProduct->quantity) {
                     this->dataTable->Rows->Add(
                         this->currentProduct->id,
-                        MyUtils::stdStringToSystemString(this->currentProduct->name),
+                        MyUtils::toSystemString(this->currentProduct->name),
                         this->currentProduct->sellPrice,
                         this->numQuantity->Value,
                         this->numQuantity->Value * this->currentProduct->sellPrice
@@ -1133,15 +1098,17 @@ namespace BTLAppManagerStore {
             }
         }
         System::Void btnRemove_Click(System::Object^ sender, System::EventArgs^ e) {
-            this->dataTable->Rows->RemoveAt(this->getCurrentRowSelectedIndex());
-            calcTotalMoney();
+            if (this->dataTable->Rows->Count > 0) {
+                this->dataTable->Rows->RemoveAt(this->getCurrentRowSelectedIndex());
+                calcTotalMoney();
+            }
         }
         System::Void numCash_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
             calcChangeMoney();
         }
         System::Void cbDiscountByPoint_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
             if (this->cbDiscountByPoint->SelectedItem != nullptr) {
-                int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+                int totalMoney = std::stoi(MyUtils::toStdString(this->tbxTotalBill->Text));
                 int discountMoney = (int)this->cbDiscountByPoint->SelectedItem;
                 if (totalMoney + discountMoney > 0)
                     this->tbxTotalBill->Text = (totalMoney + discountMoney).ToString();
@@ -1150,19 +1117,14 @@ namespace BTLAppManagerStore {
         }
         System::Void btnPay_Click(System::Object^ sender, System::EventArgs^ e) {
             std::string productIDs = "", quantities = "";
-            std::string date = MyUtils::systemStringToStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            unsigned int totalMoney = std::stoi(MyUtils::systemStringToStdString(this->tbxTotalBill->Text));
+            std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            unsigned int totalMoney = std::stoi(MyUtils::toStdString(this->tbxTotalBill->Text));
             for (int i = 0; i < this->dataTable->Rows->Count; i++)
             {
-                productIDs += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
-                quantities += MyUtils::systemStringToStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+                productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+                quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
             }
-            if (this->currentCustomer != NULL) {
-                this->billCustomerObject->setCustomerID(this->currentCustomer->id);
-            }
-            else {
-                this->billCustomerObject->setCustomerID(0);
-            }
+            this->billCustomerObject->setCustomerID(this->currentCustomer != NULL ? this->currentCustomer->id : 0);
             if (this->cbDiscountByPoint->SelectedItem != nullptr) {
                 int discount = (int)this->cbDiscountByPoint->SelectedItem;
                 this->billCustomerObject->setDiscountByPoints(discount);

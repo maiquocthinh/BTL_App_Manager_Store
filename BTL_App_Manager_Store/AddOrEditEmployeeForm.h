@@ -15,7 +15,6 @@ namespace BTLAppManagerStore {
     /// </summary>
     public ref class AddOrEditEmployeeForm : public System::Windows::Forms::Form
     {
-    private: bool isEditMode;
     public:
         AddOrEditEmployeeForm(void)
         {
@@ -64,19 +63,14 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::ImageList^ ListIcon;
     private: System::Windows::Forms::Button^ btnCancel;
     private: System::Windows::Forms::Button^ btnSave;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel9;
     private: System::Windows::Forms::TextBox^ tbxPassword;
-
     private: System::Windows::Forms::Label^ lbPassword;
-
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel8;
     private: System::Windows::Forms::TextBox^ tbxUsername;
-
     private: System::Windows::Forms::Label^ lbUsername;
     private: System::Windows::Forms::ComboBox^ cbPosition;
     private: System::ComponentModel::IContainer^ components;
-
     private:
         /// <summary>
         /// Required designer variable.
@@ -677,8 +671,10 @@ namespace BTLAppManagerStore {
 
 // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-  // ****** Các biến sẽ được khai báo tập trung ở đây ******
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
     public:
+        // Biến này quyết định form này là form edit hay form create
+        bool isEditMode;
         // Biến object của Employee
         MyObjects::Employee* employeeObject;
 
@@ -692,45 +688,46 @@ namespace BTLAppManagerStore {
                 this->btnSave->ImageKey = L"save-icon.png";
                 this->titleForm->Text = "Edit Employee";
                 //Load data trong DB vao form
-                this->tbxImage->Text = MyUtils::stdStringToSystemString(this->employeeObject->getImage());
-                this->tbxName->Text = MyUtils::stdStringToSystemString(this->employeeObject->getFullName());
-                this->tbxPhone->Text = MyUtils::stdStringToSystemString(this->employeeObject->getPhone());
+                this->tbxImage->Text = MyUtils::toSystemString(this->employeeObject->getImage());
+                this->tbxName->Text = MyUtils::toSystemString(this->employeeObject->getFullName());
+                this->tbxPhone->Text = MyUtils::toSystemString(this->employeeObject->getPhone());
                 this->cbSex->SelectedItem = this->employeeObject->getSex() ? "Male" : "Female";
-                this->tbxAddress->Text = MyUtils::stdStringToSystemString(this->employeeObject->getAddress());
+                this->tbxAddress->Text = MyUtils::toSystemString(this->employeeObject->getAddress());
                 this->cbPosition->SelectedItem = this->employeeObject->getPosition() == 0 ? "Manager" : "Employee";
-                this->tbxUsername->Text = MyUtils::stdStringToSystemString(this->employeeObject->getUsername());
+                this->tbxUsername->Text = MyUtils::toSystemString(this->employeeObject->getUsername());
             }
         }
-            // Tự động load image khi nhập link image vào ô input
-            System::Void inputImage_TextChanged(System::Object ^ sender, System::EventArgs ^ e) {
-                System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditEmployeeForm::typeid));
-                if (this->tbxImage->Text == "")
-                    this->imageEmployee->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageEmployee.Image")));
-                else
-                    this->imageEmployee->ImageLocation = this->tbxImage->Text;
-            }
+        // Tự động load image khi nhập link image vào ô input
+        System::Void inputImage_TextChanged(System::Object ^ sender, System::EventArgs ^ e) {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditEmployeeForm::typeid));
+            if (this->tbxImage->Text == "")
+                this->imageEmployee->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"imageEmployee.Image")));
+            else
+                this->imageEmployee->ImageLocation = this->tbxImage->Text;
+        }
 
-            System::Void btnSave_Click(System::Object ^ sender, System::EventArgs ^ e) {
-                // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
-                this->employeeObject->setImage(MyUtils::systemStringToStdString(this->tbxImage->Text));
-                this->employeeObject->setFullName(MyUtils::systemStringToStdString(this->tbxName->Text));
-                this->employeeObject->setPhone(MyUtils::systemStringToStdString(this->tbxPhone->Text));
-                this->employeeObject->setSex(this->cbSex->SelectedItem->ToString() == "Male" ? true : false);
-                this->employeeObject->setAddress(MyUtils::systemStringToStdString(this->tbxAddress->Text));
-                this->employeeObject->setPosition(this->cbPosition->SelectedItem->ToString() == "Manager" ? 0 : 1);
-                this->employeeObject->setUsername(MyUtils::systemStringToStdString(this->tbxUsername->Text));
-                if(this->tbxPassword->Text != "") this->employeeObject->setPassword(MyUtils::systemStringToStdString(this->tbxPassword->Text));
+        System::Void btnSave_Click(System::Object ^ sender, System::EventArgs ^ e) {
+            // Lấy các dữ liệu được nhập ở (phía ngoài) form và gán vào các biến (có chuyển đổi nếu cần thiết)
+            this->employeeObject->setImage(MyUtils::toStdString(this->tbxImage->Text));
+            this->employeeObject->setFullName(MyUtils::toStdString(this->tbxName->Text));
+            this->employeeObject->setPhone(MyUtils::toStdString(this->tbxPhone->Text));
+            this->employeeObject->setSex(this->cbSex->SelectedItem->ToString() == "Male" ? true : false);
+            this->employeeObject->setAddress(MyUtils::toStdString(this->tbxAddress->Text));
+            this->employeeObject->setPosition(this->cbPosition->SelectedItem->ToString() == "Manager" ? 0 : 1);
+            this->employeeObject->setUsername(MyUtils::toStdString(this->tbxUsername->Text));
+            if(this->tbxPassword->Text != "") this->employeeObject->setPassword(MyUtils::toStdString(this->tbxPassword->Text));
 
-                //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
-                if (this->isEditMode) {
-                    this->employeeObject->Update();
-                    MessageBox::Show(L"Update Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-                }
-                else {
-                    this->employeeObject->Create();
-                    MessageBox::Show(L"Create Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-                }
-                this->Close(); // đóng form này lại
+            //Check xem from đang ở chế độ edit hay ko, nếu phải thì update, ngược lại create
+            if (this->isEditMode) {
+                this->employeeObject->Update();
+                MessageBox::Show(L"Update Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
-        };
+            else {
+                this->employeeObject->Create();
+                MessageBox::Show(L"Create Employee Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+            }
+            APP_SESSION::fillListEmployees();
+            this->Close(); // đóng form này lại
+        }
+    };
 }

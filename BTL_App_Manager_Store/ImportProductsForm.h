@@ -25,11 +25,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		ImportProductsForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -55,7 +50,6 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importEmployee;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ importToatlMoney;
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -169,7 +163,6 @@ namespace BTLAppManagerStore {
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
 			this->cbSearch->TabIndex = 0;
-			this->cbSearch->SelectedIndexChanged += gcnew System::EventHandler(this, &ImportProductsForm::cbSearch_SelectedIndexChanged);
 			// 
 			// btnRefresh
 			// 
@@ -296,80 +289,63 @@ namespace BTLAppManagerStore {
 
 	// ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của BillImport
 		MyObjects::BillImport* billImportObject;
-		// Biến này lưu tên của column (trong DB) mà ta thực hiện tìm kiếm
-		System::String^ searchColumnName;
-		// Biến này lưu danh sách các Struct Employee
-		MyObjects::SList<MyStructs::Employee>* ListEmployee = new MyObjects::SList<MyStructs::Employee>();
 
 
-		// ****** Các hàm ta tự định nghĩa ******
+	// ****** Các hàm ta tự định nghĩa ******
 	private:
 		// Load tất cả data trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
 			std::string query = "SELECT * FROM `tb_imports` ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
-			MyStructs::Employee employee;
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				employee = this->ListEmployee->getNodeByID(res->getInt("employee_id"))->data;
+				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
+				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(employee.fullName),
-					MyUtils::stdStringToSystemString(res->getString("date")),
-					MyUtils::stdStringToSystemString(res->getString("total_money"))
+					MyUtils::toSystemString(nameEmployee),
+					MyUtils::toSystemString(res->getString("date")),
+					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
-			this->dataTable->ClearSelection();
 		}
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_imports` WHERE (`" + MyUtils::systemStringToStdString(this->searchColumnName) + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
-			MyStructs::Employee employee;
+			std::string query = "SELECT * FROM `tb_imports` WHERE (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				employee = this->ListEmployee->getNodeByID(res->getInt("employee_id"))->data;
+				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
+				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(employee.fullName),
-					MyUtils::stdStringToSystemString(res->getString("date")),
-					MyUtils::stdStringToSystemString(res->getString("total_money"))
+					MyUtils::toSystemString(nameEmployee),
+					MyUtils::toSystemString(res->getString("date")),
+					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
-			this->dataTable->ClearSelection();
 		}
-		// Hàm này đổ danh sách employee trong DB vào ListEmployee
-		void fillListEmployee() {
-			sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `fullname`, `sex`, `address`, `phone` FROM `tb_employees` WHERE (`isDelete` = 0)");
-			while (res->next())
-			{
-				MyStructs::Employee employee;
-				employee.id = res->getInt("id");
-				employee.fullName = res->getString("fullname");
-				this->ListEmployee->addFirst(employee);
-			}
+		std::string getSearchColumnName() {
+			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
+			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "date";
 		}
 
-
-		// ****** Các hàm xử lý sự kiện (event) trong form này ******
+	// ****** Các hàm xử lý sự kiện (event) trong form này ******
 	private:
 		// Khi form tải
 		System::Void ImportProductsForm_Load(System::Object^ sender, System::EventArgs^ e) {
-			fillListEmployee();
 			loadAllDataToTable();
 			this->cbSearch->SelectedIndex = 0;
-			this->billImportObject = new MyObjects::BillImport(this->MyDB);
+			this->billImportObject = new MyObjects::BillImport(APP_SESSION::MyDB);
 		}
 		// Khi nút search click thì thực hiện load data trùng với từ khóa vào dataTable
 		System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
 			if (this->tbxSearch->Text == "") // Nếu thanh tìm kiếm chưa nhập gì
 				loadAllDataToTable(); // load tất cả data trong DB ra Table 
 			else { // Ngược lại, nếu thanh tìm kiếm đã được nhập
-				std::string searchKey = MyUtils::systemStringToStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
+				std::string searchKey = MyUtils::toStdString(this->tbxSearch->Text); // lấy từ khóa từ thanh tìm kiếm
 				loadSearchDataToTable(searchKey); // load các data trong DB mà trùng với từ khóa ra Table
 			}
 		}
@@ -380,19 +356,14 @@ namespace BTLAppManagerStore {
 		}
 		// Khi nút Import click thì Show lên Form ImportNewProducts
 		System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-			Form^ ImportNewProductsForm = gcnew BTLAppManagerStore::ImportNewProductsForm(this->MyDB);
+			Form^ ImportNewProductsForm = gcnew BTLAppManagerStore::ImportNewProductsForm();
 			ImportNewProductsForm->ShowDialog();
 			delete ImportNewProductsForm;
 		}
-		// Hàm này sẽ chạy khi cbSearch thay đổi giá trị
-		System::Void cbSearch_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-			if (this->cbSearch->SelectedItem->ToString() == "ID") this->searchColumnName = "id";
-			else if (this->cbSearch->SelectedItem->ToString() == "Date") this->searchColumnName = "date";
-		}
 		System::Void dataTable_CellDoubleClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-			unsigned int importID = std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[e->RowIndex]->Cells[0]->Value->ToString()));
-			this->billImportObject->Read(importID);
-			BTLAppManagerStore::ImportProductsDetailForm^ ImportProductsDetailForm = gcnew BTLAppManagerStore::ImportProductsDetailForm(this->MyDB);
+			unsigned int id = std::stoi(MyUtils::toStdString(this->dataTable->Rows[e->RowIndex]->Cells[0]->Value->ToString()));
+			this->billImportObject->Read(id);
+			BTLAppManagerStore::ImportProductsDetailForm^ ImportProductsDetailForm = gcnew BTLAppManagerStore::ImportProductsDetailForm();
 			ImportProductsDetailForm->billImportObject = this->billImportObject;
 			ImportProductsDetailForm->ShowDialog();
 			delete ImportProductsDetailForm;

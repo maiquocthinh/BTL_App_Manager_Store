@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
 			//TODO: Add the constructor code here
 			//
 		}
-		TrashEmployeeForm(MyDatabase* const MyDB)
-		{
-			InitializeComponent();
-			this->MyDB = MyDB;
-		}
 
 	protected:
 		/// <summary>
@@ -41,28 +36,22 @@ namespace BTLAppManagerStore {
 			}
 		}
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
-	protected:
 	private: System::Windows::Forms::Panel^ panel1;
 	private: System::Windows::Forms::Button^ btnPermanentlyDelete;
-
 	private: System::Windows::Forms::Button^ btnRestore;
-
 	private: System::Windows::Forms::ImageList^ ListIcon;
 	private: System::Windows::Forms::DataGridView^ dataTable;
-
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeeID;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeeFullName;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeeAddress;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeeSex;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeePhone;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ employeePosition;
-	private: System::ComponentModel::IContainer^ components;
-
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-
+		System::ComponentModel::IContainer^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -253,8 +242,6 @@ namespace BTLAppManagerStore {
 
 // ****** Các biến sẽ được khai báo tập trung ở đây ******
 	private:
-		// Biến MyDB để thực hiện các tương tác đến Database
-		MyDatabase* MyDB = new MyDatabase();
 		// Biến object của Employee
 		MyObjects::Employee* employeeObject;
 
@@ -268,21 +255,21 @@ namespace BTLAppManagerStore {
 		}
 		// Hàm này lấy id của hàng thông qua rowIndex
 		int getIdByRowIndex(int rowIndex) {
-			return std::stoi(MyUtils::systemStringToStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
+			return std::stoi(MyUtils::toStdString(this->dataTable->Rows[rowIndex]->Cells[0]->Value->ToString()));
 		}
 		// Hàm load dữ liệu trong database ra `dataTable` trong form
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_employees` WHERE (`isDelete` = 1)";
-			sql::ResultSet* res = this->MyDB->ReadQuery(query);
+			std::string query = "SELECT * FROM `tb_employees` WHERE (`isDelete` = 1) ORDER BY `id` DESC";
+			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next())
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::stdStringToSystemString(res->getString("fullname")),
-					MyUtils::stdStringToSystemString(res->getString("address")),
-					MyUtils::stdStringToSystemString(res->getString("phone")),
-					MyUtils::stdStringToSystemString(res->getString("sex")),
-					res->getInt("position")
+					MyUtils::toSystemString(res->getString("fullname")),
+					MyUtils::toSystemString(res->getString("address")),
+					res->getBoolean("sex") ? L"Nam" : L"Nữ",
+					MyUtils::toSystemString(res->getString("phone")),
+					res->getInt("position") == 0 ? L"Quản lý" : L"Nhân viên"
 				);
 		}
 		
@@ -291,7 +278,7 @@ namespace BTLAppManagerStore {
 		// Khi form tai
 		System::Void TrashEmployeeForm_Load(System::Object^ sender, System::EventArgs^ e) {
 			loadAllDataToTable();
-			this->employeeObject = new MyObjects::Employee(this->MyDB);
+			this->employeeObject = new MyObjects::Employee(APP_SESSION::MyDB);
 		}
 		// Hàm này chạy khi nút Restore click, thực hiện khôi phục lại những Customer đã bị xóa
 		System::Void btnRestore_Click(System::Object^ sender, System::EventArgs^ e) {

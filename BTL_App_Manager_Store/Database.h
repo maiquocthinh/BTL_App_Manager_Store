@@ -31,7 +31,9 @@ public:
 	sql::ResultSet* ReadQuery(std::string query);
 };
 
-MyDatabase::MyDatabase() {}
+MyDatabase::MyDatabase() {
+	std::cout << "mydb new" << std::endl;
+}
 MyDatabase::~MyDatabase() {
 	delete this->stmt;
 	delete this->res;

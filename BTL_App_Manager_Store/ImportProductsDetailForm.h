@@ -23,11 +23,6 @@ namespace BTLAppManagerStore {
             //TODO: Add the constructor code here
             //
         }
-        ImportProductsDetailForm(MyDatabase* const MyDB)
-        {
-            InitializeComponent();
-            this->MyDB = MyDB;
-        }
 
     protected:
         /// <summary>
@@ -58,13 +53,10 @@ namespace BTLAppManagerStore {
     private: System::Windows::Forms::Label^ lbTotalMoney;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel7;
     private: System::Windows::Forms::TextBox^ tbxIDImport;
-
     private: System::Windows::Forms::Label^ lbIDBillImport;
     private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel5;
     private: System::Windows::Forms::TextBox^ tbxEmployeeName;
     private: System::Windows::Forms::Label^ lbEmployeeName;
-
-
     private:
         /// <summary>
         /// Required designer variable.
@@ -468,61 +460,42 @@ namespace BTLAppManagerStore {
         }
 #pragma endregion
 
-        // ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
+// ############## Từ Đây Trở Xuống Sẽ Là Nơi Chúng Ta Viết Code #################
 
-            // ****** Các biến sẽ được khai báo tập trung ở đây ******
-    private:
-        // Biến MyDB để thực hiện các tương tác đến Database
-        MyDatabase* MyDB = new MyDatabase();
-        MyObjects::SList<MyStructs::Product>* listProducts = new MyObjects::SList<MyStructs::Product>();
+    // ****** Các biến sẽ được khai báo tập trung ở đây ******
     public:
         // Biến object của BillImport
         MyObjects::BillImport* billImportObject;
 
-        // ****** Các hàm ta tự định nghĩa ******
+    // ****** Các hàm ta tự định nghĩa ******
     private:
-        void fillListProducts() {
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `id`, `name`, `quantity`, `import_price`, `sell_price` FROM `tb_products` WHERE (`isDelete` = 0)");
-            while (res->next())
-            {
-                MyStructs::Product pd;
-                pd.id = res->getInt("id");
-                pd.name = res->getString("name");
-                pd.quantity = res->getInt("quantity");
-                pd.importPrice = res->getInt("import_price");
-                pd.sellPrice = res->getInt("sell_price");
-                this->listProducts->addFirst(pd);
-            }
-        }
         void loadAllDataToTable() {
             std::vector<std::string> vtQuantities, vtProductIDs;
             vtProductIDs = MyUtils::split(this->billImportObject->getProductIDs(), ",");
             vtQuantities = MyUtils::split(this->billImportObject->getQuantityProducts(), ",");
             for (int i = 0; i < vtProductIDs.size() - 1; i++)
             {
-                MyObjects::Node<MyStructs::Product>* productNode = this->listProducts->getNodeByID(std::stoi(vtProductIDs[i]));
+                MyObjects::Node<MyStructs::Product>* productNode = APP_SESSION::ListProducts.getNodeByID(std::stoi(vtProductIDs[i]));
                 if (productNode != NULL) {
                     this->dataTable->Rows->Add(
                         std::stoi(vtProductIDs[i]),
-                        MyUtils::stdStringToSystemString(productNode->data.name),
+                        MyUtils::toSystemString(productNode->data.name),
                         productNode->data.importPrice,
                         std::stoi(vtQuantities[i]),
                         productNode->data.importPrice * std::stoi(vtQuantities[i])
                     );
                 }
-                delete productNode;
             }
         }
 
-        // ****** Các hàm xử lý sự kiện (event) trong form này ******
+    // ****** Các hàm xử lý sự kiện (event) trong form này ******
     private:
         System::Void ImportProductsDetailForm_Load(System::Object^ sender, System::EventArgs^ e) {
-            fillListProducts();
             loadAllDataToTable();
-            sql::ResultSet* res = this->MyDB->ReadQuery("SELECT `fullname` FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->billImportObject->getEmployeeID()) + ") LIMIT 1");
-            if (res->next()) this->tbxEmployeeName->Text = MyUtils::stdStringToSystemString(res->getString("fullname"));
+            sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery("SELECT `fullname` FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->billImportObject->getEmployeeID()) + ") LIMIT 1");
+            if (res->next()) this->tbxEmployeeName->Text = MyUtils::toSystemString(res->getString("fullname"));
             this->tbxIDImport->Text = this->billImportObject->getId().ToString();
-            this->tbxDate->Text = MyUtils::stdStringToSystemString(this->billImportObject->getDate());
+            this->tbxDate->Text = MyUtils::toSystemString(this->billImportObject->getDate());
             this->tbxTotalMoney->Text = this->billImportObject->getTotalPrice().ToString();
         }
     };
