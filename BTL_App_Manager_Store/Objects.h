@@ -162,14 +162,6 @@ namespace MyObjects {
 		void setPhone(string phone) {
 			this->phone = phone;
 		}
-	// Functions interactive with Database
-	public:
-		virtual void Read(unsigned int id) = 0;
-		virtual void Create() = 0;
-		virtual void Update() = 0;
-		virtual void MoveToTrash() = 0;
-		virtual void Restore() = 0;
-		virtual void Delete() = 0;
 	};
 
 	class Employee : public Person {
