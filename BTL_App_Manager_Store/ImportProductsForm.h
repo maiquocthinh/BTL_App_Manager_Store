@@ -158,7 +158,7 @@ namespace BTLAppManagerStore {
 			// 
 			this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbSearch->FormattingEnabled = true;
-			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"ID", L"Date" });
+			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"ID", L"Employee", L"Date", L"Total Money" });
 			this->cbSearch->Location = System::Drawing::Point(6, 21);
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
@@ -298,14 +298,13 @@ namespace BTLAppManagerStore {
 		// Load tất cả data trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_imports` ORDER BY `id` DESC";
+			std::string query = "SELECT tb_imports.*,tb_employees.fullname AS 'name_employee' FROM `tb_imports` "
+								"LEFT JOIN `tb_employees` ON tb_imports.employee_id = tb_employees.id ORDER BY `id` DESC";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
-				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::toSystemString(nameEmployee),
+					MyUtils::toSystemString(res->getString("name_employee") == "" ? "Unknown" : res->getString("name_employee")),
 					MyUtils::toSystemString(res->getString("date")),
 					MyUtils::toSystemString(res->getString("total_money"))
 				);
@@ -314,22 +313,24 @@ namespace BTLAppManagerStore {
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_imports` WHERE (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+			std::string query = "SELECT tb_imports.*,tb_employees.fullname AS 'name_employee' FROM `tb_imports` "
+								"LEFT JOIN `tb_employees` ON tb_imports.employee_id = tb_employees.id "
+								"WHERE (" + getSearchColumnName() + " LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
-				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::toSystemString(nameEmployee),
+					MyUtils::toSystemString(res->getString("name_employee") == "" ? "Unknown" : res->getString("name_employee")),
 					MyUtils::toSystemString(res->getString("date")),
 					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
 		}
 		std::string getSearchColumnName() {
-			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
-			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "date";
+			if (this->cbSearch->SelectedItem->ToString() == "ID") return "tb_imports.id";
+			else if (this->cbSearch->SelectedItem->ToString() == "Employee") return "tb_employees.fullname";
+			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "tb_imports.date";
+			else if (this->cbSearch->SelectedItem->ToString() == "Total Money") return "tb_imports.total_money";
 		}
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******

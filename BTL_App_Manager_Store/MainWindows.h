@@ -25,9 +25,9 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::ImageList^ ListIconArrow;
 	private: System::Windows::Forms::ImageList^ ListIcon24x24;
 	private: System::Windows::Forms::Panel^ pnlSidebarHead;
-	private: System::Windows::Forms::Label^ positionUser;
-	private: System::Windows::Forms::Label^ nameUser;
-	private: System::Windows::Forms::PictureBox^ avatarUser;
+
+
+
 	private: System::Windows::Forms::Panel^ pnlNavHome;
 	private: System::Windows::Forms::PictureBox^ iconNavHome;
 	private: System::Windows::Forms::Button^ btnNavHome;
@@ -50,7 +50,12 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::Panel^ pnlSiderbarNav;
 	private: System::Windows::Forms::Panel^ pnlMain;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
+	private: System::Windows::Forms::PictureBox^ avatarUser;
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel2;
+	private: System::Windows::Forms::Label^ positionUser;
+	private: System::Windows::Forms::Label^ nameUser;
+
+
 	private: System::ComponentModel::IContainer^ components;
 
 
@@ -608,6 +613,7 @@ namespace BTLAppManagerStore {
 			this->ClientSize = System::Drawing::Size(1227, 721);
 			this->Controls->Add(this->pnlMain);
 			this->Controls->Add(this->pnlSiderbarNav);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MinimumSize = System::Drawing::Size(1249, 777);
 			this->Name = L"MainWindows";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
@@ -769,18 +775,22 @@ namespace BTLAppManagerStore {
 		}
 
 
-	// Khi Form MainWindows tải
-	private: System::Void MainWindows_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: 
+		// Khi Form MainWindows tải
+		System::Void MainWindows_Load(System::Object^ sender, System::EventArgs^ e) {
 		// Load Form HomePageForm.h và active tương ứng trên Menu
 		loadFormToPnlmain(HomePageForm);
 		btnNavHome->BackColor = this->activeColorSidebar;
 
-		// Load username và position
+		// Load username, position, image và ẩn hiện các chức năng theo position của nhân viên 
 		this->nameUser->Text = MyUtils::toSystemString(APP_SESSION::currentUser->getFullName());
 		this->positionUser->Text = APP_SESSION::currentUser->getPosition() == 0 ? "Manager" : "Employee";
 		if (APP_SESSION::currentUser->getImage() != "")
 			this->avatarUser->ImageLocation = MyUtils::toSystemString(APP_SESSION::currentUser->getImage());
-		if (APP_SESSION::currentUser->getPosition() > 0) this->btnNavEmployees->Hide();
+		if (APP_SESSION::currentUser->getPosition() > 0) {
+			this->pnlNavDropdownProds->Hide();
+			this->btnNavEmployees->Hide();
+		}
 	}
 };
 }

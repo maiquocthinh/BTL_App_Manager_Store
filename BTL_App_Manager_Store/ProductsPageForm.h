@@ -459,7 +459,10 @@ namespace BTLAppManagerStore {
             // 
             this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
             this->cbSearch->FormattingEnabled = true;
-            this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(5) { L"ID", L"Name", L"Quantity", L"Unit", L"Position" });
+            this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
+                L"ID", L"Name", L"Quantity", L"Unit", L"Category",
+                    L"Position"
+            });
             this->cbSearch->Location = System::Drawing::Point(6, 21);
             this->cbSearch->Name = L"cbSearch";
             this->cbSearch->Size = System::Drawing::Size(132, 26);
@@ -507,23 +510,25 @@ namespace BTLAppManagerStore {
             return (int)this->dataTable->Rows[rowIndex]->Cells[0]->Value;
         }
         std::string getSearchColumnName() {
-            if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
-            else if (this->cbSearch->SelectedItem->ToString() == "Name") return "name";
-            else if (this->cbSearch->SelectedItem->ToString() == "Unit") return "unit";
-            else if (this->cbSearch->SelectedItem->ToString() == "Quantity") return "quantity";
-            else if (this->cbSearch->SelectedItem->ToString() == "Position") return "position";
+            if (this->cbSearch->SelectedItem->ToString() == "ID") return "tb_products.id";
+            else if (this->cbSearch->SelectedItem->ToString() == "Name") return "tb_products.name";
+            else if (this->cbSearch->SelectedItem->ToString() == "Unit") return "tb_products.unit";
+            else if (this->cbSearch->SelectedItem->ToString() == "Quantity") return "tb_products.quantity";
+            else if (this->cbSearch->SelectedItem->ToString() == "Position") return "tb_products.position";
+            else if (this->cbSearch->SelectedItem->ToString() == "Category") return "tb_prods_categories.title";
         }
         // Load tất cả data trong Database ra Table
         void loadAllDataToTable() {
             this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) ORDER BY `id` DESC";
+            std::string query = "SELECT tb_products.*, tb_prods_categories.title AS 'category_title' FROM `tb_products` "
+                                "LEFT JOIN `tb_prods_categories` ON tb_products.category_id = tb_prods_categories.id "
+                                "WHERE (tb_products.isDelete = 0) ORDER BY tb_products.id DESC";
             sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
             while (res->next()) {
-                MyObjects::Node<MyStructs::Category>* categoryNode = APP_SESSION::ListCategories.getNodeByID(res->getInt("category_id"));
                 int lastIndex = this->dataTable->Rows->Add(
                     res->getInt("id"),
                     MyUtils::toSystemString(res->getString("name")),
-                    categoryNode != NULL ? MyUtils::toSystemString(categoryNode->data.title) : "",
+                    MyUtils::toSystemString(res->getString("category_title")),
                     res->getInt("quantity"),
                     MyUtils::toSystemString(res->getString("unit")),
                     MyUtils::toSystemString(res->getString("position")),
@@ -541,16 +546,15 @@ namespace BTLAppManagerStore {
         // Load các data trùng với từ khóa tìm kiếm trong Database ra Table
         void loadSearchDataToTable(std::string searchKey) {
             this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-            std::string query = "SELECT * FROM `tb_products` WHERE (`isDelete` = 0) AND (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+            std::string query = "SELECT tb_products.*, tb_prods_categories.title AS 'category_title' FROM `tb_products` "
+                                "LEFT JOIN `tb_prods_categories` ON tb_products.category_id = tb_prods_categories.id "
+                                "WHERE (tb_products.isDelete = 0) AND (" + getSearchColumnName() + " LIKE '%" + searchKey + "%') ORDER BY tb_products.id DESC";
             sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
             while (res->next()) {
-                MyObjects::Node<MyStructs::Category>* categoryNode = APP_SESSION::ListCategories.getNodeByID(res->getInt("category_id"));
-                String^ categoryName = "";
-                if (categoryNode != NULL) categoryName = MyUtils::toSystemString(categoryNode->data.title);
                 int lastIndex = this->dataTable->Rows->Add(
                     res->getInt("id"),
                     MyUtils::toSystemString(res->getString("name")),
-                    categoryName,
+                    MyUtils::toSystemString(res->getString("category_title")),
                     res->getInt("quantity"),
                     MyUtils::toSystemString(res->getString("unit")),
                     MyUtils::toSystemString(res->getString("position")),

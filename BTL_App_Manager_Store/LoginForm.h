@@ -59,6 +59,7 @@ namespace BTLAppManagerStore {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(LoginForm::typeid));
 			this->usernameLable = (gcnew System::Windows::Forms::Label());
 			this->usernameInput = (gcnew System::Windows::Forms::TextBox());
 			this->passwordInput = (gcnew System::Windows::Forms::TextBox());
@@ -142,7 +143,8 @@ namespace BTLAppManagerStore {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->ImageLocation = L"https://cdn-icons-png.flaticon.com/512/1177/1177568.png";
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->ImageLocation = L"";
 			this->pictureBox1->Location = System::Drawing::Point(205, 21);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(150, 150);
@@ -165,6 +167,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->usernameInput);
 			this->Controls->Add(this->usernameLable);
 			this->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->MaximumSize = System::Drawing::Size(560, 760);
 			this->MinimumSize = System::Drawing::Size(560, 760);
@@ -196,7 +199,7 @@ namespace BTLAppManagerStore {
 		System::Void loginBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 			std::string username = MyUtils::toStdString(this->usernameInput->Text);
 			std::string password = MyUtils::toStdString(this->passwordInput->Text);
-			std::string query = "SELECT `id` FROM `tb_employees`  WHERE (`username` = '" + username + "') AND (`password` = '" + password + "') AND (`isDelete` = 0) LIMIT 1";
+			std::string query = "SELECT `id` FROM `tb_employees`  WHERE (`username` = '" + username + "') AND (`password` = MD5('" + password + "')) AND (`isDelete` = 0) LIMIT 1";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			if (res->next()) {
 				APP_SESSION::currentUser->Read(res->getInt("id"));

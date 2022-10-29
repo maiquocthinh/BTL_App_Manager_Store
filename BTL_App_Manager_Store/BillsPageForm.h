@@ -51,6 +51,11 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billNameCustomer;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ billTotalMoney;
+
+
+
+
+
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -65,11 +70,6 @@ namespace BTLAppManagerStore {
 		void InitializeComponent(void)
 		{
 			this->dataTable = (gcnew System::Windows::Forms::DataGridView());
-			this->billID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->billNameEmployee = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->billNameCustomer = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->billDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->billTotalMoney = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tableLayoutPanel2 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->tbxSearch = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
@@ -78,6 +78,11 @@ namespace BTLAppManagerStore {
 			this->btnNewBill = (gcnew System::Windows::Forms::Button());
 			this->btnSearch = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->billID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->billNameEmployee = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->billNameCustomer = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->billDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->billTotalMoney = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataTable))->BeginInit();
 			this->tableLayoutPanel2->SuspendLayout();
 			this->groupBox1->SuspendLayout();
@@ -105,41 +110,6 @@ namespace BTLAppManagerStore {
 			this->dataTable->Size = System::Drawing::Size(1201, 565);
 			this->dataTable->TabIndex = 1;
 			this->dataTable->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &BillsPageForm::dataTable_CellDoubleClick);
-			// 
-			// billID
-			// 
-			this->billID->HeaderText = L"ID";
-			this->billID->MinimumWidth = 8;
-			this->billID->Name = L"billID";
-			this->billID->ReadOnly = true;
-			// 
-			// billNameEmployee
-			// 
-			this->billNameEmployee->HeaderText = L"Name Employee";
-			this->billNameEmployee->MinimumWidth = 8;
-			this->billNameEmployee->Name = L"billNameEmployee";
-			this->billNameEmployee->ReadOnly = true;
-			// 
-			// billNameCustomer
-			// 
-			this->billNameCustomer->HeaderText = L"Name Customer";
-			this->billNameCustomer->MinimumWidth = 8;
-			this->billNameCustomer->Name = L"billNameCustomer";
-			this->billNameCustomer->ReadOnly = true;
-			// 
-			// billDate
-			// 
-			this->billDate->HeaderText = L"Date";
-			this->billDate->MinimumWidth = 8;
-			this->billDate->Name = L"billDate";
-			this->billDate->ReadOnly = true;
-			// 
-			// billTotalMoney
-			// 
-			this->billTotalMoney->HeaderText = L"Total Money";
-			this->billTotalMoney->MinimumWidth = 8;
-			this->billTotalMoney->Name = L"billTotalMoney";
-			this->billTotalMoney->ReadOnly = true;
 			// 
 			// tableLayoutPanel2
 			// 
@@ -201,7 +171,7 @@ namespace BTLAppManagerStore {
 			// 
 			this->cbSearch->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbSearch->FormattingEnabled = true;
-			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"ID", L"Date" });
+			this->cbSearch->Items->AddRange(gcnew cli::array< System::Object^  >(5) { L"ID", L"Employee", L"Customer", L"Date", L"Total Money" });
 			this->cbSearch->Location = System::Drawing::Point(6, 21);
 			this->cbSearch->Name = L"cbSearch";
 			this->cbSearch->Size = System::Drawing::Size(132, 26);
@@ -271,6 +241,41 @@ namespace BTLAppManagerStore {
 			this->tableLayoutPanel1->Size = System::Drawing::Size(1207, 651);
 			this->tableLayoutPanel1->TabIndex = 1;
 			// 
+			// billID
+			// 
+			this->billID->HeaderText = L"ID";
+			this->billID->MinimumWidth = 8;
+			this->billID->Name = L"billID";
+			this->billID->ReadOnly = true;
+			// 
+			// billNameEmployee
+			// 
+			this->billNameEmployee->HeaderText = L"Employee";
+			this->billNameEmployee->MinimumWidth = 8;
+			this->billNameEmployee->Name = L"billNameEmployee";
+			this->billNameEmployee->ReadOnly = true;
+			// 
+			// billNameCustomer
+			// 
+			this->billNameCustomer->HeaderText = L"Customer";
+			this->billNameCustomer->MinimumWidth = 8;
+			this->billNameCustomer->Name = L"billNameCustomer";
+			this->billNameCustomer->ReadOnly = true;
+			// 
+			// billDate
+			// 
+			this->billDate->HeaderText = L"Date";
+			this->billDate->MinimumWidth = 8;
+			this->billDate->Name = L"billDate";
+			this->billDate->ReadOnly = true;
+			// 
+			// billTotalMoney
+			// 
+			this->billTotalMoney->HeaderText = L"Total Money";
+			this->billTotalMoney->MinimumWidth = 8;
+			this->billTotalMoney->Name = L"billTotalMoney";
+			this->billTotalMoney->ReadOnly = true;
+			// 
 			// BillsPageForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -302,17 +307,17 @@ namespace BTLAppManagerStore {
 		// Load tất cả data trong Database ra Table
 		void loadAllDataToTable() {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_bills` ORDER BY `id` DESC";
+			std::string query = "SELECT tb_bills.*, tb_employees.fullname AS 'name_employee', tb_customers.fullname AS 'name_customer' "
+								"FROM `tb_bills` "
+								"LEFT JOIN `tb_employees` ON tb_bills.employee_id = tb_employees.id "
+								"LEFT JOIN `tb_customers` ON tb_bills.customer_id = tb_customers.id "
+								"ORDER BY `id` DESC";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
-				MyObjects::Node<MyStructs::Customer>* customerNode = APP_SESSION::ListCustomers.getNodeByID(res->getInt("customer_id"));
-				std::string nameEmployee = (employeeNode == NULL) ? "Unknown" : employeeNode->data.fullName;
-				std::string nameCustomer = (customerNode == NULL) ? u8"Khách vãng lai" : customerNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::toSystemString(nameEmployee),
-					MyUtils::toSystemString(nameCustomer),
+					MyUtils::toSystemString(res->getString("name_employee") == "" ? "Unknown" : res->getString("name_employee")),
+					MyUtils::toSystemString(res->getString("name_customer") == "" ? u8"Khách Vãng Lai" : res->getString("name_customer")),
 					MyUtils::toSystemString(res->getString("date")),
 					MyUtils::toSystemString(res->getString("total_money"))
 				);
@@ -321,24 +326,28 @@ namespace BTLAppManagerStore {
 		// Load các data trùng với từ khóa tìm kiếm trong Database ra Table
 		void loadSearchDataToTable(std::string searchKey) {
 			this->dataTable->Rows->Clear(); // Xóa dữ liệu cũ trong dataTable
-			std::string query = "SELECT * FROM `tb_bills` WHERE (`" + getSearchColumnName() + "` LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
+			std::string query = "SELECT tb_bills.*, tb_employees.fullname AS 'name_employee', tb_customers.fullname AS 'name_customer' "
+								"FROM `tb_bills` "
+								"LEFT JOIN `tb_employees` ON tb_bills.employee_id = tb_employees.id "
+								"LEFT JOIN `tb_customers` ON tb_bills.customer_id = tb_customers.id "
+								"WHERE (" + getSearchColumnName() + " LIKE '%" + searchKey + "%') ORDER BY `id` DESC";
 			sql::ResultSet* res = APP_SESSION::MyDB->ReadQuery(query);
 			while (res->next()) {
-				MyObjects::Node<MyStructs::Employee>* employeeNode = APP_SESSION::ListEmployees.getNodeByID(res->getInt("employee_id"));
-				MyObjects::Node<MyStructs::Customer>* customerNode = APP_SESSION::ListCustomers.getNodeByID(res->getInt("customer_id"));
-				std::string nameCustomer = (customerNode == NULL) ? u8"Khách vãng lai" : customerNode->data.fullName;
 				this->dataTable->Rows->Add(
 					res->getInt("id"),
-					MyUtils::toSystemString(employeeNode->data.fullName),
-					MyUtils::toSystemString(nameCustomer),
+					MyUtils::toSystemString(res->getString("name_employee") == "" ? "Unknown" : res->getString("name_employee")),
+					MyUtils::toSystemString(res->getString("name_customer") == "" ? u8"Khách Vãng Lai" : res->getString("name_customer")),
 					MyUtils::toSystemString(res->getString("date")),
 					MyUtils::toSystemString(res->getString("total_money"))
 				);
 			}
 		}
 		std::string getSearchColumnName() {
-			if (this->cbSearch->SelectedItem->ToString() == "ID") return "id";
-			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "date";
+			if (this->cbSearch->SelectedItem->ToString() == "ID") return "tb_bills.id";
+			else if (this->cbSearch->SelectedItem->ToString() == "Employee") return "tb_employees.fullname";
+			else if (this->cbSearch->SelectedItem->ToString() == "Customer") return "tb_customers.fullname";
+			else if (this->cbSearch->SelectedItem->ToString() == "Date") return "tb_bills.date";
+			else if (this->cbSearch->SelectedItem->ToString() == "Total Money") return "tb_bills.total_money";
 		}
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
