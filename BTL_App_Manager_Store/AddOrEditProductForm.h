@@ -693,6 +693,7 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(1088, 644);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MaximizeBox = false;
             this->MaximumSize = System::Drawing::Size(1110, 700);
             this->MinimumSize = System::Drawing::Size(1110, 700);
@@ -805,7 +806,6 @@ namespace BTLAppManagerStore {
                 this->productObject->Create();
                 MessageBox::Show(L"Create Product Success", L"Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
-            APP_SESSION::fillListProducts();
             this->Close();
         }
         // Khi cbCategory đổi giá trị

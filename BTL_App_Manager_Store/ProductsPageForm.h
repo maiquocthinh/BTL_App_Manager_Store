@@ -542,6 +542,7 @@ namespace BTLAppManagerStore {
                 else if (res->getInt("quantity") <= 10)
                     this->dataTable->Rows[lastIndex]->DefaultCellStyle->BackColor = Color::FromArgb(255, 193, 7);
             }
+            this->dataTable->ClearSelection();
         }
         // Load các data trùng với từ khóa tìm kiếm trong Database ra Table
         void loadSearchDataToTable(std::string searchKey) {
@@ -566,6 +567,7 @@ namespace BTLAppManagerStore {
                 else if (res->getInt("quantity") <= 10)
                     this->dataTable->Rows[lastIndex]->DefaultCellStyle->BackColor = Color::FromArgb(255, 193, 7);
             }
+            this->dataTable->ClearSelection();
         }
 
     // ****** Các hàm xử lý sự kiện (event) trong form này ******
@@ -596,6 +598,7 @@ namespace BTLAppManagerStore {
             AddProductForm->productObject = this->productObject;
             AddProductForm->ShowDialog();
             delete AddProductForm;
+            APP_SESSION::fillListProducts();
         }
         // Khi nút sửa Product click thì Show lên Form sửa Product
         System::Void btnEdit_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -606,6 +609,7 @@ namespace BTLAppManagerStore {
                 EditProductForm->productObject = this->productObject;
                 EditProductForm->ShowDialog();
                 delete EditProductForm;
+                APP_SESSION::fillListProducts();
             }
             else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
@@ -618,6 +622,7 @@ namespace BTLAppManagerStore {
                     this->productObject->setId(id);
                     this->productObject->MoveToTrash();
                     this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
+                    APP_SESSION::fillListProducts();
                 }
             }
             else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);

@@ -57,6 +57,7 @@ namespace BTLAppManagerStore {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AddOrEditCategoryForm::typeid));
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->tbxTitle = (gcnew System::Windows::Forms::TextBox());
 			this->btnSave = (gcnew System::Windows::Forms::Button());
@@ -111,6 +112,7 @@ namespace BTLAppManagerStore {
 			this->Controls->Add(this->btnSave);
 			this->Controls->Add(this->tbxTitle);
 			this->Controls->Add(this->label1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->MaximumSize = System::Drawing::Size(540, 290);
 			this->MinimumSize = System::Drawing::Size(540, 290);
@@ -159,7 +161,6 @@ namespace BTLAppManagerStore {
 				this->categoryObject->Create();
 				MessageBox::Show(L"Create Category Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
 			}
-			APP_SESSION::fillListCategories();
 			this->Close(); // đóng form này lại
 		}
 	};

@@ -56,6 +56,17 @@ namespace BTLAppManagerStore {
 	private: System::Windows::Forms::Label^ nameUser;
 
 
+
+
+
+
+
+
+
+
+
+
+
 	private: System::ComponentModel::IContainer^ components;
 
 
@@ -204,6 +215,7 @@ namespace BTLAppManagerStore {
 			this->avatarUser->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->avatarUser->TabIndex = 0;
 			this->avatarUser->TabStop = false;
+			this->avatarUser->Click += gcnew System::EventHandler(this, &MainWindows::avatarUser_Click);
 			// 
 			// tableLayoutPanel2
 			// 
@@ -791,6 +803,20 @@ namespace BTLAppManagerStore {
 			this->pnlNavDropdownProds->Hide();
 			this->btnNavEmployees->Hide();
 		}
+	}
+	System::Void avatarUser_Click(System::Object^ sender, System::EventArgs^ e) {
+		MyObjects::Employee* emloyeesObject = new MyObjects::Employee(APP_SESSION::MyDB);
+		emloyeesObject->Read(APP_SESSION::currentUser->getId());
+		BTLAppManagerStore::AddOrEditEmployeeForm^ EditEmployeeForm = gcnew BTLAppManagerStore::AddOrEditEmployeeForm(true);
+		EditEmployeeForm->employeeObject = emloyeesObject;
+		EditEmployeeForm->ShowDialog();
+		delete EditEmployeeForm;
+		//
+		APP_SESSION::currentUser->Read(APP_SESSION::currentUser->getId());
+		this->nameUser->Text = MyUtils::toSystemString(APP_SESSION::currentUser->getFullName());
+		this->positionUser->Text = APP_SESSION::currentUser->getPosition() == 0 ? "Manager" : "Employee";
+		if (APP_SESSION::currentUser->getImage() != "")
+			this->avatarUser->ImageLocation = MyUtils::toSystemString(APP_SESSION::currentUser->getImage());
 	}
 };
 }

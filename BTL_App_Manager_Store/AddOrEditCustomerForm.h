@@ -509,6 +509,7 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(878, 491);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
             this->MaximizeBox = false;
             this->MaximumSize = System::Drawing::Size(900, 547);
@@ -583,7 +584,6 @@ namespace BTLAppManagerStore {
                 this->customerObject->Create();
                 MessageBox::Show(L"Create Customer Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
-            APP_SESSION::fillListCustomers();
             this->Close(); // đóng form này lại
         }
     };

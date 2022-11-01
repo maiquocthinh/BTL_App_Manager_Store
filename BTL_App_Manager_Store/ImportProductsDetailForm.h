@@ -70,6 +70,7 @@ namespace BTLAppManagerStore {
         /// </summary>
         void InitializeComponent(void)
         {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ImportProductsDetailForm::typeid));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->titleForm = (gcnew System::Windows::Forms::Label());
             this->dataTable = (gcnew System::Windows::Forms::DataGridView());
@@ -436,6 +437,7 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(978, 610);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MaximizeBox = false;
             this->Name = L"ImportProductsDetailForm";
             this->ShowInTaskbar = false;
@@ -486,6 +488,7 @@ namespace BTLAppManagerStore {
                     );
                 }
             }
+            this->dataTable->ClearSelection();
         }
 
     // ****** Các hàm xử lý sự kiện (event) trong form này ******

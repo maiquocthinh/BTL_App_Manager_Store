@@ -136,7 +136,7 @@ namespace MyObjects {
 			this->fullName = this->address = this->phone = "";
 			this->sex = true;
 		}
-		// Setter and Getter of properties
+	// Setter and Getter of properties
 	public:
 		string getFullName() {
 			return this->fullName;
@@ -162,6 +162,14 @@ namespace MyObjects {
 		void setPhone(string phone) {
 			this->phone = phone;
 		}
+	// Functions interactive with Database
+	public:
+		virtual void Read(unsigned int id) = 0;
+		virtual void Create() = 0;
+		virtual void Update() = 0;
+		virtual void MoveToTrash() = 0;
+		virtual void Restore() = 0;
+		virtual void Delete() = 0;
 	};
 
 	class Employee : public Person {
@@ -229,7 +237,10 @@ namespace MyObjects {
 			this->MyDB->CUDQuery("INSERT INTO `tb_employees` (`fullname`, `position`, `sex`, `address`, `phone`, `image`, `username`, `password`) VALUES ('" + this->fullName + "','" + MyUtils::intToStdString(this->position) + "','" + MyUtils::intToStdString(this->sex) + "','" + this->address + "','" + this->phone + "','" + this->image + "','" + this->username + "',MD5('" + this->password + "'))");
 		}
 		void Update() {
-			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "', `image`='" + this->image + "', `username`='" + this->username + "', `password`=MD5('" + this->password + "') WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+			if(this->password == "")
+				this->MyDB->CUDQuery("UPDATE `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "', `image`='" + this->image + "', `username`='" + this->username + "' WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
+			else
+				this->MyDB->CUDQuery("UPDATE `tb_employees` SET `fullname`='" + this->fullName + "', `position`='" + MyUtils::intToStdString(this->position) + "', `sex`='" + MyUtils::intToStdString(this->sex) + "', `address`='" + this->address + "', `phone`='" + this->phone + "', `image`='" + this->image + "', `username`='" + this->username + "', `password`=MD5('" + this->password + "') WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
 		}
 		void MoveToTrash() {
 			this->MyDB->CUDQuery("UPDATE `tb_employees` SET `isDelete`=true WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
@@ -241,6 +252,7 @@ namespace MyObjects {
 		void Delete() {
 			this->MyDB->CUDQuery("DELETE FROM `tb_employees` WHERE (`id` = " + MyUtils::intToStdString(this->id) + ")");
 		}
+
 	};
 
 	class Customer : public Person {

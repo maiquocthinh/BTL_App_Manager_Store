@@ -501,6 +501,7 @@ namespace BTLAppManagerStore {
 			AddCategoryForm->categoryObject = this->categoryObject; // gán biến categoryObject cho biến (thuộc tính) của form AddCategoryForm
 			AddCategoryForm->ShowDialog(); // Show from AddCategoryForm lên
 			delete AddCategoryForm; // xóa AddCategoryForm sau khi kết thúc thao tác trên AddCategoryForm
+			APP_SESSION::fillListCategories();
 		}
 		// Khi nút sửa Category click thì Show lên Form sửa Category
 		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
@@ -511,6 +512,7 @@ namespace BTLAppManagerStore {
 				EditCategoryForm->categoryObject = this->categoryObject; // truyền(gán) categoryObject vào thuộc tính categoryObject trong form EditCategoryForm
 				EditCategoryForm->ShowDialog(); // Show form EditCategoryForm lên
 				delete EditCategoryForm; // xóa EditCategoryForm sau khi kết thúc thao tác trên EditCategoryForm
+				APP_SESSION::fillListCategories();
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
 		}
@@ -525,6 +527,7 @@ namespace BTLAppManagerStore {
 					this->categoryObject->setId(id); // set id vừa lấy được vào thuộc tính id của categoryObject
 					this->categoryObject->MoveToTrash(); // thực hiện xóa category
 					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected()); // xóa hàng bị xóa (ở ngoài giao diện)
+					APP_SESSION::fillListCategories();
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi

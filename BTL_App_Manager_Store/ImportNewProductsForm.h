@@ -76,6 +76,7 @@ namespace BTLAppManagerStore {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ImportNewProductsForm::typeid));
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->titleForm = (gcnew System::Windows::Forms::Label());
 			this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -374,9 +375,11 @@ namespace BTLAppManagerStore {
 			// numQuantity
 			// 
 			this->numQuantity->Location = System::Drawing::Point(118, 16);
+			this->numQuantity->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->numQuantity->Name = L"numQuantity";
 			this->numQuantity->Size = System::Drawing::Size(62, 26);
 			this->numQuantity->TabIndex = 2;
+			this->numQuantity->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			// 
 			// label2
 			// 
@@ -527,6 +530,7 @@ namespace BTLAppManagerStore {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(978, 610);
 			this->Controls->Add(this->tableLayoutPanel1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"ImportNewProductsForm";
 			this->ShowInTaskbar = false;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
@@ -599,6 +603,7 @@ namespace BTLAppManagerStore {
 			{
 				APP_SESSION::MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` + " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
 			}
+			APP_SESSION::fillListProducts();
 		}
 
 	// ****** Các hàm xử lý sự kiện (event) trong form này ******
@@ -630,25 +635,27 @@ namespace BTLAppManagerStore {
 			}
 		}
 		System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
-			std::string productIDs = "", quantities = "";
-			std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
-			unsigned int totalPrice = std::stoi(MyUtils::toStdString(this->lbMoney->Text));
-			for (int i = 0; i < this->dataTable->Rows->Count; i++)
-			{
-				productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
-				quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+			if (this->dataTable->Rows->Count > 0) {
+				std::string productIDs = "", quantities = "";
+				std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+				unsigned int totalPrice = std::stoi(MyUtils::toStdString(this->lbMoney->Text));
+				for (int i = 0; i < this->dataTable->Rows->Count; i++)
+				{
+					productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+					quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+				}
+				this->billImportObject->setTotalPrice(totalPrice);
+				this->billImportObject->setProductIDs(productIDs);
+				this->billImportObject->setQuantityProducts(quantities);
+				this->billImportObject->setDate(date);
+				this->billImportObject->setEmployeeID(APP_SESSION::currentUser->getId());
+				this->billImportObject->Create();
+
+				updateQuantityProducts(quantities, productIDs);
+
+				MessageBox::Show(L"Import Products Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
+				this->Close();
 			}
-			this->billImportObject->setTotalPrice(totalPrice);
-			this->billImportObject->setProductIDs(productIDs);
-			this->billImportObject->setQuantityProducts(quantities);
-			this->billImportObject->setDate(date);
-			this->billImportObject->setEmployeeID(APP_SESSION::currentUser->getId());
-			this->billImportObject->Create();
-
-			updateQuantityProducts(quantities, productIDs);
-
-			MessageBox::Show(L"Import Products Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
-			this->Close();
 		}
 	};
 }

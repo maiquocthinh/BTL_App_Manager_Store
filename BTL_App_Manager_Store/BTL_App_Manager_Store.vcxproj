@@ -183,6 +183,7 @@
     <ClInclude Include="ProductsPageForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="TrashCategoriesForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -261,6 +262,13 @@
     <EmbeddedResource Include="TrashProductsForm.resx">
       <DependentUpon>TrashProductsForm.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BTL_App_Manager_Store.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\BTL_Demo\Images\color\icon-store.ico" />
+    <Image Include="..\..\..\BTL_Demo\Images\color\icon-store.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

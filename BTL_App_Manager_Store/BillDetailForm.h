@@ -78,6 +78,7 @@ namespace BTLAppManagerStore {
         /// </summary>
         void InitializeComponent(void)
         {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(BillDetailForm::typeid));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->dataTable = (gcnew System::Windows::Forms::DataGridView());
             this->productID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -607,6 +608,7 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(1100, 733);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MaximizeBox = false;
             this->Name = L"BillDetailForm";
             this->ShowInTaskbar = false;
@@ -661,6 +663,7 @@ namespace BTLAppManagerStore {
                     );
                 }
             }
+            this->dataTable->ClearSelection();
         }
 
     // ****** Các hàm xử lý sự kiện (event) trong form này ******
@@ -677,6 +680,7 @@ namespace BTLAppManagerStore {
             this->tbxDiscount->Text = this->billCustomerObject->getDiscountByPoints().ToString();
             this->tbxTotalBill->Text = (this->billCustomerObject->getTotalPrice() + this->billCustomerObject->getDiscountByPoints()).ToString();
             loadAllDataToTable();
+            if (APP_SESSION::currentUser->getPosition() > 0) this->btnDelete->Enabled = false;
         }
     System::Void btnDelete_Click(System::Object^ sender, System::EventArgs^ e) {
         System::Windows::Forms::DialogResult result = MessageBox::Show("Are you sure you want to delete this Bill", "Delete Bill", MessageBoxButtons::YesNo, MessageBoxIcon::Warning);

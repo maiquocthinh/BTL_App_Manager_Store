@@ -504,6 +504,7 @@ namespace BTLAppManagerStore {
 			AddCustomerForm->customerObject = this->customerObject; // gán biến customerObject cho biến (thuộc tính) của form AddCustomerForm
 			AddCustomerForm->ShowDialog(); // Show from AddCustomerForm lên
 			delete AddCustomerForm; // xóa AddCustomerForm sau khi kết thúc thao tác trên AddCustomerForm
+			APP_SESSION::fillListCustomers();
 		}
 		// Khi nút sửa Customer click thì Show lên Form sửa Customer
 		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
@@ -514,6 +515,7 @@ namespace BTLAppManagerStore {
 				EditCustomerForm->customerObject = this->customerObject; // truyền(gán) customerObject vào thuộc tính customerObject trong form EditCustomerForm
 				EditCustomerForm->ShowDialog(); // Show form EditCustomerForm lên
 				delete EditCustomerForm; // xóa EditCustomerForm sau khi kết thúc thao tác trên EditCustomerForm
+				APP_SESSION::fillListCustomers();
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
 		}
@@ -528,6 +530,7 @@ namespace BTLAppManagerStore {
 					this->customerObject->setId(id); // set id vừa lấy được vào thuộc tính id của customerObject
 					this->customerObject->MoveToTrash(); // thực hiện xóa customer
 					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected()); // xóa hàng bị xóa (ở ngoài giao diện)
+					APP_SESSION::fillListCustomers();
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi

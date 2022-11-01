@@ -95,6 +95,7 @@ namespace BTLAppManagerStore {
         /// </summary>
         void InitializeComponent(void)
         {
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(NewBillForm::typeid));
             this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel18 = (gcnew System::Windows::Forms::TableLayoutPanel());
             this->tableLayoutPanel19 = (gcnew System::Windows::Forms::TableLayoutPanel());
@@ -593,10 +594,12 @@ namespace BTLAppManagerStore {
             this->numQuantity->Anchor = System::Windows::Forms::AnchorStyles::None;
             this->numQuantity->Location = System::Drawing::Point(162, 14);
             this->numQuantity->Margin = System::Windows::Forms::Padding(3, 12, 30, 3);
+            this->numQuantity->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
             this->numQuantity->Name = L"numQuantity";
             this->numQuantity->Size = System::Drawing::Size(340, 26);
             this->numQuantity->TabIndex = 1;
             this->numQuantity->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+            this->numQuantity->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
             // 
             // titleForm
             // 
@@ -929,6 +932,7 @@ namespace BTLAppManagerStore {
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(1100, 733);
             this->Controls->Add(this->tableLayoutPanel1);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MaximizeBox = false;
             this->MaximumSize = System::Drawing::Size(1122, 789);
             this->MinimumSize = System::Drawing::Size(1122, 789);
@@ -1044,6 +1048,7 @@ namespace BTLAppManagerStore {
             {
                 APP_SESSION::MyDB->CUDQuery("UPDATE `tb_products` SET `quantity` = `quantity` - " + vtQuantities[i] + " WHERE (`id` = " + vtProductIDs[i] + ")");
             }
+            APP_SESSION::fillListProducts();
         }
         void updateDiscountPointsCustomer(unsigned int idCustomer, bool isUsedPoints, unsigned int totalMoney) {
             unsigned int extraPoints = totalMoney / 100;
@@ -1054,6 +1059,7 @@ namespace BTLAppManagerStore {
             else {
                 APP_SESSION::MyDB->CUDQuery("UPDATE `tb_customers` SET `points`=`points`+" + MyUtils::intToStdString(extraPoints) + "  WHERE (`id` = " + MyUtils::intToStdString(idCustomer) + ")");
             }
+            APP_SESSION::fillListCustomers();
         }
 
     // ****** Các hàm xử lý sự kiện (event) trong form này ******
@@ -1116,34 +1122,36 @@ namespace BTLAppManagerStore {
             }
         }
         System::Void btnPay_Click(System::Object^ sender, System::EventArgs^ e) {
-            std::string productIDs = "", quantities = "";
-            std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            unsigned int totalMoney = std::stoi(MyUtils::toStdString(this->tbxTotalBill->Text));
-            for (int i = 0; i < this->dataTable->Rows->Count; i++)
-            {
-                productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
-                quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
-            }
-            this->billCustomerObject->setCustomerID(this->currentCustomer != NULL ? this->currentCustomer->id : 0);
-            if (this->cbDiscountByPoint->SelectedItem != nullptr) {
-                int discount = (int)this->cbDiscountByPoint->SelectedItem;
-                this->billCustomerObject->setDiscountByPoints(discount);
-            }
-            else {
-                this->billCustomerObject->setDiscountByPoints(0);
-            }
-            this->billCustomerObject->setEmployeeID(APP_SESSION::currentUser->getId());
-            this->billCustomerObject->setTotalPrice(totalMoney);
-            this->billCustomerObject->setProductIDs(productIDs);
-            this->billCustomerObject->setQuantityProducts(quantities);
-            this->billCustomerObject->setDate(date);
-            this->billCustomerObject->Create();
+            if (this->dataTable->Rows->Count > 0){
+                std::string productIDs = "", quantities = "";
+                std::string date = MyUtils::toStdString(DateTime::Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                unsigned int totalMoney = std::stoi(MyUtils::toStdString(this->tbxTotalBill->Text));
+                for (int i = 0; i < this->dataTable->Rows->Count; i++)
+                {
+                    productIDs += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[0]->Value->ToString()) + ",";
+                    quantities += MyUtils::toStdString(this->dataTable->Rows[i]->Cells[3]->Value->ToString()) + ",";
+                }
+                this->billCustomerObject->setCustomerID(this->currentCustomer != NULL ? this->currentCustomer->id : 0);
+                if (this->cbDiscountByPoint->SelectedItem != nullptr) {
+                    int discount = (int)this->cbDiscountByPoint->SelectedItem;
+                    this->billCustomerObject->setDiscountByPoints(discount);
+                }
+                else {
+                    this->billCustomerObject->setDiscountByPoints(0);
+                }
+                this->billCustomerObject->setEmployeeID(APP_SESSION::currentUser->getId());
+                this->billCustomerObject->setTotalPrice(totalMoney);
+                this->billCustomerObject->setProductIDs(productIDs);
+                this->billCustomerObject->setQuantityProducts(quantities);
+                this->billCustomerObject->setDate(date);
+                this->billCustomerObject->Create();
 
-            updateQuantityProducts(quantities, productIDs);
-            updateDiscountPointsCustomer(this->billCustomerObject->getCustomerID(), this->billCustomerObject->getDiscountByPoints(), this->billCustomerObject->getTotalPrice());
+                updateQuantityProducts(quantities, productIDs);
+                updateDiscountPointsCustomer(this->billCustomerObject->getCustomerID(), this->billCustomerObject->getDiscountByPoints(), this->billCustomerObject->getTotalPrice());
 
-            MessageBox::Show(L"Create New Bill Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
-            this->Close();
+                MessageBox::Show(L"Create New Bill Success", L"SUCCESS", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                this->Close();
+            }
         }
     };
 }

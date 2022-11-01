@@ -496,6 +496,7 @@ namespace BTLAppManagerStore {
 			AddEmloyeeForm->employeeObject = this->emloyeesObject; // gán biến customerObject cho biến (thuộc tính) của form AddCustomerForm
 			AddEmloyeeForm->ShowDialog(); // Show from AddEmployeeForm lên
 			delete AddEmloyeeForm; // xóa AddEmployeeForm sau khi kết thúc thao tác trên AddEmployeeForm
+			APP_SESSION::fillListEmployees();
 		}
 		// Khi nút sửa Employee click thì Show lên Form sửa Employee
 		System::Void btnEdit_Click(Object^ sender, EventArgs^ e) {
@@ -506,6 +507,7 @@ namespace BTLAppManagerStore {
 				EditEmployeeForm->employeeObject = this->emloyeesObject; // truyền(gán) emloyeesObject vào thuộc tính emloyeesObjecttrong form EditEmloyeeForm
 				EditEmployeeForm->ShowDialog(); // Show form EditEmployeeForm lên
 				delete EditEmployeeForm; // xóa EditEmployeeForm sau khi kết thúc thao tác trên EditEmployeeForm
+				APP_SESSION::fillListEmployees();
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi
 		}
@@ -520,6 +522,7 @@ namespace BTLAppManagerStore {
 					this->emloyeesObject->setId(id); // set id vừa lấy được vào thuộc tính id của emloyeesObject
 					this->emloyeesObject->MoveToTrash(); // thực hiện xóa emloyees
 					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected()); // xóa hàng bị xóa (ở ngoài giao diện)
+					APP_SESSION::fillListEmployees();
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error); // Ngược lại, nếu dataTable rỗng thì báo lỗi

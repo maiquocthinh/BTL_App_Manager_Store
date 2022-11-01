@@ -95,5 +95,21 @@
     <ClInclude Include="ImportProductsDetailForm.h">
       <Filter>Header Files\ChildrenForms</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BTL_App_Manager_Store.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\BTL_Demo\Images\color\icon-store.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\BTL_Demo\Images\color\icon-store.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

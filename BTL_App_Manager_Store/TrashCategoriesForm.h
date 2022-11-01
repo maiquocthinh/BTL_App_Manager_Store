@@ -181,6 +181,7 @@ namespace BTLAppManagerStore {
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->ClientSize = System::Drawing::Size(425, 616);
 			   this->Controls->Add(this->tableLayoutPanel1);
+			   this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			   this->MaximizeBox = false;
 			   this->MaximumSize = System::Drawing::Size(447, 672);
 			   this->MinimumSize = System::Drawing::Size(447, 672);
@@ -244,6 +245,7 @@ namespace BTLAppManagerStore {
 				this->categoryObject->setId(id);
 				this->categoryObject->Restore();
 				this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
+				APP_SESSION::fillListCategories();
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
@@ -257,6 +259,7 @@ namespace BTLAppManagerStore {
 					this->categoryObject->setId(id);
 					this->categoryObject->Delete();
 					this->dataTable->Rows->RemoveAt(this->getCurrentRowsIndexSelected());
+					APP_SESSION::fillListCategories();
 				}
 			}
 			else MessageBox::Show("Error, Data Empty!", "Error!", MessageBoxButtons::OK, MessageBoxIcon::Error);
