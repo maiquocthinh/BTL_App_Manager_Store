@@ -73,7 +73,7 @@ LOCK TABLES `tb_employees` WRITE;
 /*!40000 ALTER TABLE `tb_employees` DISABLE KEYS */;
 
 INSERT INTO `tb_employees` (`address`, `fullname`, `id`, `isDelete`, `password`, `phone`, `position`, `sex`, `username`) VALUES
-	('TP. HCM', 'Nguyen Van A', 1, 0, '12345', '0863487183', 0, 0, 'manager');
+	('TP. HCM', 'Nguyen Van A', 1, 0, MD5('12345'), '0863487183', 0, 0, 'manager');
 
 /*!40000 ALTER TABLE `tb_employees` ENABLE KEYS */;
 UNLOCK TABLES;
